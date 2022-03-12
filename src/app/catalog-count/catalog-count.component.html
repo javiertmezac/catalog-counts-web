@@ -46,7 +46,18 @@
             type="text"
             placeholder="Detalles"
             formControlName="details"
+            [ngClass]="{
+              'is-invalid':
+                (catalogCountForm.get('details')?.touched ||
+                  catalogCountForm.get('details')?.dirty) &&
+                !catalogCountForm.get('details')?.valid
+            }"
           />
+          <span class="invalid-feedback">
+            <span *ngIf="catalogCountForm.controls['details'].errors?.required">
+              Detalles son requeridos
+            </span>
+          </span>
         </div>
       </div>
 
@@ -57,13 +68,13 @@
         <div class="col-md-8">
           <select
             id="cceId"
-            formControlName="catalogCountEnumId"
+            formControlName="catalogCountEnum"
             class="form-control"
           >
             <option [ngValue]="" disabled selected>Seleccionar Catalogo</option>
-            <!-- <option *ngFor="let p of priceList" [ngValue]="p">
-              {{ p.price }}
-            </option> -->
+            <option *ngFor="let e of ccEnums" [ngValue]="e">
+              {{ e.label }}
+            </option>
           </select>
         </div>
       </div>
