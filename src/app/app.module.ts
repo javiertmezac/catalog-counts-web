@@ -7,12 +7,14 @@ import { AppComponent } from './app.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CatalogCountComponent,
     CatalogCountListComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
