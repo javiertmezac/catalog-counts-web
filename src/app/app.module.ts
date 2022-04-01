@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -8,6 +8,7 @@ import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './shared/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,13 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
