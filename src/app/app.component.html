@@ -1,5 +1,8 @@
 <div>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light"
+    *ngIf="isLoggedIn$ | async"
+  >
     <div class="container-fluid">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -17,6 +20,13 @@
           </li>
         </ul>
       </div>
+    </div>
+    <div class="d-flex">
+      <!-- decode JWT and present name here! -->
+      <p>Hola! ~user~</p>
+      <button class="btn btn-outline-danger" type="button" (click)="logout()">
+        Salir!
+      </button>
     </div>
   </nav>
 

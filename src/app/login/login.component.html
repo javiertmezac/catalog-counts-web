@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="form-control-plaintext">
+    <h1>La Iglesia de Jesucristo</h1>
+    <h2>- Catálogo de Cuentas -</h2>
+  </div>
+  <div>
+    <form [formGroup]="form">
+      <fieldset>
+        <legend>Inicio de Sesión!</legend>
+
+        <div class="mb-3 row form-field">
+          <label class="col-sm-2 col-form-label">Usuario:</label>
+          <div class="col-sm-10">
+            <input class="form-control" name="email" formControlName="email" />
+          </div>
+        </div>
+
+        <div class="mb-3 row form-field">
+          <label class="col-sm-2 col-form-label">Contraseña:</label>
+          <div class="col-sm-10">
+            <input
+              class="form-control"
+              name="password"
+              formControlName="password"
+              type="password"
+            />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-buttons">
+        <button
+          class="btn btn-primary"
+          [disabled]="!form.valid"
+          (click)="login()"
+        >
+          Entrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
