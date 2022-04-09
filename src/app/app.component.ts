@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './login/auth.service';
+import { User } from './model/user';
 
 @Component({
   selector: 'cc-root',
@@ -11,11 +12,15 @@ import { AuthService } from './login/auth.service';
 export class AppComponent {
   title = 'catalog-counts-web';
   isLoggedIn$: Observable<boolean> | undefined;
+  userDetails!: User;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.authService.user$.subscribe({
+      next: (data) => (this.userDetails = data),
+    });
   }
 
   logout(): void {

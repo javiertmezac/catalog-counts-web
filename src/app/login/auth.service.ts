@@ -1,14 +1,16 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user';
 
+//todo: improve the 2 behaviorSubject into one subject
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
-  email: undefined,
+  username: undefined,
   roles: [],
+  defaultBranch: 0,
 };
 
 @Injectable({
@@ -20,22 +22,18 @@ export class AuthService {
   private subject: BehaviorSubject<User> = new BehaviorSubject<User>(
     ANONYMOUS_USER
   );
+  private loginSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
+    false
+  );
   user$: Observable<User> = this.subject
     .asObservable()
     .pipe(filter((user) => !!user));
-  isLoggedIn$: Observable<boolean> = this.subject
+  isLoggedIn$: Observable<boolean> = this.loginSubject
     .asObservable()
-    .pipe(map((user) => !!user.id_token));
+    .pipe(tap(console.log)); //todo: can we have something different here?
 
   constructor(private http: HttpClient) {
-    const fromLocalStorage = localStorage.getItem('id_token');
-    if (fromLocalStorage) {
-      this.subject.next({ id_token: fromLocalStorage, email: '', roles: [] });
-    }
-
-    // http.get<User>('/api/user').pipe(
-    //     tap(console.log))
-    //     .subscribe(user => this.subject.next(user ? user : ANONYMOUS_USER));
+    this.fetUserDetails();
   }
 
   login(email: string, password: string): Observable<any> {
@@ -50,17 +48,31 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader).pipe(
       tap((data) => {
         this.setSession(data);
+        this.fetUserDetails();
       })
     );
   }
 
   setSession(authResult: any) {
     localStorage.setItem('id_token', authResult.id_token);
-    this.subject.next(authResult);
+    this.loginSubject.next(true);
   }
 
   removeSession() {
     localStorage.clear();
     this.subject.next(ANONYMOUS_USER);
+    this.loginSubject.next(false);
+  }
+
+  fetUserDetails(): void {
+    const fromLocalStorage = localStorage.getItem('id_token');
+    if (fromLocalStorage) {
+      this.loginSubject.next(true);
+
+      this.http.get<User>(`${this.baseUri}/v1/user`).subscribe((user) => {
+        const custom_user = { id_token: fromLocalStorage, ...user };
+        this.subject.next(user ? custom_user : ANONYMOUS_USER);
+      });
+    }
   }
 }

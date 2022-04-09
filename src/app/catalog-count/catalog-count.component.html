@@ -40,10 +40,9 @@
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="detailsId">Detalles:</label>
         <div class="col-md-8">
-          <input
+          <textarea
             class="form-control"
             id="detailsId"
-            type="text"
             placeholder="Detalles"
             formControlName="details"
             [ngClass]="{
@@ -52,7 +51,7 @@
                   catalogCountForm.get('details')?.dirty) &&
                 !catalogCountForm.get('details')?.valid
             }"
-          />
+          ></textarea>
           <span class="invalid-feedback">
             <span *ngIf="catalogCountForm.controls['details'].errors?.required">
               Detalles son requeridos

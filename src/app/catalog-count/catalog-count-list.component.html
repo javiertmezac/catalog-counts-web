@@ -13,11 +13,11 @@
     {{ errorMessage }}
   </div>
 
-  <div *ngIf="catalogCounts.length == 0"><h4>Cargando Lista ...</h4></div>
-  <table
-    class="table table-hover table-striped"
-    *ngIf="catalogCounts.length > 0"
-  >
+  <div *ngIf="catalogCounts.length == 0 && userDetails?.defaultBranch != 0">
+    <h4>Cargando Lista ...</h4>
+  </div>
+
+  <table class="table table-hover table-striped">
     <thead class="thead-dark">
       <tr>
         <th>Fecha Registro (yyyy-MM-dd)</th>
@@ -27,7 +27,7 @@
         <th>Saldo</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="catalogCounts.length > 0">
       <tr *ngFor="let cc of catalogCounts">
         <td>{{ cc.registrationDate }}</td>
         <td>{{ cc.catalogCountEnum }}</td>
@@ -37,4 +37,10 @@
       </tr>
     </tbody>
   </table>
+  <div
+    class="alert alert-warning"
+    *ngIf="catalogCounts.length == 0 && userDetails?.defaultBranch == 0"
+  >
+    <h4>No hay registros!</h4>
+  </div>
 </div>

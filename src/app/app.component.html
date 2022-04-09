@@ -1,4 +1,5 @@
 <div>
+  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isLoggedIn"> -->
   <nav
     class="navbar navbar-expand-lg navbar-light bg-light"
     *ngIf="isLoggedIn$ | async"
@@ -12,18 +13,18 @@
               >Catalogo de Cuentas</a
             >
           </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" routerLink="/">Reportes</a>
+          </li> -->
           <li class="nav-item">
-            <a class="nav-link" href="#">Reportes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About!</a>
+            <a class="nav-link" routerLink="/about">About!</a>
           </li>
         </ul>
       </div>
     </div>
     <div class="d-flex">
       <!-- decode JWT and present name here! -->
-      <p>Hola! ~user~</p>
+      <p *ngIf="userDetails">Hola! {{ userDetails.username }}</p>
       <button class="btn btn-outline-danger" type="button" (click)="logout()">
         Salir!
       </button>

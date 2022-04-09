@@ -6,9 +6,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './shared/auth.interceptor';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { AuthInterceptor } from './shared/auth.interceptor';
     CatalogCountComponent,
     CatalogCountListComponent,
     LoginComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
