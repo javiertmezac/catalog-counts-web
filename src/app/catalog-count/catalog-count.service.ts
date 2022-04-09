@@ -35,6 +35,9 @@ export class CatalogCountService {
   }
 
   getCatalogCounts(branchId: number): Observable<any> {
+    if (branchId == 0) {
+      return of(null);
+    }
     const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count`;
     return this.httpClient
       .get(catalogCountUri)

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../login/auth.service';
+import { User } from '../model/user';
 import { CatalogCountService } from './catalog-count.service';
 
 @Component({
@@ -10,6 +11,7 @@ import { CatalogCountService } from './catalog-count.service';
 export class CatalogCountListComponent implements OnInit {
   catalogCounts: any[] = [];
   errorMessage = '';
+  userDetails!: User;
 
   constructor(
     private ccService: CatalogCountService,
@@ -19,6 +21,7 @@ export class CatalogCountListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe({
       next: (data) => {
+        this.userDetails = data;
         this.fetchCatalogCountList(data.defaultBranch);
       },
     });
