@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../login/auth.service';
+import { User } from '../model/user';
 import { DateTimeHandler } from '../shared/datetime-handler';
 import { CatalogCountService } from './catalog-count.service';
 
@@ -13,11 +16,13 @@ export class CatalogCountComponent implements OnInit {
   catalogCountForm!: FormGroup;
   errorMessage = '';
   ccEnums: any[] = [];
+  userDetails!: User;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private ccService: CatalogCountService
+    private ccService: CatalogCountService,
+    private authService: AuthService
   ) {
     this.catalogCountForm = this.fb.group({
       amount: ['', Validators.required],
@@ -31,12 +36,15 @@ export class CatalogCountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.authService.user$.subscribe({
+      next: (data) => (this.userDetails = data),
+    });
     this.loadCcEnums();
     //toISOString -> UTC
   }
 
   saveCatalogCount(): void {
-    if (this.catalogCountForm.valid) {
+    if (this.catalogCountForm.valid && this.userDetails) {
       const payload = { ...this.catalogCountForm.value };
       let payloadRegistration = new Date(payload.registrationDate);
       payload.registrationDate =
@@ -47,13 +55,15 @@ export class CatalogCountComponent implements OnInit {
 
       payload.catalogCountEnumId = payload.catalogCountEnum.value;
 
-      this.ccService.saveCatalogCount(payload).subscribe({
-        next: () => {
-          this.catalogCountForm.reset();
-          this.router.navigateByUrl('/cc');
-        },
-        error: (err) => (this.errorMessage = err),
-      });
+      this.ccService
+        .saveCatalogCount(this.userDetails.defaultBranch, payload)
+        .subscribe({
+          next: () => {
+            this.catalogCountForm.reset();
+            this.router.navigateByUrl('/cc');
+          },
+          error: (err) => (this.errorMessage = err),
+        });
     }
   }
 

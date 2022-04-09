@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user';
 
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
-  email: undefined,
+  username: undefined,
   roles: [],
+  defaultBranch: 0,
 };
 
 @Injectable({
@@ -28,14 +29,7 @@ export class AuthService {
     .pipe(map((user) => !!user.id_token));
 
   constructor(private http: HttpClient) {
-    const fromLocalStorage = localStorage.getItem('id_token');
-    if (fromLocalStorage) {
-      this.subject.next({ id_token: fromLocalStorage, email: '', roles: [] });
-    }
-
-    // http.get<User>('/api/user').pipe(
-    //     tap(console.log))
-    //     .subscribe(user => this.subject.next(user ? user : ANONYMOUS_USER));
+    this.fetUserDetails();
   }
 
   login(email: string, password: string): Observable<any> {
@@ -50,6 +44,7 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader).pipe(
       tap((data) => {
         this.setSession(data);
+        this.fetUserDetails();
       })
     );
   }
@@ -62,5 +57,15 @@ export class AuthService {
   removeSession() {
     localStorage.clear();
     this.subject.next(ANONYMOUS_USER);
+  }
+
+  fetUserDetails(): void {
+    const fromLocalStorage = localStorage.getItem('id_token');
+    if (fromLocalStorage) {
+      this.http.get<User>(`${this.baseUri}/v1/user`).subscribe((user) => {
+        const custom_user = { id_token: fromLocalStorage, ...user };
+        this.subject.next(user ? custom_user : ANONYMOUS_USER);
+      });
+    }
   }
 }
