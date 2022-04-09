@@ -5,6 +5,7 @@ import { filter, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user';
 
+//todo: improve the 2 behaviorSubject into one subject
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
   username: undefined,
@@ -29,7 +30,7 @@ export class AuthService {
     .pipe(filter((user) => !!user));
   isLoggedIn$: Observable<boolean> = this.loginSubject
     .asObservable()
-    .pipe(tap(console.log));
+    .pipe(tap(console.log)); //todo: can we have something different here?
 
   constructor(private http: HttpClient) {
     this.fetUserDetails();
@@ -47,6 +48,7 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader).pipe(
       tap((data) => {
         this.setSession(data);
+        this.fetUserDetails();
       })
     );
   }
@@ -59,11 +61,14 @@ export class AuthService {
   removeSession() {
     localStorage.clear();
     this.subject.next(ANONYMOUS_USER);
+    this.loginSubject.next(false);
   }
 
   fetUserDetails(): void {
     const fromLocalStorage = localStorage.getItem('id_token');
     if (fromLocalStorage) {
+      this.loginSubject.next(true);
+
       this.http.get<User>(`${this.baseUri}/v1/user`).subscribe((user) => {
         const custom_user = { id_token: fromLocalStorage, ...user };
         this.subject.next(user ? custom_user : ANONYMOUS_USER);
