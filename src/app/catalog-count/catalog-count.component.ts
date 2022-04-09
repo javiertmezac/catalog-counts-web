@@ -12,7 +12,7 @@ import { CatalogCountService } from './catalog-count.service';
   styleUrls: ['./catalog-count.component.scss'],
 })
 export class CatalogCountComponent implements OnInit {
-  pageTitle = 'Favor de capturar otro registro (Catálogo de Cuentas)';
+  pageTitle = 'Capturar registro de Catálogo de Cuentas';
   catalogCountForm!: FormGroup;
   errorMessage = '';
   ccEnums: any[] = [];
