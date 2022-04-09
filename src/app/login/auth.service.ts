@@ -21,12 +21,15 @@ export class AuthService {
   private subject: BehaviorSubject<User> = new BehaviorSubject<User>(
     ANONYMOUS_USER
   );
+  private loginSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
+    false
+  );
   user$: Observable<User> = this.subject
     .asObservable()
     .pipe(filter((user) => !!user));
-  isLoggedIn$: Observable<boolean> = this.subject
+  isLoggedIn$: Observable<boolean> = this.loginSubject
     .asObservable()
-    .pipe(map((user) => !!user.id_token));
+    .pipe(tap(console.log));
 
   constructor(private http: HttpClient) {
     this.fetUserDetails();
@@ -44,14 +47,13 @@ export class AuthService {
     return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader).pipe(
       tap((data) => {
         this.setSession(data);
-        this.fetUserDetails();
       })
     );
   }
 
   setSession(authResult: any) {
     localStorage.setItem('id_token', authResult.id_token);
-    this.subject.next(authResult);
+    this.loginSubject.next(true);
   }
 
   removeSession() {

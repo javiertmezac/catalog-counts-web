@@ -19,7 +19,6 @@ export class CatalogCountListComponent implements OnInit {
   ngOnInit(): void {
     this.authService.user$.subscribe({
       next: (data) => {
-        console.log('catalog-count component userDetails: ', data);
         this.fetchCatalogCountList(data.defaultBranch);
       },
     });
