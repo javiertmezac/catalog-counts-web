@@ -64,6 +64,7 @@ export class AuthService {
     this.loginSubject.next(false);
   }
 
+  //todo: should this be async?
   fetUserDetails(): void {
     const fromLocalStorage = localStorage.getItem('id_token');
     if (fromLocalStorage) {

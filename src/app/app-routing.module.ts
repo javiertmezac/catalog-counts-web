@@ -6,6 +6,7 @@ import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { AuthService } from './login/auth.service';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
+import { WriteAccessGuard } from './shared/permissions/write-access.guard';
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'cc/edit',
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, WriteAccessGuard],
     component: CatalogCountComponent,
   },
   {

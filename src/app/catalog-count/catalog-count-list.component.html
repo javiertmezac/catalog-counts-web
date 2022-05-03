@@ -4,8 +4,12 @@
   </div>
 
   <div>
-    <button class="btn btn-outline-secondary" routerLink="/cc/edit">
-      + registro catalog
+    <button
+      class="btn btn-outline-secondary"
+      routerLink="/cc/edit"
+      *ngIf="hasWriteAccess"
+    >
+      + registro catálogo
     </button>
   </div>
 
