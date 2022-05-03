@@ -1,4 +1,4 @@
 export enum Role {
-  Secretary = 1,
-  Treasure = 2,
+  Treasure = 1,
+  Secretary = 2,
 }
