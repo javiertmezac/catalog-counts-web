@@ -4,3 +4,9 @@ export interface CatalogCountRequest {
   details: string;
   registrationDate: number;
 }
+
+export interface CatalogCount extends CatalogCountRequest {
+  id: number;
+  total: number;
+  catalogCountEnum: string;
+}

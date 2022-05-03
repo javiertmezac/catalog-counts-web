@@ -6,7 +6,7 @@
   <div>
     <button
       class="btn btn-outline-secondary"
-      routerLink="/cc/edit"
+      routerLink="/cc/0/edit"
       *ngIf="hasWriteAccess"
     >
       + registro catálogo
@@ -29,6 +29,7 @@
         <th>Cantidad</th>
         <th>Detalles</th>
         <th>Saldo</th>
+        <th></th>
       </tr>
     </thead>
     <tbody *ngIf="catalogCounts.length > 0">
@@ -38,6 +39,14 @@
         <td>{{ cc.amount }}</td>
         <td>{{ cc.details }}</td>
         <td>{{ cc.total }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-outline-secondary"
+            [routerLink]="['/cc', cc.id, 'edit']"
+          >
+            editar
+          </button>
+        </td>
       </tr>
     </tbody>
   </table>

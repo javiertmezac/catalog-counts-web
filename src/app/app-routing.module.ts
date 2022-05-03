@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
-import { AuthService } from './login/auth.service';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './shared/auth.guard';
 import { WriteAccessGuard } from './shared/permissions/write-access.guard';
@@ -15,7 +14,7 @@ const routes: Routes = [
     component: CatalogCountListComponent,
   },
   {
-    path: 'cc/edit',
+    path: 'cc/:ccid/edit',
     canActivate: [AuthGuard, WriteAccessGuard],
     component: CatalogCountComponent,
   },

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
-import { CatalogCountRequest } from './domain/catalog-count-request';
+import {
+  CatalogCount,
+  CatalogCountRequest,
+} from './domain/catalog-count-request';
 import { HandleHttpClientError } from '../shared/handle-error';
 import { environment } from 'src/environments/environment';
 import { AuthService } from '../login/auth.service';
@@ -41,6 +44,28 @@ export class CatalogCountService {
     const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count`;
     return this.httpClient
       .get(catalogCountUri)
+      .pipe(catchError(this.handleError.handleError));
+  }
+
+  emptyCatalogCount(): CatalogCount {
+    return {
+      id: 0,
+      amount: 0,
+      catalogCountEnum: '',
+      catalogCountEnumId: 0,
+      details: '',
+      registrationDate: 0,
+      total: 0,
+    };
+  }
+
+  getCatalogCount(branchId: Number, ccid: Number): Observable<CatalogCount> {
+    if (ccid == 0) {
+      return of(this.emptyCatalogCount());
+    }
+    const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count/${ccid}`;
+    return this.httpClient
+      .get<CatalogCount>(catalogCountUri)
       .pipe(catchError(this.handleError.handleError));
   }
 
