@@ -88,4 +88,11 @@ export class CatalogCountService {
       .get(this.catalogCountEnumUri)
       .pipe(catchError(this.handleError.handleError));
   }
+
+  deleteCatalogCount(branchId: number, ccId: number): Observable<any> {
+    const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count/${ccId}`;
+    return this.httpClient
+      .delete(catalogCountUri)
+      .pipe(catchError(this.handleError.handleError));
+  }
 }

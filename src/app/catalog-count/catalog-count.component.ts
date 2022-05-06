@@ -91,7 +91,6 @@ export class CatalogCountComponent implements OnInit {
     if (this.catalogCountForm.valid && this.userDetails) {
       if (this.catalogCountForm.dirty) {
         const payload = { ...this.cc, ...this.catalogCountForm.value };
-        console.log(payload);
 
         let payloadRegistration = new Date(payload.registrationDate);
         payload.registrationDate =

@@ -24,16 +24,19 @@
   <table class="table table-hover table-striped">
     <thead class="thead-dark">
       <tr>
+        <th>#</th>
         <th>Fecha Registro (yyyy-MM-dd)</th>
         <th>Número de Cuenta</th>
         <th>Cantidad</th>
         <th>Detalles</th>
         <th>Saldo</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody *ngIf="catalogCounts.length > 0">
       <tr *ngFor="let cc of catalogCounts">
+        <td>{{ cc.id }}</td>
         <td>{{ cc.registrationDate | date: "long" }}</td>
         <td>{{ cc.catalogCountEnum }}</td>
         <td>{{ cc.amount }}</td>
@@ -45,6 +48,14 @@
             [routerLink]="['/cc', cc.id, 'edit']"
           >
             editar
+          </button>
+        </td>
+        <td>
+          <button
+            class="btn btn-sm btn-outline-danger"
+            (click)="deleteCatalogCount(cc)"
+          >
+            eliminar
           </button>
         </td>
       </tr>

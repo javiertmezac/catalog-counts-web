@@ -44,4 +44,16 @@ export class CatalogCountListComponent implements OnInit {
       });
     }
   }
+
+  deleteCatalogCount(cc: any) {
+    if (confirm(`Seguro de eliminar el Catálogo de Cuenta # ${cc.id}`)) {
+      this.ccService
+        .deleteCatalogCount(this.userDetails.defaultBranch, cc.id)
+        .subscribe({
+          next: () =>
+            this.fetchCatalogCountList(this.userDetails.defaultBranch),
+          error: (err) => (this.errorMessage = err),
+        });
+    }
+  }
 }
