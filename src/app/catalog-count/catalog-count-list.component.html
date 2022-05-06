@@ -34,7 +34,7 @@
     </thead>
     <tbody *ngIf="catalogCounts.length > 0">
       <tr *ngFor="let cc of catalogCounts">
-        <td>{{ cc.registrationDate }}</td>
+        <td>{{ cc.registrationDate | date: "long" }}</td>
         <td>{{ cc.catalogCountEnum }}</td>
         <td>{{ cc.amount }}</td>
         <td>{{ cc.details }}</td>

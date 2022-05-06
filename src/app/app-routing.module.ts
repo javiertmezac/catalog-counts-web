@@ -15,7 +15,8 @@ const routes: Routes = [
   },
   {
     path: 'cc/:ccid/edit',
-    canActivate: [AuthGuard, WriteAccessGuard],
+    // canActivate: [AuthGuard, WriteAccessGuard],
+    canActivate: [AuthGuard],
     component: CatalogCountComponent,
   },
   {

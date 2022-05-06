@@ -1,4 +1,5 @@
 export interface CatalogCountRequest {
+  id: number;
   catalogCountEnumId: number;
   amount: number;
   details: string;
@@ -6,7 +7,6 @@ export interface CatalogCountRequest {
 }
 
 export interface CatalogCount extends CatalogCountRequest {
-  id: number;
   total: number;
   catalogCountEnum: string;
 }

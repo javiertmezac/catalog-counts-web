@@ -29,10 +29,7 @@ export class CatalogCountComponent implements OnInit {
     this.catalogCountForm = this.fb.group({
       amount: ['', Validators.required],
       details: ['', Validators.required],
-      registrationDate: [
-        // new Date().toISOString().substring(0, 10),
-        Validators.required,
-      ],
+      registrationDate: [Validators.required],
       catalogCountEnum: ['', Validators.required],
     });
   }
@@ -43,22 +40,21 @@ export class CatalogCountComponent implements OnInit {
     });
     this.loadCcEnums();
     //toISOString -> UTC
-
-    const ccid = Number(this.route.snapshot.paramMap.get('ccid'));
-    this.fetchCatalogCount(ccid);
   }
 
   fetchCatalogCount(ccid: Number) {
-    this.ccService.getCatalogCount(0, ccid).subscribe({
-      next: (data) => {
-        this.populateCatalogCount(data);
-      },
-      error: (err) => (this.errorMessage = err),
-    });
+    this.ccService
+      .getCatalogCount(this.userDetails.defaultBranch, ccid)
+      .subscribe({
+        next: (data) => {
+          this.populateCatalogCount(data);
+        },
+        error: (err) => (this.errorMessage = err),
+      });
   }
 
   populateCatalogCount(catalog: CatalogCount) {
-    if (this.catalogCountForm.valid) {
+    if (this.catalogCountForm) {
       this.catalogCountForm.reset();
     }
 
@@ -72,6 +68,7 @@ export class CatalogCountComponent implements OnInit {
       selectedCatalogCountEnum = this.ccEnums.filter(
         (x) => x.value == this.cc.catalogCountEnum
       );
+
       selectedRegistration =
         this.cc.registrationDate != null
           ? new Date(this.cc.registrationDate)
@@ -80,43 +77,65 @@ export class CatalogCountComponent implements OnInit {
       selectedCatalogCountEnum = this.ccEnums;
       selectedRegistration = new Date();
     }
-    // .toISOString().substring(0, 10)
     this.catalogCountForm.patchValue({
       amount: this.cc.amount == 0 ? '' : this.cc.amount,
       details: this.cc.details,
       catalogCountEnum: selectedCatalogCountEnum[0],
-      // registrationDate: selectedRegistration?.toJSON().split('T')[0],
-      registrationDate: selectedRegistration?.toISOString().substring(0, 10),
+      registrationDate: selectedRegistration
+        ?.toLocaleString('fr-CA')
+        .slice(0, 10),
     });
   }
 
   saveCatalogCount(): void {
     if (this.catalogCountForm.valid && this.userDetails) {
-      const payload = { ...this.catalogCountForm.value };
-      let payloadRegistration = new Date(payload.registrationDate);
-      payload.registrationDate =
-        (payloadRegistration.getTime() +
-          DateTimeHandler.getCurrentTimeZoneMilliseconds() +
-          DateTimeHandler.getDateTimeOffSetMilliseconds()) /
-        1000;
+      if (this.catalogCountForm.dirty) {
+        const payload = { ...this.cc, ...this.catalogCountForm.value };
+        console.log(payload);
 
-      payload.catalogCountEnumId = payload.catalogCountEnum.value;
+        let payloadRegistration = new Date(payload.registrationDate);
+        payload.registrationDate =
+          (payloadRegistration.getTime() +
+            DateTimeHandler.getCurrentTimeZoneMilliseconds() +
+            DateTimeHandler.getDateTimeOffSetMilliseconds()) /
+          1000;
 
-      this.ccService
-        .saveCatalogCount(this.userDetails.defaultBranch, payload)
-        .subscribe({
-          next: () => {
-            this.catalogCountForm.reset();
-            this.router.navigateByUrl('/cc');
-          },
-          error: (err) => (this.errorMessage = err),
-        });
+        payload.catalogCountEnumId = payload.catalogCountEnum.value;
+
+        if (payload.id === 0) {
+          this.ccService
+            .saveCatalogCount(this.userDetails.defaultBranch, payload)
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: (err) => (this.errorMessage = err),
+            });
+        } else {
+          this.ccService
+            .updateCatalogCount(this.userDetails.defaultBranch, payload)
+            .subscribe({
+              next: () => this.onSaveComplete(),
+              error: (err) => (this.errorMessage = err),
+            });
+        }
+      } else {
+        this.onSaveComplete();
+      }
     }
+  }
+
+  onSaveComplete() {
+    this.catalogCountForm.reset();
+    this.router.navigateByUrl('/cc');
   }
 
   loadCcEnums() {
     this.ccService.getCatalogCountEnums().subscribe({
-      next: (data) => (this.ccEnums = data.catalogCountEnumList),
+      next: (data) => {
+        this.ccEnums = data.catalogCountEnumList;
+
+        const ccid = Number(this.route.snapshot.paramMap.get('ccid'));
+        this.fetchCatalogCount(ccid);
+      },
       error: (err) => (this.errorMessage = err),
     });
   }

@@ -37,6 +37,20 @@ export class CatalogCountService {
       .pipe(catchError(this.handleError.handleError));
   }
 
+  updateCatalogCount(
+    branchId: number,
+    payload: CatalogCountRequest
+  ): Observable<any> {
+    const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count`;
+    return this.httpClient
+      .put<CatalogCountRequest>(catalogCountUri, payload, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      .pipe(catchError(this.handleError.handleError));
+  }
+
   getCatalogCounts(branchId: number): Observable<any> {
     if (branchId == 0) {
       return of(null);
