@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { AboutComponent } from './about/about.component';
+import { SystemInfoComponent } from './about/system-info/system-info.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AboutComponent } from './about/about.component';
     CatalogCountListComponent,
     LoginComponent,
     AboutComponent,
+    SystemInfoComponent,
   ],
   imports: [
     BrowserModule,
