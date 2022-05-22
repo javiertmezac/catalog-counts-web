@@ -1,0 +1,9 @@
+<div class="alert alert-warning" *ngIf="errorMessage">{{ errorMessage }}</div>
+<div *ngIf="webChangelog">
+  <h1>Web Changelog</h1>
+  <p>{{ webChangelog }}</p>
+</div>
+<div *ngIf="serviceChangelog">
+  <h1>Service Changelog</h1>
+  <p>{{ serviceChangelog }}</p>
+</div>
