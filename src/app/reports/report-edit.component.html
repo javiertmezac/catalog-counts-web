@@ -1,0 +1,18 @@
+<div class="container card">
+  <button class="btn btn-outline-primary" (click)="generateReport()">
+    Generar Nuevo Report
+  </button>
+
+  <hr />
+  <div>
+    <pre>{{ report }}</pre>
+  </div>
+  <div>
+    <button class="btn btn-outline-secondary" routerLink="/report">
+      Regresar
+    </button>
+    <button class="btn btn-outline-primary" routerLink="/report">
+      Guardar Reporte
+    </button>
+  </div>
+</div>
