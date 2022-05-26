@@ -42,16 +42,18 @@
         <td>{{ cc.amount }}</td>
         <td>{{ cc.details }}</td>
         <td>{{ cc.total }}</td>
-        <td *ngIf="hasWriteAccess">
+        <td>
           <button
+            *ngIf="hasWriteAccess && cc.editable"
             class="btn btn-sm btn-outline-secondary"
             [routerLink]="['/cc', cc.id, 'edit']"
           >
             editar
           </button>
         </td>
-        <td *ngIf="hasWriteAccess">
+        <td>
           <button
+            *ngIf="hasWriteAccess && cc.editable"
             class="btn btn-sm btn-outline-danger"
             (click)="deleteCatalogCount(cc)"
           >

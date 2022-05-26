@@ -70,6 +70,7 @@ export class CatalogCountService {
       details: '',
       registrationDate: 0,
       total: 0,
+      editable: false,
     };
   }
 
