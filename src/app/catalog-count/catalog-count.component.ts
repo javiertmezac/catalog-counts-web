@@ -39,9 +39,6 @@ export class CatalogCountComponent implements OnInit {
       next: (data) => {
         this.userDetails = data;
         this.loadCcEnums();
-
-        const ccid = Number(this.route.snapshot.paramMap.get('ccid'));
-        this.fetchCatalogCount(ccid);
       },
     });
   }
@@ -133,7 +130,11 @@ export class CatalogCountComponent implements OnInit {
 
   loadCcEnums() {
     this.ccService.getCatalogCountEnums().subscribe({
-      next: (data) => (this.ccEnums = data.catalogCountEnumList),
+      next: (data) => {
+        this.ccEnums = data.catalogCountEnumList;
+        const ccid = Number(this.route.snapshot.paramMap.get('ccid'));
+        this.fetchCatalogCount(ccid);
+      },
       error: (err) => (this.errorMessage = err),
     });
   }
