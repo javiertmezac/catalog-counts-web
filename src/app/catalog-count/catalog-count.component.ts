@@ -36,10 +36,11 @@ export class CatalogCountComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe({
-      next: (data) => (this.userDetails = data),
+      next: (data) => {
+        this.userDetails = data;
+        this.loadCcEnums();
+      },
     });
-    this.loadCcEnums();
-    //toISOString -> UTC
   }
 
   fetchCatalogCount(ccid: Number) {
@@ -131,7 +132,6 @@ export class CatalogCountComponent implements OnInit {
     this.ccService.getCatalogCountEnums().subscribe({
       next: (data) => {
         this.ccEnums = data.catalogCountEnumList;
-
         const ccid = Number(this.route.snapshot.paramMap.get('ccid'));
         this.fetchCatalogCount(ccid);
       },

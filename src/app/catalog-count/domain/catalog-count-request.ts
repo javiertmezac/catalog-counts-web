@@ -9,4 +9,5 @@ export interface CatalogCountRequest {
 export interface CatalogCount extends CatalogCountRequest {
   total: number;
   catalogCountEnum: string;
+  editable: boolean;
 }

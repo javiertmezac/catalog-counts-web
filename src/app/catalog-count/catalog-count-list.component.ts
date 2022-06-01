@@ -14,6 +14,7 @@ export class CatalogCountListComponent implements OnInit {
   errorMessage = '';
   userDetails!: User;
   hasWriteAccess = false;
+  displayCatalogCountAlert = false;
 
   constructor(
     private ccService: CatalogCountService,
@@ -32,6 +33,16 @@ export class CatalogCountListComponent implements OnInit {
       },
       error: (err) => (this.errorMessage = err),
     });
+
+    this.shouldCatalogCountAlertBeDisplayed();
+  }
+
+  shouldCatalogCountAlertBeDisplayed() {
+    let currentDate = new Date();
+    let date = currentDate.getDate();
+    if (date >= 1 && date <= 7) {
+      this.displayCatalogCountAlert = true;
+    }
   }
 
   fetchCatalogCountList(branchId: number) {

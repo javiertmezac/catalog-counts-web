@@ -1,6 +1,25 @@
 <div>
   <div>
     <h1>Historial Catálogo de Cuentas</h1>
+
+    <div *ngIf="displayCatalogCountAlert">
+      <div class="alert alert-danger" style="margin-bottom: 0%">
+        <h4>
+          ALERTA: recuerda terminar tu captura de registros a más tardar el día
+          7!
+        </h4>
+      </div>
+      <div class="alert alert-success">
+        <div class="row">
+          <p class="col-8">
+            <strong> Favor de confirmar al finalizar tu captura! </strong>
+          </p>
+          <button class="col-4 btn btn-sm btn-outline-primary">
+            Confirmar!
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div>
@@ -21,7 +40,7 @@
     <h4>Cargando Lista ...</h4>
   </div>
 
-  <table class="table table-hover table-striped">
+  <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
         <th>#</th>
@@ -31,32 +50,33 @@
         <th>Detalles</th>
         <th>Saldo</th>
         <th *ngIf="hasWriteAccess"></th>
-        <th *ngIf="hasWriteAccess"></th>
       </tr>
     </thead>
     <tbody *ngIf="catalogCounts.length > 0">
       <tr *ngFor="let cc of catalogCounts">
         <td>{{ cc.id }}</td>
-        <td>{{ cc.registrationDate | date: "long" }}</td>
-        <td>{{ cc.catalogCountEnum }}</td>
-        <td>{{ cc.amount }}</td>
-        <td>{{ cc.details }}</td>
-        <td>{{ cc.total }}</td>
-        <td *ngIf="hasWriteAccess">
-          <button
-            class="btn btn-sm btn-outline-secondary"
-            [routerLink]="['/cc', cc.id, 'edit']"
-          >
-            editar
-          </button>
+        <td>
+          {{ cc.registrationDate | date: "long" }}
         </td>
-        <td *ngIf="hasWriteAccess">
-          <button
-            class="btn btn-sm btn-outline-danger"
-            (click)="deleteCatalogCount(cc)"
-          >
-            eliminar
-          </button>
+        <td>{{ cc.catalogCountEnum }}</td>
+        <td>{{ cc.amount | currency }}</td>
+        <td style="max-width: 500px">{{ cc.details }}</td>
+        <td>{{ cc.total | currency }}</td>
+        <td>
+          <div class="row" *ngIf="hasWriteAccess && cc.editable">
+            <button
+              class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
+              [routerLink]="['/cc', cc.id, 'edit']"
+            >
+              editar
+            </button>
+            <button
+              class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger"
+              (click)="deleteCatalogCount(cc)"
+            >
+              eliminar
+            </button>
+          </div>
         </td>
       </tr>
     </tbody>
