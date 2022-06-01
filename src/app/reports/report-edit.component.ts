@@ -20,8 +20,10 @@ export class ReportEditComponent implements OnInit {
       fromMonth: 4,
       toMonth: 4,
       year: 2022,
+      branchId: 1,
+      reporterComments: 'blah from blah UI',
     };
-    this.reportService.generateReport(2, payload).subscribe({
+    this.reportService.generateReport(payload).subscribe({
       next: (response) => {
         let space = 3;
         let replacer = null;

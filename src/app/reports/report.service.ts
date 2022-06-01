@@ -18,10 +18,7 @@ export class ReportService {
     private handleError: HandleHttpClientError
   ) {}
 
-  generateReport(
-    idBranch: number,
-    payload: AuditReportRequest
-  ): Observable<any> {
+  generateReport(payload: AuditReportRequest): Observable<any> {
     return this.httpClient
       .post(this.reportAuditEndpoint, payload, {
         headers: {
