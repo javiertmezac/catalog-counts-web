@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../login/auth.service';
+import { Period } from '../model/period';
 import { User } from '../model/user';
+import { PeriodService } from '../shared/period.service';
 import { RolePermissionService } from '../shared/permissions/role-permission.service';
 import { CatalogCountService } from './catalog-count.service';
 
@@ -13,13 +15,15 @@ export class CatalogCountListComponent implements OnInit {
   catalogCounts: any[] = [];
   errorMessage = '';
   userDetails!: User;
+  currentPeriod!: Period;
   hasWriteAccess = false;
   displayCatalogCountAlert = false;
 
   constructor(
     private ccService: CatalogCountService,
     private authService: AuthService,
-    private rolePermissionService: RolePermissionService
+    private rolePermissionService: RolePermissionService,
+    private periodService: PeriodService
   ) {}
 
   ngOnInit(): void {
@@ -37,11 +41,22 @@ export class CatalogCountListComponent implements OnInit {
     this.shouldCatalogCountAlertBeDisplayed();
   }
 
+  getPeriodDescription() {
+    this.periodService.getCurrentPeriod().subscribe({
+      next: (data) => (this.currentPeriod = data),
+      error: (err) => {
+        let customError = 'IMPORTANTE!!! Avisar que no hay periodo habilitado!';
+        this.errorMessage = customError;
+      },
+    });
+  }
+
   shouldCatalogCountAlertBeDisplayed() {
     let currentDate = new Date();
     let date = currentDate.getDate();
     if (date >= 1 && date <= 7) {
       this.displayCatalogCountAlert = true;
+      this.getPeriodDescription();
     }
   }
 

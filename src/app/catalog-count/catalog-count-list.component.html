@@ -2,9 +2,11 @@
   <div>
     <h1>Historial Catálogo de Cuentas</h1>
 
-    <div *ngIf="displayCatalogCountAlert">
+    <div *ngIf="displayCatalogCountAlert && currentPeriod">
       <div class="alert alert-danger" style="margin-bottom: 0%">
         <h4>
+          PERIODO '{{ currentPeriod.description }}'
+          <br />
           ALERTA: recuerda terminar tu captura de registros a más tardar el día
           7!
         </h4>
