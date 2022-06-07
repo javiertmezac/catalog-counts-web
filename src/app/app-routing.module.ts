@@ -27,11 +27,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: AboutComponent,
   },
-  {
-    path: 'report',
-    canActivate: [AuthGuard],
-    component: ReportsComponent,
-  },
+  // {
+  //   path: 'report',
+  //   canActivate: [AuthGuard],
+  //   component: ReportsComponent,
+  // },
   {
     path: 'report-edit',
     canActivate: [AuthGuard],
