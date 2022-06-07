@@ -11,6 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './shared/auth.interceptor';
 import { AboutComponent } from './about/about.component';
 import { SystemInfoComponent } from './about/system-info/system-info.component';
+import { ReportsComponent } from './reports/reports.component';
+import { ReportEditComponent } from './reports/report-edit.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SystemInfoComponent } from './about/system-info/system-info.component';
     LoginComponent,
     AboutComponent,
     SystemInfoComponent,
+    ReportsComponent,
+    ReportEditComponent,
   ],
   imports: [
     BrowserModule,
