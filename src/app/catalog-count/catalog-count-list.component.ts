@@ -13,6 +13,7 @@ import { CatalogCountService } from './catalog-count.service';
 })
 export class CatalogCountListComponent implements OnInit {
   catalogCounts: any[] = [];
+  isLoadingCatalogCounts = true;
   errorMessage = '';
   userDetails!: User;
   currentPeriod!: Period;
@@ -64,8 +65,10 @@ export class CatalogCountListComponent implements OnInit {
     const noValidBranch = 0;
     if (branchId != noValidBranch) {
       this.ccService.getCatalogCounts(branchId).subscribe({
-        next: (data) =>
-          (this.catalogCounts = data.catalogCountResponseCollection),
+        next: (data) => {
+          this.catalogCounts = data.catalogCountResponseCollection;
+          this.isLoadingCatalogCounts = false;
+        },
         error: (err) => (this.errorMessage = err),
       });
     }

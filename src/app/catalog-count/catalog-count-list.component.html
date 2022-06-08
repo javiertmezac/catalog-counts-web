@@ -1,4 +1,11 @@
-<div>
+<div
+  class="alert alert-warning"
+  *ngIf="userDetails && userDetails?.defaultBranch == 0"
+>
+  Usuario {{ userDetails?.username }} no está asignado a una Misión
+</div>
+
+<div *ngIf="userDetails?.defaultBranch != 0">
   <div>
     <h1>Historial Catálogo de Cuentas</h1>
 
@@ -38,11 +45,15 @@
     {{ errorMessage }}
   </div>
 
-  <div *ngIf="catalogCounts.length == 0 && userDetails?.defaultBranch != 0">
-    <h4>Cargando Lista ...</h4>
+  <div *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
+    <h2>No existen registros!</h2>
+    <h4>Capturar nuevo registro!</h4>
+  </div>
+  <div *ngIf="isLoadingCatalogCounts">
+    <h4>Cargando lista...</h4>
   </div>
 
-  <table class="table table-hover">
+  <table class="table table-hover" *ngIf="catalogCounts.length">
     <thead class="thead-dark">
       <tr>
         <th>#</th>
@@ -83,10 +94,4 @@
       </tr>
     </tbody>
   </table>
-  <div
-    class="alert alert-warning"
-    *ngIf="catalogCounts.length == 0 && userDetails?.defaultBranch == 0"
-  >
-    <h4>No hay registros!</h4>
-  </div>
 </div>
