@@ -1,5 +1,16 @@
 # Catalog Count Web
 
+## 1.0.2-alpha
+
+Release Date: June 7, 2022
+
+## What's Changed
+
+- Feature/editable cc by @javiertmezac in https://github.com/javiertmezac/catalog-counts-web/pull/13
+- Feature/audit report by @javiertmezac in https://github.com/javiertmezac/catalog-counts-web/pull/14
+
+**Full Changelog**: https://github.com/javiertmezac/catalog-counts-web/compare/1.0.0...1.0.2-alpha
+
 ## 1.0.1
 
 Release Date: May 21, 2022
