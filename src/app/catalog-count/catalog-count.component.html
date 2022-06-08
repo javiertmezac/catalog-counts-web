@@ -30,6 +30,12 @@
             }"
           />
           <span class="invalid-feedback">
+            <span *ngIf="catalogCountForm.controls['amount'].errors?.min">
+              Solo cantidades positivas
+            </span>
+            <span *ngIf="catalogCountForm.controls['amount'].errors?.pattern">
+              Solo número son permitidos
+            </span>
             <span *ngIf="catalogCountForm.controls['amount'].errors?.required">
               Cantidad Requerida
             </span>

@@ -12,6 +12,7 @@ import { CatalogCount } from './domain/catalog-count-request';
   styleUrls: ['./catalog-count.component.scss'],
 })
 export class CatalogCountComponent implements OnInit {
+  private static NumericPattern = /\d{1,}/;
   pageTitle = 'Capturar registro de Catálogo de Cuentas';
   catalogCountForm!: FormGroup;
   errorMessage = '';
@@ -27,7 +28,14 @@ export class CatalogCountComponent implements OnInit {
     private authService: AuthService
   ) {
     this.catalogCountForm = this.fb.group({
-      amount: ['', Validators.required],
+      amount: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(CatalogCountComponent.NumericPattern),
+          Validators.min(0),
+        ],
+      ],
       details: ['', Validators.required],
       registrationDate: [Validators.required],
       catalogCountEnum: ['', Validators.required],
