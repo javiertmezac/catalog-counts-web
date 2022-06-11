@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { AuthService } from '../login/auth.service';
 import { Period } from '../model/period';
 import { User } from '../model/user';
@@ -59,7 +60,7 @@ export class CatalogCountListComponent implements OnInit {
     let currentDate = new Date();
     let date = currentDate.getDate();
     let minDate = 1;
-    let maxDate = 11;
+    let maxDate = environment.maxDate;
 
     const getBranchPeriodConfirmation = await this.periodService
       .getBranchPeriodConfirmation(
@@ -72,15 +73,10 @@ export class CatalogCountListComponent implements OnInit {
         return null;
       });
 
-    if (
-      date >= minDate &&
-      date <= maxDate &&
-      getBranchPeriodConfirmation == null
-    ) {
-      this.displayCatalogCountAlert = true;
-    } else {
-      this.displayCatalogCountAlert = false;
-      this.displayConfirmationAlert = true;
+    if (date >= minDate && date <= maxDate) {
+      this.displayCatalogCountAlert =
+        getBranchPeriodConfirmation == null ? true : false;
+      this.displayConfirmationAlert = !this.displayCatalogCountAlert;
     }
   }
 

@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  baseUri: 'http://api.catalogcounts.com/cc-service/api'
+  maxDate: 7,
+  baseUri: 'http://api.catalogcounts.com/cc-service/api',
 };

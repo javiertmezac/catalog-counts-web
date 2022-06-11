@@ -1,6 +1,9 @@
+<div class="alert alert-warning" *ngIf="userDetails?.username == undefined">
+  Error al cargar información.
+</div>
 <div
   class="alert alert-warning"
-  *ngIf="userDetails && userDetails?.defaultBranch == 0"
+  *ngIf="userDetails?.username != undefined && userDetails?.defaultBranch == 0"
 >
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
