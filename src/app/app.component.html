@@ -23,7 +23,9 @@
       </div>
     </div>
     <div class="d-flex">
-      <p *ngIf="userDetails">Hola! {{ userDetails.username }}</p>
+      <p *ngIf="userDetails">
+        Hola! {{ userDetails.username }} ({{ userDetails.roles }})
+      </p>
       <button class="btn btn-outline-danger" type="button" (click)="logout()">
         Salir!
       </button>

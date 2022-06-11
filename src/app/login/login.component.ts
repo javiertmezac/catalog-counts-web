@@ -10,6 +10,7 @@ import { AuthService } from './auth.service';
 })
 export class LoginComponent {
   form: FormGroup;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -26,9 +27,12 @@ export class LoginComponent {
     const val = this.form.value;
 
     if (val.email && val.password) {
-      this.authService.login(val.email, val.password).subscribe(() => {
-        console.log('User is logged in');
-        this.router.navigateByUrl('/cc');
+      this.authService.login(val.email, val.password).subscribe({
+        next: () => {
+          console.log('User is logged in');
+          this.router.navigateByUrl('/cc');
+        },
+        error: (err) => (this.errorMessage = 'Credenciales incorrectas!'),
       });
     }
   }

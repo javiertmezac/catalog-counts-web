@@ -7,6 +7,9 @@
     <form [formGroup]="form">
       <fieldset>
         <legend>Inicio de Sesión!</legend>
+        <div class="alert alert-warning" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
 
         <div class="mb-3 row form-field">
           <label class="col-sm-2 col-form-label">Usuario:</label>
