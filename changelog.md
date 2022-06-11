@@ -1,10 +1,28 @@
 # Catalog Count Web
 
+## 1.0.2
+
+Release Date: June 10, 2022
+
+### Features
+
+- funcionatily to "confirm" a period
+  - alert-warning message is display to indicate maxdate to finish reporting. A "confirm" btn has been enabled.
+
+### Improvements
+
+- display alert message when period has been confirmed
+- display alert-warning message when credentials are wrong (login)
+- display "role" number banner section (upper rigth corner)
+- on catalog-count edit
+  - only numbers are allowed for "amount" field
+  - only positive numbers allowed
+
 ## 1.0.2-alpha
 
 Release Date: June 7, 2022
 
-## What's Changed
+### What's Changed
 
 - Feature/editable cc by @javiertmezac in https://github.com/javiertmezac/catalog-counts-web/pull/13
 - Feature/audit report by @javiertmezac in https://github.com/javiertmezac/catalog-counts-web/pull/14
@@ -15,7 +33,7 @@ Release Date: June 7, 2022
 
 Release Date: May 21, 2022
 
-## What's Changed
+### What's Changed
 
 - Develop by @javiertmezac in https://github.com/javiertmezac/catalog-counts-web/pull/12
 
