@@ -19,6 +19,7 @@ export class CatalogCountListComponent implements OnInit {
   currentPeriod!: Period;
   hasWriteAccess = false;
   displayCatalogCountAlert = false;
+  displayConfirmationAlert = false;
 
   constructor(
     private ccService: CatalogCountService,
@@ -35,16 +36,18 @@ export class CatalogCountListComponent implements OnInit {
           this.userDetails
         );
         this.fetchCatalogCountList(data.defaultBranch);
+        this.getPeriodDescription();
       },
       error: (err) => (this.errorMessage = err),
     });
-
-    this.shouldCatalogCountAlertBeDisplayed();
   }
 
   getPeriodDescription() {
     this.periodService.getCurrentPeriod().subscribe({
-      next: (data) => (this.currentPeriod = data),
+      next: (data) => {
+        this.currentPeriod = data;
+        this.shouldCatalogCountAlertBeDisplayed();
+      },
       error: (err) => {
         let customError = 'IMPORTANTE!!! Avisar que no hay periodo habilitado!';
         this.errorMessage = customError;
@@ -52,12 +55,32 @@ export class CatalogCountListComponent implements OnInit {
     });
   }
 
-  shouldCatalogCountAlertBeDisplayed() {
+  async shouldCatalogCountAlertBeDisplayed() {
     let currentDate = new Date();
     let date = currentDate.getDate();
-    if (date >= 1 && date <= 7) {
+    let minDate = 1;
+    let maxDate = 11;
+
+    const getBranchPeriodConfirmation = await this.periodService
+      .getBranchPeriodConfirmation(
+        this.userDetails.defaultBranch,
+        this.currentPeriod.id
+      )
+      .toPromise()
+      .catch((data) => {
+        console.log(data);
+        return null;
+      });
+
+    if (
+      date >= minDate &&
+      date <= maxDate &&
+      getBranchPeriodConfirmation == null
+    ) {
       this.displayCatalogCountAlert = true;
-      this.getPeriodDescription();
+    } else {
+      this.displayCatalogCountAlert = false;
+      this.displayConfirmationAlert = true;
     }
   }
 
@@ -83,6 +106,25 @@ export class CatalogCountListComponent implements OnInit {
             this.fetchCatalogCountList(this.userDetails.defaultBranch),
           error: (err) => (this.errorMessage = err),
         });
+    }
+  }
+
+  confirmPeriod() {
+    if (
+      confirm(
+        `Seguro de proceder con la confirmación?, \n después de aceptar no habrá cambios en el mes anterior`
+      )
+    ) {
+      if (this.currentPeriod && this.userDetails) {
+        this.periodService
+          .confirmPeriod(this.userDetails.defaultBranch, this.currentPeriod.id)
+          .subscribe({
+            next: () => {
+              this.ngOnInit();
+            },
+            error: (err) => (this.errorMessage = err),
+          });
+      }
     }
   }
 }

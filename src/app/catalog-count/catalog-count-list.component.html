@@ -9,23 +9,33 @@
   <div>
     <h1>Historial Catálogo de Cuentas</h1>
 
-    <div *ngIf="displayCatalogCountAlert && currentPeriod">
-      <div class="alert alert-danger" style="margin-bottom: 0%">
-        <h4>
-          PERIODO '{{ currentPeriod.description }}'
-          <br />
-          ALERTA: recuerda terminar tu captura de registros a más tardar el día
-          7!
-        </h4>
+    <div *ngIf="currentPeriod">
+      <div *ngIf="displayConfirmationAlert">
+        <div class="alert alert-info" style="margin-bottom: 0%">
+          <h4>PERIODO '{{ currentPeriod.description }} confirmado'</h4>
+        </div>
       </div>
-      <div class="alert alert-success">
-        <div class="row">
-          <p class="col-8">
-            <strong> Favor de confirmar al finalizar tu captura! </strong>
-          </p>
-          <button class="col-4 btn btn-sm btn-outline-primary">
-            Confirmar!
-          </button>
+      <div *ngIf="displayCatalogCountAlert">
+        <div class="alert alert-danger" style="margin-bottom: 0%">
+          <h4>
+            PERIODO '{{ currentPeriod.description }}'
+            <br />
+            ALERTA: recuerda terminar tu captura de registros a más tardar el
+            día 7!
+          </h4>
+        </div>
+        <div class="alert alert-success">
+          <div class="row">
+            <p class="col-8">
+              <strong> Favor de confirmar al finalizar tu captura! </strong>
+            </p>
+            <button
+              class="col-4 btn btn-sm btn-outline-primary"
+              (click)="confirmPeriod()"
+            >
+              Confirmar!
+            </button>
+          </div>
         </div>
       </div>
     </div>

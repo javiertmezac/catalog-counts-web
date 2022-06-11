@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, min } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Period } from '../model/period';
+import { Period, PeriodConfirmation } from '../model/period';
 import { HandleHttpClientError } from './handle-error';
 
 @Injectable({
@@ -18,6 +18,13 @@ export class PeriodService {
     private handleHttpError: HandleHttpClientError
   ) {}
 
+  confirmPeriod(branchId: number, periodId: number): Observable<any> {
+    const confirmPath = `${this.baseUri}/v1/branch/${branchId}/period/${periodId}/confirm`;
+    return this.httpClient
+      .post(confirmPath, null)
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
   getCurrentPeriod(): Observable<Period> {
     let currentDate = new Date();
     let minDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
@@ -26,6 +33,20 @@ export class PeriodService {
     let year = minDate.getFullYear();
     return this.httpClient
       .get<Period>(`${this.periodPath}?toMonth=${toMonth}&year=${year}`)
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
+  getBranchPeriodConfirmation(
+    defaultBranch: number,
+    periodId: number
+  ): Observable<PeriodConfirmation> {
+    let branchNoValid = 0;
+    if (defaultBranch == branchNoValid) {
+      return of<PeriodConfirmation>();
+    }
+    const confirmPath = `${this.baseUri}/v1/branch/${defaultBranch}/period/${periodId}/confirm`;
+    return this.httpClient
+      .get<PeriodConfirmation>(confirmPath)
       .pipe(catchError(this.handleHttpError.handleError));
   }
 }
