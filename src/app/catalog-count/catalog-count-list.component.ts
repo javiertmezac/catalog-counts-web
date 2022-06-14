@@ -65,7 +65,8 @@ export class CatalogCountListComponent implements OnInit {
     const getBranchPeriodConfirmation = await this.periodService
       .getBranchPeriodConfirmation(
         this.userDetails.defaultBranch,
-        this.currentPeriod.id
+        this.currentPeriod.id,
+        this.userDetails.userId
       )
       .toPromise()
       .catch((data) => {

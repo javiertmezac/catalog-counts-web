@@ -38,13 +38,14 @@ export class PeriodService {
 
   getBranchPeriodConfirmation(
     defaultBranch: number,
-    periodId: number
+    periodId: number,
+    confirmedByUser: number
   ): Observable<PeriodConfirmation> {
     let branchNoValid = 0;
     if (defaultBranch == branchNoValid) {
       return of<PeriodConfirmation>();
     }
-    const confirmPath = `${this.baseUri}/v1/branch/${defaultBranch}/period/${periodId}/confirm`;
+    const confirmPath = `${this.baseUri}/v1/branch/${defaultBranch}/period/${periodId}/confirm?confirmedBy=${confirmedByUser}`;
     return this.httpClient
       .get<PeriodConfirmation>(confirmPath)
       .pipe(catchError(this.handleHttpError.handleError));

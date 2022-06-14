@@ -9,6 +9,7 @@ import { User } from '../model/user';
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
   username: undefined,
+  userId: 0,
   roles: [],
   defaultBranch: 0,
 };

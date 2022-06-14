@@ -13,7 +13,7 @@ import { CatalogCount } from './domain/catalog-count-request';
 })
 export class CatalogCountComponent implements OnInit {
   private static NumericPattern = /\d{1,}/;
-  pageTitle = 'Capturar registro de Catálogo de Cuentas';
+  pageTitle = 'Capturar Movimiento';
   catalogCountForm!: FormGroup;
   errorMessage = '';
   ccEnums: any[] = [];
@@ -73,7 +73,7 @@ export class CatalogCountComponent implements OnInit {
     let selectedRegistration;
 
     if (this.cc.id != 0) {
-      this.pageTitle = 'Editar Catálogo de Cuentas #: ' + this.cc.id;
+      this.pageTitle = 'Editar Movimiento #: ' + this.cc.id;
       selectedCatalogCountEnum = this.ccEnums.filter(
         (x) => x.value == this.cc.catalogCountEnum
       );
