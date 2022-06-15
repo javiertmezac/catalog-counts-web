@@ -1,5 +1,17 @@
 # Catalog Count Web
 
+## 1.0.3
+
+Release Date: June 14, 2022
+
+### What's Changed
+
+- Renamed CatalogCountList to display "Historial de Movimientos'
+- Renamed CatalogCountEdit to display "Movimientos"
+- api.catalogcounts.com domain how supports https
+- confirmedBy is now use as compositeKey in Backend.
+  - this change will allow each role (T and S) to confirm a period_detail.
+
 ## 1.0.2
 
 Release Date: June 10, 2022
