@@ -8,7 +8,6 @@ import { LoginComponent } from './login/login.component';
 import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
-import { WriteAccessGuard } from './shared/permissions/write-access.guard';
 
 const routes: Routes = [
   {
@@ -27,11 +26,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: AboutComponent,
   },
-  // {
-  //   path: 'report',
-  //   canActivate: [AuthGuard],
-  //   component: ReportsComponent,
-  // },
+  {
+    path: 'report',
+    canActivate: [AuthGuard],
+    component: ReportsComponent,
+  },
   {
     path: 'report-edit',
     canActivate: [AuthGuard],

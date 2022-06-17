@@ -1,36 +1,67 @@
-<div style="padding: 1.5%">
-  <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isLoggedIn"> -->
-  <nav
-    class="navbar navbar-expand-lg navbar-light bg-light"
-    *ngIf="isLoggedIn$ | async"
-  >
-    <div class="container-fluid">
-      <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="cc"
-              >Movimientos</a
-            >
-          </li>
-          <!-- <li class="nav-item">
-            <a class="nav-link" routerLink="/report">Reportes</a>
-          </li> -->
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/about">Acerca de!</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="d-flex">
-      <p *ngIf="userDetails">
-        Hola! {{ userDetails.username }} ({{ userDetails.roles }})
-      </p>
-      <button class="btn btn-outline-danger" type="button" (click)="logout()">
-        Salir!
-      </button>
-    </div>
-  </nav>
+<nav
+  class="navbar navbar-expand-lg navbar-light bg-light"
+  *ngIf="isLoggedIn$ | async"
+>
+  <div class="container-fluid">
+    <a class="navbar-brand">Catálogo de Cuentas</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarText"
+      aria-controls="navbarText"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="cc"
+            >Movimientos</a
+          >
+        </li>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link dropdown-toggle"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Contralor
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li>
+              <a class="dropdown-item" routerLink="/report">Reportes</a>
+            </li>
+            <li><a class="dropdown-item" href="#">Periodos</a></li>
+          </ul>
+        </li>
 
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about">Acerca de!</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+        <div class="d-flex">
+          <p *ngIf="userDetails">
+            Hola! {{ userDetails.username }} ({{ userDetails.roles }})
+          </p>
+          <button
+            class="btn btn-outline-danger"
+            type="button"
+            (click)="logout()"
+          >
+            Salir!
+          </button>
+        </div></span
+      >
+    </div>
+  </div>
+</nav>
+
+<div style="padding: 1.5%">
   <router-outlet></router-outlet>
 </div>
