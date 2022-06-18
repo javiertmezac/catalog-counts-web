@@ -46,11 +46,13 @@ export class CatalogCountListComponent implements OnInit {
   getPeriodDescription() {
     this.periodService.getCurrentPeriod().subscribe({
       next: (data) => {
-        this.currentPeriod = data;
+        let takeFirstValue = 0;
+        this.currentPeriod = data.periodResponseList[takeFirstValue];
         this.shouldCatalogCountAlertBeDisplayed();
       },
       error: (err) => {
-        let customError = 'IMPORTANTE!!! Avisar que no hay periodo habilitado!';
+        let customError =
+          'IMPORTANTE!!! Avisar que no hay periodo de corte habilitado!';
         this.errorMessage = customError;
       },
     });
@@ -82,16 +84,14 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   fetchCatalogCountList(branchId: number) {
-    const noValidBranch = 0;
-    if (branchId != noValidBranch) {
-      this.ccService.getCatalogCounts(branchId).subscribe({
-        next: (data) => {
-          this.catalogCounts = data.catalogCountResponseCollection;
-          this.isLoadingCatalogCounts = false;
-        },
-        error: (err) => (this.errorMessage = err),
-      });
-    }
+    this.ccService.getCatalogCounts(branchId).subscribe({
+      next: (data) => {
+        console.log('fetching data');
+        this.catalogCounts = data.catalogCountResponseCollection;
+        this.isLoadingCatalogCounts = false;
+      },
+      error: (err) => (this.errorMessage = err),
+    });
   }
 
   deleteCatalogCount(cc: any) {

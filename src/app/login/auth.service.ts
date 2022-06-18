@@ -28,7 +28,7 @@ export class AuthService {
   );
   user$: Observable<User> = this.subject
     .asObservable()
-    .pipe(filter((user) => !!user));
+    .pipe(filter((user) => !!user.id_token));
   isLoggedIn$: Observable<boolean> = this.loginSubject
     .asObservable()
     .pipe(tap(console.log)); //todo: can we have something different here?

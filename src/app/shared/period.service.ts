@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, min } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Period, PeriodConfirmation } from '../model/period';
+import { PeriodConfirmation } from '../model/period';
 import { HandleHttpClientError } from './handle-error';
 
 @Injectable({
@@ -25,14 +25,14 @@ export class PeriodService {
       .pipe(catchError(this.handleHttpError.handleError));
   }
 
-  getCurrentPeriod(): Observable<Period> {
+  getCurrentPeriod(): Observable<any> {
     let currentDate = new Date();
     let minDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));
     let baseZeroMonth = 1;
     let toMonth = minDate.getMonth() + baseZeroMonth;
     let year = minDate.getFullYear();
     return this.httpClient
-      .get<Period>(`${this.periodPath}?toMonth=${toMonth}&year=${year}`)
+      .get<any>(`${this.periodPath}?toMonth=${toMonth}&year=${year}`)
       .pipe(catchError(this.handleHttpError.handleError));
   }
 
