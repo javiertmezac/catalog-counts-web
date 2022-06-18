@@ -25,6 +25,12 @@ export class PeriodService {
       .pipe(catchError(this.handleHttpError.handleError));
   }
 
+  getPeriodList(): Observable<any> {
+    return this.httpClient
+      .get<any>(`${this.periodPath}`)
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
   getCurrentPeriod(): Observable<any> {
     let currentDate = new Date();
     let minDate = new Date(currentDate.setMonth(currentDate.getMonth() - 1));

@@ -5,6 +5,7 @@ import { SystemInfoComponent } from './about/system-info/system-info.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { LoginComponent } from './login/login.component';
+import { PeriodComponent } from './period/period.component';
 import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
@@ -35,6 +36,11 @@ const routes: Routes = [
     path: 'report-edit',
     canActivate: [AuthGuard],
     component: ReportEditComponent,
+  },
+  {
+    path: 'period',
+    canActivate: [AuthGuard],
+    component: PeriodComponent,
   },
   {
     path: 'about/system-info',

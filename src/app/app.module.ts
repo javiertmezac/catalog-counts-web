@@ -13,6 +13,7 @@ import { AboutComponent } from './about/about.component';
 import { SystemInfoComponent } from './about/system-info/system-info.component';
 import { ReportsComponent } from './reports/reports.component';
 import { ReportEditComponent } from './reports/report-edit.component';
+import { PeriodComponent } from './period/period.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { ReportEditComponent } from './reports/report-edit.component';
     SystemInfoComponent,
     ReportsComponent,
     ReportEditComponent,
+    PeriodComponent,
   ],
   imports: [
     BrowserModule,

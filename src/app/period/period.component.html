@@ -1,0 +1,34 @@
+<div>
+  <div>
+    <h1>Periodos</h1>
+
+    <div>
+      <button class="btn btn-outline-secondary">+ nuevo periodo</button>
+    </div>
+
+    <div *ngIf="periodList.length == 0">
+      <h4>Cargando lista...</h4>
+    </div>
+
+    <table class="table table-hover" *ngIf="periodList.length">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Descripción</th>
+          <th>Mes (desde)</th>
+          <th>Mes (hasta)</th>
+          <th>Año</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="periodList.length > 0">
+        <tr *ngFor="let p of periodList">
+          <td>{{ p.id }}</td>
+          <td>{{ p.description }}</td>
+          <td>{{ p.fromMonth }}</td>
+          <td>{{ p.toMonth }}</td>
+          <td>{{ p.year }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
