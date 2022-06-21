@@ -77,7 +77,6 @@ export class PeriodEditComponent implements OnInit {
         const payload = { ...this.period, ...this.periodForm.value };
         payload.toMonth = payload.toMonth.id;
         payload.fromMonth = payload.fromMonth.id;
-        console.log(payload);
 
         if (payload.id === 0) {
           this.periodService.savePeriod(payload).subscribe({
@@ -85,7 +84,10 @@ export class PeriodEditComponent implements OnInit {
             error: (err) => (this.errorMessage = err),
           });
         } else {
-          // update
+          this.periodService.updatePeriod(payload).subscribe({
+            next: () => this.onSaveComplete(),
+            error: (err) => (this.errorMessage = err),
+          });
         }
       } else {
         this.onSaveComplete();

@@ -67,6 +67,16 @@ export class PeriodService {
       .pipe(catchError(this.handleHttpError.handleError));
   }
 
+  updatePeriod(periodRequest: Period): Observable<any> {
+    return this.httpClient
+      .put(`${this.periodPath}`, periodRequest, {
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
   getPeriod(periodId: number): Observable<Period> {
     if (periodId == 0) {
       return of(this.emptyPeriod());
