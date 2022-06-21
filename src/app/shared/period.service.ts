@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, min } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { PeriodConfirmation } from '../model/period';
+import { Period, PeriodConfirmation } from '../model/period';
 import { HandleHttpClientError } from './handle-error';
 
 @Injectable({
@@ -55,5 +55,35 @@ export class PeriodService {
     return this.httpClient
       .get<PeriodConfirmation>(confirmPath)
       .pipe(catchError(this.handleHttpError.handleError));
+  }
+
+  savePeriod(periodRequest: Period): Observable<any> {
+    return this.httpClient
+      .post(`${this.periodPath}`, periodRequest, {
+        headers: {
+          'content-type': 'application/json',
+        },
+      })
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
+  getPeriod(periodId: number): Observable<Period> {
+    if (periodId == 0) {
+      return of(this.emptyPeriod());
+    }
+
+    return this.httpClient
+      .get<Period>(`${this.periodPath}/${periodId}`)
+      .pipe(catchError(this.handleHttpError.handleError));
+  }
+
+  emptyPeriod(): Period {
+    return {
+      id: 0,
+      toMonth: 0,
+      fromMonth: 0,
+      year: 0,
+      description: '',
+    };
   }
 }

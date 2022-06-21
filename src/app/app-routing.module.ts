@@ -5,6 +5,7 @@ import { SystemInfoComponent } from './about/system-info/system-info.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { LoginComponent } from './login/login.component';
+import { PeriodEditComponent } from './period/period-edit.component';
 import { PeriodComponent } from './period/period.component';
 import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
@@ -41,6 +42,11 @@ const routes: Routes = [
     path: 'period',
     canActivate: [AuthGuard],
     component: PeriodComponent,
+  },
+  {
+    path: 'period/:periodid/edit',
+    canActivate: [AuthGuard],
+    component: PeriodEditComponent,
   },
   {
     path: 'about/system-info',

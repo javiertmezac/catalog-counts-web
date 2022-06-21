@@ -1,0 +1,133 @@
+<div class="card">
+  <div class="card-header">
+    <h3>
+      <strong>
+        {{ pageTitle }}
+      </strong>
+    </h3>
+  </div>
+
+  <div class="card-body">
+    <form novalidate (ngSubmit)="savePeriod()" [formGroup]="periodForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="fromMonthId"
+          >Mes (desde):</label
+        >
+        <div class="col-md-8">
+          <select
+            id="fromMonthId"
+            formControlName="fromMonth"
+            class="form-control"
+          >
+            <option [ngValue]="" disabled selected>
+              Seleccionar Mes Inicial
+            </option>
+            <option *ngFor="let e of months" [ngValue]="e">
+              {{ e.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="toMonthId"
+          >Mes (hasta):</label
+        >
+        <div class="col-md-8">
+          <select id="toMonthId" formControlName="toMonth" class="form-control">
+            <option [ngValue]="" disabled selected>
+              Seleccionar Mes Final
+            </option>
+            <option *ngFor="let e of months" [ngValue]="e">
+              {{ e.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="yearId">Año:</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="yearId"
+            type="text"
+            placeholder="Año (requerido)"
+            formControlName="year"
+            [ngClass]="{
+              'is-invalid':
+                (periodForm.get('year')?.touched ||
+                  periodForm.get('year')?.dirty) &&
+                !periodForm.get('year')?.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="periodForm.controls['year'].errors?.min">
+              Año no aceptable
+            </span>
+            <span *ngIf="periodForm.controls['year'].errors?.pattern">
+              Solo número son permitidos
+            </span>
+            <span *ngIf="periodForm.controls['year'].errors?.required">
+              Año Requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="descriptionId"
+          >Descripción:</label
+        >
+        <div class="col-md-8">
+          <textarea
+            class="form-control"
+            id="descriptionId"
+            placeholder="Detalles"
+            formControlName="description"
+            [ngClass]="{
+              'is-invalid':
+                (periodForm.get('description')?.touched ||
+                  periodForm.get('description')?.dirty) &&
+                !periodForm.get('description')?.valid
+            }"
+          ></textarea>
+          <span class="invalid-feedback">
+            <span *ngIf="periodForm.controls['description'].errors?.required">
+              Descripción requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button
+            class="btn btn-primary mr-3"
+            style="width: 100px"
+            type="submit"
+            [title]="
+              periodForm.valid
+                ? 'Save your entered data'
+                : 'Disabled until the form data is valid'
+            "
+            [disabled]="!periodForm.valid"
+          >
+            Guardar
+          </button>
+          <button
+            class="btn btn-outline-secondary mr-3"
+            style="width: 100px"
+            type="button"
+            title="Cancel your edits"
+            [routerLink]="['/period']"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

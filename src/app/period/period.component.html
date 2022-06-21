@@ -3,7 +3,12 @@
     <h1>Periodos</h1>
 
     <div>
-      <button class="btn btn-outline-secondary">+ nuevo periodo</button>
+      <button
+        class="btn btn-outline-secondary"
+        [routerLink]="['/period', 0, 'edit']"
+      >
+        + nuevo periodo
+      </button>
     </div>
 
     <div *ngIf="periodList.length == 0">
@@ -23,7 +28,9 @@
       <tbody *ngIf="periodList.length > 0">
         <tr *ngFor="let p of periodList">
           <td>{{ p.id }}</td>
-          <td>{{ p.description }}</td>
+          <td>
+            <a [routerLink]="['/period', p.id, 'edit']">{{ p.description }}</a>
+          </td>
           <td>{{ p.fromMonth }}</td>
           <td>{{ p.toMonth }}</td>
           <td>{{ p.year }}</td>
