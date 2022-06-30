@@ -22,6 +22,14 @@
             >Movimientos</a
           >
         </li>
+        <li class="nav-item" *ngIf="userDetails">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            [routerLink]="['/mision', userDetails.defaultBranch, 'report']"
+            >Reportes</a
+          >
+        </li>
         <li class="nav-item dropdown">
           <a
             class="nav-link dropdown-toggle"
@@ -33,9 +41,6 @@
             Contralor
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li>
-              <a class="dropdown-item" routerLink="/report">Reportes</a>
-            </li>
             <li><a class="dropdown-item" routerLink="/period">Periodos</a></li>
           </ul>
         </li>

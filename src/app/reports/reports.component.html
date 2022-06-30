@@ -1,32 +1,72 @@
-<div class="card">
+<div>
   <div><h2>Reportes</h2></div>
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
         <th>Periodo</th>
-        <th>Misión</th>
-        <th>Creado por</th>
-        <th>Fecha</th>
-        <th>Confirmado (fecha)</th>
-        <th></th>
+        <th>Report</th>
+        <th>Confirmado #1</th>
+        <th>Confirmado #2</th>
       </tr>
     </thead>
     <tbody>
-      <!-- <tr *ngFor="let cc of catalogCounts">
-          </tr> -->
-      <tr>
-        <td><a routerLink="/report-edit">abril - abril 2022</a></td>
-        <td>Reforma</td>
-        <td>Martha A.</td>
-        <td>Mayo 8, 2022</td>
-        <td>Mayo 1, 2022</td>
-      </tr>
-      <tr>
-        <td><a routerLink="/report-edit">crear reporte</a></td>
-        <td>Reforma</td>
-        <td></td>
-        <td></td>
-        <td>Mayo 4, 2022</td>
+      <tr *ngFor="let p of periodsReportStatus">
+        <td>
+          <p>
+            {{ p.periodDescription }}
+          </p>
+        </td>
+        <td>
+          <a
+            [routerLink]="[
+              '/mision',
+              branchId,
+              'period',
+              p.periodId,
+              'report',
+              0,
+              'edit'
+            ]"
+            *ngIf="!p.reportUUID"
+          >
+            ver reporte
+          </a>
+          <p
+            *ngIf="p.reportUUID"
+            [routerLink]="['/mision', branchId, 'report', p.reportUUID, 'edit']"
+          >
+            {{ p.reportUUID }}
+          </p>
+        </td>
+
+        <td>
+          <strong>Rol:</strong>
+          {{
+            p.confirmationList[0]?.roleDescription
+              ? p.confirmationList[0]?.roleDescription
+              : "-"
+          }}
+          <strong>Día:</strong>
+          {{
+            p.confirmationList[0]?.confirmationDate
+              ? (p.confirmationList[0]?.confirmationDate | date)
+              : "-"
+          }}
+        </td>
+        <td>
+          <strong>Rol:</strong>
+          {{
+            p.confirmationList[1]?.roleDescription
+              ? p.confirmationList[1]?.roleDescription
+              : "-"
+          }}
+          <strong>Día:</strong>
+          {{
+            p.confirmationList[1]?.confirmationDate
+              ? (p.confirmationList[1]?.confirmationDate | date)
+              : "-"
+          }}
+        </td>
       </tr>
     </tbody>
   </table>

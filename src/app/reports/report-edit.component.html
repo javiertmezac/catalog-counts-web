@@ -1,18 +1,15 @@
 <div class="container card">
-  <button class="btn btn-outline-primary" (click)="generateReport()">
-    Generar Nuevo Report
-  </button>
-
+  <h3>Detalles Reporte</h3>
   <hr />
   <div>
     <pre>{{ report }}</pre>
   </div>
   <div>
-    <button class="btn btn-outline-secondary" routerLink="/report">
+    <button
+      class="btn btn-outline-secondary"
+      [routerLink]="['/mision', branchId, 'report']"
+    >
       Regresar
-    </button>
-    <button class="btn btn-outline-primary" routerLink="/report">
-      Guardar Reporte
     </button>
   </div>
 </div>
