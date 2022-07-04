@@ -1,5 +1,21 @@
 # Catalog Count Web
 
+## 1.1.0-beta
+
+release date: July 3, 2022
+
+### Features
+
+- Period Component
+- PeriodResponseList array and small improvements
+- Display report details
+
+### Fix
+
+- Fix/change Nav bar
+- remove contralor section from nav bar
+- updated system information within about section
+
 ## 1.0.3
 
 Release Date: June 14, 2022
