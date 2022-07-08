@@ -1,5 +1,13 @@
 # Catalog Count Web
 
+## 1.1.1-beta
+
+release date: July 7, 2022
+
+### Fix
+
+- extend confirmation date til 10
+
 ## 1.1.0-beta
 
 release date: July 3, 2022

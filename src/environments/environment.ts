@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  maxDate: 20,
+  maxDate: 10,
   baseUri: 'http://localhost:8080/cc-service/api',
 };
 
