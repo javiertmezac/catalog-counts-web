@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AuditReportRequest } from '../model/audit-report-request';
 import { Period } from '../model/period';
 import { PeriodService } from '../shared/period.service';
+import { DefaultReport } from './domain/default-report';
 import { ReportService } from './report.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ReportService } from './report.service';
   styleUrls: ['./report-edit.component.scss'],
 })
 export class ReportEditComponent implements OnInit {
-  report: any;
+  report!: DefaultReport;
   errorMessage = '';
   branchId: number = 0;
   period!: Period;
@@ -43,13 +44,11 @@ export class ReportEditComponent implements OnInit {
       fromMonth: this.period.fromMonth,
       toMonth: this.period.toMonth,
       year: this.period.year,
-      reporterComments: 'blah from blah UI',
+      reporterComments: '',
     };
     this.reportService.generateReport(this.branchId, payload).subscribe({
       next: (response) => {
-        let space = 3;
-        let replacer = null;
-        this.report = JSON.stringify(response, replacer, space);
+        this.report = response;
       },
       error: (err) => (this.errorMessage = err),
     });

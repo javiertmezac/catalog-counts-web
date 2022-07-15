@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { AuditReportRequest } from '../model/audit-report-request';
 import { HandleHttpClientError } from '../shared/handle-error';
+import { DefaultReport } from './domain/default-report';
 
 @Injectable({
   providedIn: 'root',
@@ -20,10 +21,10 @@ export class ReportService {
   generateReport(
     branchId: number,
     payload: AuditReportRequest
-  ): Observable<any> {
+  ): Observable<DefaultReport> {
     let url = `${this.basePath}/v1/branch/${branchId}/report/default`;
     return this.httpClient
-      .post(url, payload, {
+      .post<DefaultReport>(url, payload, {
         headers: {
           'content-type': 'application/json',
         },
