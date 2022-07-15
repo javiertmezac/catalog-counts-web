@@ -1,8 +1,25 @@
 # Catalog Count Web
 
+## 1.1.1
+
+release date July 14, 2022
+
+changes from 1.1.1-beta
+
+### Features
+
+- add report domains to easily manage report response from API
+- modify report componet to display report human-friendly
+
+### Documentation
+
+- add Catalog-Count description
+
 ## 1.1.1-beta
 
 release date: July 7, 2022
+
+Changes from 1.1.0-beta
 
 ### Fix
 
