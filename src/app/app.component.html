@@ -37,8 +37,12 @@
       </ul>
       <span class="navbar-text">
         <div class="d-flex">
-          <p *ngIf="userDetails">
-            Hola! {{ userDetails.username }} ({{ userDetails.roles }})
+          <p *ngIf="userDetails" >
+            Hola! {{ userDetails.username }} - 
+            Rol: ({{ userDetails.roles }})
+          </p>
+          <p *ngIf="branchDetails">
+            Misión: {{branchDetails.name}}
           </p>
           <button
             class="btn btn-outline-danger"
