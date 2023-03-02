@@ -24,7 +24,7 @@
             PERIODO '{{ currentPeriod.description }}'
             <br />
             ALERTA: recuerda terminar tu captura de registros a más tardar el
-            día 7!
+            día 10!
           </h4>
         </div>
         <div class="alert alert-success">
@@ -92,15 +92,14 @@
           <div class="row" *ngIf="hasWriteAccess && cc.editable">
             <button
               class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
-              [routerLink]="['/cc', cc.id, 'edit']"
-            >
-              editar
+              [routerLink]="['/cc', cc.id, 'edit']" title="Editar Movimiento">
+              <i class="fa fa-edit"></i>
             </button>
             <button
               class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger"
-              (click)="deleteCatalogCount(cc)"
+              (click)="deleteCatalogCount(cc)" title="Eliminar Movimiento"
             >
-              eliminar
+              <i class="fa fa-trash"></i>
             </button>
           </div>
         </td>
