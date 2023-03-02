@@ -1,34 +1,24 @@
-<nav
-  class="navbar navbar-expand-lg navbar-light bg-light"
-  *ngIf="isLoggedIn$ | async"
->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
-    <a class="navbar-brand">Catálogo de Cuentas</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <a class="navbar-brand" routerLink="cc">Catálogo de Cuentas</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="cc"
-            >Movimientos</a
-          >
+          <a class="nav-link active" aria-current="page" routerLink="cc">Movimientos</a>
         </li>
+
         <li class="nav-item" *ngIf="userDetails">
-          <a
-            class="nav-link active"
-            aria-current="page"
-            [routerLink]="['/mision', userDetails.defaultBranch, 'report']"
-            >Reportes</a
-          >
+          <a class="nav-link active" aria-current="page"
+            [routerLink]="['/mision', userDetails.defaultBranch, 'report']">Reportes</a>
+        </li>
+
+        <li class="nav-item" *ngIf="branchDetails">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]">Misión:
+            {{branchDetails.name}}</a>
         </li>
 
         <li class="nav-item">
@@ -37,22 +27,17 @@
       </ul>
       <span class="navbar-text">
         <div class="d-flex">
-          <p *ngIf="userDetails" >
-            Hola! {{ userDetails.username }} - 
-            Rol: ({{ userDetails.roles }})
+          <p *ngIf="userDetails">
+            Hola! {{ userDetails.username }}
           </p>
-          <p *ngIf="branchDetails">
-            Misión: {{branchDetails.name}}
+          <p *ngIf="userDetails">
+            Rol: (something- maybe very long here!)
           </p>
-          <button
-            class="btn btn-outline-danger"
-            type="button"
-            (click)="logout()"
-          >
+          <button class="btn btn-outline-danger" type="button" (click)="logout()">
             Salir!
           </button>
-        </div></span
-      >
+        </div>
+      </span>
     </div>
   </div>
 </nav>

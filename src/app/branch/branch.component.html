@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">
+        <h2>
+            <strong>
+                {{ pageTitle }} : {{ branch.name }}
+            </strong>
+        </h2>
+    </div>
+
+    <div class="card-body">
+        <div class="row mb-2">
+            <label class="col-md-2 col-form-label">Dirección:</label>
+            <div class="col-md-8">
+                {{ branch.address}}
+            </div>
+        </div>
+
+        <div class="row">
+            <h4>Saldo Inicial</h4>
+            <p> {{branch.initialAmount.amount}} </p>
+            <p>{{branch.initialAmount.registration | date: "long"}}</p>
+        </div>
+    </div>
+
+</div>

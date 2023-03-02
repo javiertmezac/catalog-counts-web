@@ -20,7 +20,15 @@ export class BranchService {
 
   emptyBranch(): Branch {
     return {
-      name: ''
+      id: 0,
+      name: '',
+      address: '',
+      registration: 0,
+      initialAmount: {
+        id: 0,
+        registration: '',
+        amount: 0
+      }
     };
   }
 

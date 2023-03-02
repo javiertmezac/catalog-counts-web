@@ -15,6 +15,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { ReportEditComponent } from './reports/report-edit.component';
 import { PeriodComponent } from './period/period.component';
 import { PeriodEditComponent } from './period/period-edit.component';
+import { BranchComponent } from './branch/branch.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { PeriodEditComponent } from './period/period-edit.component';
     ReportEditComponent,
     PeriodComponent,
     PeriodEditComponent,
+    BranchComponent,
   ],
   imports: [
     BrowserModule,

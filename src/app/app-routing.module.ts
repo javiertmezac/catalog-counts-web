@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { SystemInfoComponent } from './about/system-info/system-info.component';
+import { BranchComponent } from './branch/branch.component';
 import { CatalogCountListComponent } from './catalog-count/catalog-count-list.component';
 import { CatalogCountComponent } from './catalog-count/catalog-count.component';
 import { LoginComponent } from './login/login.component';
@@ -22,6 +23,12 @@ const routes: Routes = [
     // canActivate: [AuthGuard, WriteAccessGuard],
     canActivate: [AuthGuard],
     component: CatalogCountComponent,
+  },
+  {
+    path: 'mision/:misionid',
+    canActivate: [AuthGuard],
+    component: BranchComponent,
+
   },
   {
     path: 'mision/:misionid/report',
