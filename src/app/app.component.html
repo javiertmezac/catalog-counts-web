@@ -17,8 +17,8 @@
         </li>
 
         <li class="nav-item" *ngIf="branchDetails">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]">Misión:
-            {{branchDetails.name}}</a>
+<!-- [routerLink]="['/mision', branchDetails.id] -->
+          <a class="nav-link active" aria-current="page"> Misión: {{branchDetails.name}}</a>
         </li>
 
         <li class="nav-item">
@@ -31,7 +31,7 @@
             Hola! {{ userDetails.username }}
           </p>
           <p *ngIf="userDetails">
-            Rol: (something- maybe very long here!)
+            Rol:  {{ userDetails.roles }}
           </p>
           <button class="btn btn-outline-danger" type="button" (click)="logout()">
             Salir!
