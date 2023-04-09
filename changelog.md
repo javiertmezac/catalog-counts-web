@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 1.1.2
+release date Apr 9, 2023
+
+- Display branch name as part of navbar
+- Change edit and delete (each movement row) from text to icons
+- Change Alert threshold from 7 to 10
+
 ## 1.1.1
 
 release date July 14, 2022

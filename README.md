@@ -1,5 +1,8 @@
 # CatalogCountsWeb
 
+# Requirements
+- node version: 16.13
+
 ## Notes
 
 ```text
