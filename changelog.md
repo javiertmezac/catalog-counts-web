@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 1.2.0
+release date nov 4, 2023
+
+- update angular 12.x - 16.2.12
+- Catalog-Count styling
+- Added filterBy input
+
 ## 1.1.2
 release date Apr 9, 2023
 

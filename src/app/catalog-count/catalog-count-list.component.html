@@ -1,10 +1,7 @@
 <div class="alert alert-danger" *ngIf="userDetails?.username == undefined">
   Error al cargar información.
 </div>
-<div
-  class="alert alert-warning"
-  *ngIf="userDetails?.username != undefined && userDetails?.defaultBranch == 0"
->
+<div class="alert alert-warning" *ngIf="userDetails?.username != undefined && userDetails?.defaultBranch == 0">
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
 
@@ -18,7 +15,7 @@
           <h4>PERIODO '{{ currentPeriod.description }} confirmado'</h4>
         </div>
       </div>
-      <div *ngIf="displayCatalogCountAlert">
+      <div *ngIf="displayCatalogCountAlert" class="mt-2">
         <div class="alert alert-danger" style="margin-bottom: 0%">
           <h4>
             PERIODO '{{ currentPeriod.description }}'
@@ -32,10 +29,7 @@
             <p class="col-8">
               <strong> Favor de confirmar al finalizar tu captura! </strong>
             </p>
-            <button
-              class="col-4 btn btn-sm btn-outline-primary"
-              (click)="confirmPeriod()"
-            >
+            <button class="col-4 btn btn-sm btn-outline-primary" (click)="confirmPeriod()">
               Confirmar!
             </button>
           </div>
@@ -44,18 +38,24 @@
     </div>
   </div>
 
-  <div>
-    <button
-      class="btn btn-outline-secondary"
-      routerLink="/cc/0/edit"
-      *ngIf="hasWriteAccess"
-    >
-      + registro movimiento
-    </button>
+  <div class="alert alert-warning mt-2" *ngIf="errorMessage">
+    {{ errorMessage }}
   </div>
 
-  <div class="alert alert-warning" *ngIf="errorMessage">
-    {{ errorMessage }}
+  <div class="row">
+    <div class="col">
+      <button class="btn btn-outline-secondary" routerLink="/cc/0/edit" *ngIf="hasWriteAccess">
+        + registro movimiento
+      </button>
+    </div>
+    <div class="col">
+      <div class="d-flex">
+        <div class="mr-2">Filtrar por:</div>
+        <div>
+          <input type="text" [(ngModel)]="listFilter" />
+        </div>
+      </div>
+    </div>
   </div>
 
   <div *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
@@ -79,10 +79,10 @@
       </tr>
     </thead>
     <tbody *ngIf="catalogCounts.length > 0">
-      <tr *ngFor="let cc of catalogCounts">
+      <tr *ngFor="let cc of filteredCatalogCounts" class="cc-tr">
         <td>{{ cc.id }}</td>
         <td>
-          {{ cc.registrationDate | date: "long" }}
+          {{ cc.registrationDate | date: "medium" }}
         </td>
         <td>{{ cc.catalogCountEnum }}</td>
         <td>{{ cc.amount | currency }}</td>
@@ -90,15 +90,12 @@
         <td>{{ cc.total | currency }}</td>
         <td>
           <div class="row" *ngIf="hasWriteAccess && cc.editable">
-            <button
-              class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
+            <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
               [routerLink]="['/cc', cc.id, 'edit']" title="Editar Movimiento">
               <i class="fa fa-edit"></i>
             </button>
-            <button
-              class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger"
-              (click)="deleteCatalogCount(cc)" title="Eliminar Movimiento"
-            >
+            <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger" (click)="deleteCatalogCount(cc)"
+              title="Eliminar Movimiento">
               <i class="fa fa-trash"></i>
             </button>
           </div>
