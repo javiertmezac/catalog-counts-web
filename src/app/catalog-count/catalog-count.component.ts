@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../login/auth.service';
 import { User } from '../model/user';
@@ -14,14 +14,14 @@ import { CatalogCount } from './domain/catalog-count-request';
 export class CatalogCountComponent implements OnInit {
   private static NumericPattern = /\d{1,}/;
   pageTitle = 'Capturar Movimiento';
-  catalogCountForm!: FormGroup;
+  catalogCountForm!: UntypedFormGroup;
   errorMessage = '';
   ccEnums: any[] = [];
   userDetails!: User;
   cc!: CatalogCount;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private ccService: CatalogCountService,
