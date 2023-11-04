@@ -29,10 +29,14 @@ export class LoginComponent {
     if (val.email && val.password) {
       this.authService.login(val.email, val.password).subscribe({
         next: () => {
-          console.log('User is logged in');
           this.router.navigateByUrl('/cc');
         },
-        error: (err) => (this.errorMessage = 'Credenciales incorrectas!'),
+        error: (err) => {
+          this.errorMessage = 'Credenciales incorrectas!'
+          setTimeout(() => {
+            this.errorMessage = '';
+          }, 3500);
+        },
       });
     }
   }
