@@ -49,7 +49,7 @@
           <strong>Día:</strong>
           {{
             p.confirmationList[0]?.confirmationDate
-              ? (p.confirmationList[0]?.confirmationDate | date)
+              ? (p.confirmationList[0].confirmationDate | date)
               : "-"
           }}
         </td>
@@ -57,7 +57,7 @@
           <strong>Rol:</strong>
           {{
             p.confirmationList[1]?.roleDescription
-              ? p.confirmationList[1]?.roleDescription
+              ? p.confirmationList[1].roleDescription
               : "-"
           }}
           <strong>Día:</strong>

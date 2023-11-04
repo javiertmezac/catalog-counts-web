@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/login/auth.service';
@@ -14,7 +8,7 @@ import { RolePermissionService } from './role-permission.service';
 @Injectable({
   providedIn: 'root',
 })
-export class WriteAccessGuard implements CanActivate {
+export class WriteAccessGuard  {
   constructor(
     private authService: AuthService,
     private rolePermissionService: RolePermissionService,
