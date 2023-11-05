@@ -72,7 +72,8 @@ export class AuthService {
       this.loginSubject.next(true);
 
       this.http.get<User>(`${this.baseUri}/v1/user`).subscribe((user) => {
-        const custom_user = { id_token: fromLocalStorage, ...user };
+        const custom_user = { ...user };
+        custom_user['id_token'] = fromLocalStorage;
         this.subject.next(user ? custom_user : ANONYMOUS_USER);
       });
     }

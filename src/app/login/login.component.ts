@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
@@ -9,11 +9,13 @@ import { AuthService } from './auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  form: FormGroup;
+  form: UntypedFormGroup;
   errorMessage = '';
+  btnText = 'Ingresar';
+  isLoginBtnClickable = true;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private authService: AuthService,
     private router: Router
   ) {
@@ -25,15 +27,34 @@ export class LoginComponent {
 
   login() {
     const val = this.form.value;
+    this.isLoginBtnClickable = false;
+    this.btnText = 'Ingresando...';
 
-    if (val.email && val.password) {
-      this.authService.login(val.email, val.password).subscribe({
-        next: () => {
-          console.log('User is logged in');
-          this.router.navigateByUrl('/cc');
-        },
-        error: (err) => (this.errorMessage = 'Credenciales incorrectas!'),
-      });
-    }
+    setTimeout(() => {
+
+      if (val.email && val.password) {
+        this.authService.login(val.email, val.password).subscribe({
+          next: () => {
+            this.router.navigateByUrl('/cc');
+          },
+          error: (err) => {
+            if (err.statusText === 'Unknown Error') {
+              this.errorMessage = 'No se pudo conectar con el servidor!'
+            } else if (err.status == 500){
+              this.errorMessage = 'Error interno del servidor!'
+            } else {
+              this.errorMessage = 'Credenciales incorrectas!'
+            }
+
+            this.isLoginBtnClickable = true;
+            this.btnText = 'Ingresar';
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 3500);
+          },
+        });
+      }
+
+    }, 1000);
   }
 }

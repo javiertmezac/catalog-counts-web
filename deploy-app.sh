@@ -3,7 +3,7 @@
 echo "building configuration for production....."
 sleep 1
 
-ng build --configuration=production
+yarn build --configuration=production
 
 echo "Build is finished ..., listing /dist/oasis"
 ls ./dist/catalog-counts-web

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Period } from '../model/period';
 import { PeriodService } from '../shared/period.service';
@@ -14,11 +14,11 @@ export class PeriodEditComponent implements OnInit {
   pageTitle = 'Capturar Periodo';
   months: Month[] = [];
   errorMessage = '';
-  periodForm!: FormGroup;
+  periodForm!: UntypedFormGroup;
   period!: Period;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private periodService: PeriodService,
     private route: ActivatedRoute,
     private router: Router
