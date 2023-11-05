@@ -1,6 +1,7 @@
 <div class="alert alert-danger" *ngIf="userDetails?.username == undefined">
   Error al cargar información.
 </div>
+
 <div class="alert alert-warning" *ngIf="userDetails?.username != undefined && userDetails?.defaultBranch == 0">
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
@@ -9,7 +10,7 @@
   <div>
     <h1>Historial de Movimientos</h1>
 
-    <div *ngIf="currentPeriod">
+    <div *ngIf="currentPeriod" class="mb-3">
       <div *ngIf="displayConfirmationAlert">
         <div class="alert alert-info" style="margin-bottom: 0%">
           <h4>PERIODO '{{ currentPeriod.description }} confirmado'</h4>
@@ -42,65 +43,70 @@
     {{ errorMessage }}
   </div>
 
-  <div class="row">
-    <div class="col">
-      <button class="btn btn-outline-secondary" routerLink="/cc/0/edit" *ngIf="hasWriteAccess">
-        + registro movimiento
-      </button>
-    </div>
-    <div class="col">
-      <div class="d-flex">
-        <div class="mr-2">Filtrar por:</div>
-        <div>
-          <input type="text" [(ngModel)]="listFilter" />
-        </div>
-      </div>
-    </div>
-  </div>
-
   <div *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
     <h2>No existen registros!</h2>
     <h4>Capturar nuevo registro!</h4>
   </div>
+
   <div *ngIf="isLoadingCatalogCounts">
     <h4>Cargando lista...</h4>
   </div>
 
-  <table class="table table-hover" *ngIf="catalogCounts.length">
-    <thead class="thead-dark">
-      <tr>
-        <th>#</th>
-        <th>Fecha Registro (yyyy-MM-dd)</th>
-        <th>Número de Cuenta</th>
-        <th>Cantidad</th>
-        <th>Detalles</th>
-        <th>Saldo</th>
-        <th *ngIf="hasWriteAccess"></th>
-      </tr>
-    </thead>
-    <tbody *ngIf="catalogCounts.length > 0">
-      <tr *ngFor="let cc of filteredCatalogCounts" class="cc-tr">
-        <td>{{ cc.id }}</td>
-        <td>
-          {{ cc.registrationDate | date: "medium" }}
-        </td>
-        <td>{{ cc.catalogCountEnum }}</td>
-        <td>{{ cc.amount | currency }}</td>
-        <td style="max-width: 500px">{{ cc.details }}</td>
-        <td>{{ cc.total | currency }}</td>
-        <td>
-          <div class="row" *ngIf="hasWriteAccess && cc.editable">
-            <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
-              [routerLink]="['/cc', cc.id, 'edit']" title="Editar Movimiento">
-              <i class="fa fa-edit"></i>
-            </button>
-            <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger" (click)="deleteCatalogCount(cc)"
-              title="Eliminar Movimiento">
-              <i class="fa fa-trash"></i>
-            </button>
+  <div *ngIf="catalogCounts.length">
+    <div class="row">
+      <div class="col-4">
+        <button class="btn btn-outline-secondary" routerLink="/cc/0/edit" *ngIf="hasWriteAccess">
+          + registro movimiento
+        </button>
+      </div>
+      <div class="col-8">
+        <div class="d-flex">
+          <label style="margin-right: 5px;">Filtrar por:</label>
+          <div class="col-6">
+            <input type="text" [(ngModel)]="listFilter" size="50%" />
           </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </div>
+    </div>
+
+
+    <table class="table table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>Fecha Registro (yyyy-MM-dd)</th>
+          <th>Número de Cuenta</th>
+          <th>Cantidad</th>
+          <th>Detalles</th>
+          <th>Saldo</th>
+          <th *ngIf="hasWriteAccess"></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="catalogCounts.length > 0">
+        <tr *ngFor="let cc of filteredCatalogCounts" class="cc-tr">
+          <td>{{ cc.id }}</td>
+          <td>
+            {{ cc.registrationDate | date: "medium" }}
+          </td>
+          <td>{{ cc.catalogCountEnum }}</td>
+          <td>{{ cc.amount | currency }}</td>
+          <td style="max-width: 500px">{{ cc.details }}</td>
+          <td>{{ cc.total | currency }}</td>
+          <td>
+            <div class="row" *ngIf="hasWriteAccess && cc.editable">
+              <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-secondary"
+                [routerLink]="['/cc', cc.id, 'edit']" title="Editar Movimiento">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button class="col-lg-6 col-md-12 col-sm-12 btn btn-sm btn-outline-danger"
+                (click)="deleteCatalogCount(cc)" title="Eliminar Movimiento">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
 </div>

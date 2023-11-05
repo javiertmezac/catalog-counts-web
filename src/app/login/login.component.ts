@@ -11,6 +11,8 @@ import { AuthService } from './auth.service';
 export class LoginComponent {
   form: UntypedFormGroup;
   errorMessage = '';
+  btnText = 'Ingresar';
+  isLoginBtnClickable = true;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -25,19 +27,27 @@ export class LoginComponent {
 
   login() {
     const val = this.form.value;
+    this.isLoginBtnClickable = false;
+    this.btnText = 'Ingresando...';
 
-    if (val.email && val.password) {
-      this.authService.login(val.email, val.password).subscribe({
-        next: () => {
-          this.router.navigateByUrl('/cc');
-        },
-        error: (err) => {
-          this.errorMessage = 'Credenciales incorrectas!'
-          setTimeout(() => {
-            this.errorMessage = '';
-          }, 3500);
-        },
-      });
-    }
+    setTimeout(() => {
+
+      if (val.email && val.password) {
+        this.authService.login(val.email, val.password).subscribe({
+          next: () => {
+            this.router.navigateByUrl('/cc');
+          },
+          error: (err) => {
+            this.errorMessage = 'Credenciales incorrectas!'
+            this.isLoginBtnClickable = true;
+            this.btnText = 'Ingresar';
+            setTimeout(() => {
+              this.errorMessage = '';
+            }, 3500);
+          },
+        });
+      }
+
+    }, 1000);
   }
 }

@@ -1,9 +1,11 @@
-<div class="centered-content">
-  <div class="form-control-plaintext">
-    <h1>La Iglesia de Jesucristo</h1>
+<div class="container"><div class="top-half"></div>
+
+<div class="bottom-half centered-content">
+  <div class="row">
     <h2>- Catálogo de Cuentas -</h2>
   </div>
-  <div>
+
+  <div class="row form-control-plaintext">
     <form [formGroup]="form">
       <fieldset>
         <legend>Inicio de Sesión!</legend>
@@ -34,12 +36,13 @@
       <div class="form-buttons">
         <button
           class="btn btn-primary"
-          [disabled]="!form.valid"
+          [disabled]="!(form.valid && isLoginBtnClickable)"
           (click)="login()"
         >
-          Entrar
+         {{ btnText }} 
         </button>
       </div>
     </form>
   </div>
+</div>
 </div>
