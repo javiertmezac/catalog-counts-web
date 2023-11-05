@@ -1,7 +1,7 @@
-# CatalogCountsWeb
+# Catalog Counts Web App
 
-# Requirements
-- node version: 16.13
+This is custom application to heep track of "movements".
+Most of these movements are "manually" recorded in paper or excel-sheets. This program will help to digitally control these movements, and keep track of each record.
 
 ## Notes
 
