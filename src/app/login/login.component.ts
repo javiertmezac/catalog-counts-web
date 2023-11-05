@@ -38,7 +38,14 @@ export class LoginComponent {
             this.router.navigateByUrl('/cc');
           },
           error: (err) => {
-            this.errorMessage = 'Credenciales incorrectas!'
+            if (err.statusText === 'Unknown Error') {
+              this.errorMessage = 'No se pudo conectar con el servidor!'
+            } else if (err.status == 500){
+              this.errorMessage = 'Error interno del servidor!'
+            } else {
+              this.errorMessage = 'Credenciales incorrectas!'
+            }
+
             this.isLoginBtnClickable = true;
             this.btnText = 'Ingresar';
             setTimeout(() => {
