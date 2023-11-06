@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-2">
     <div class="card-header">
         <h2>
             <strong>
@@ -15,11 +15,34 @@
             </div>
         </div>
 
-        <div class="row">
-            <h4>Saldo Inicial</h4>
-            <p> {{branch.initialAmount.amount}} </p>
-            <p>{{branch.initialAmount.registration | date: "long"}}</p>
+        <div class="row mb-2">
+            <label class="col-md-2 col-form-label">Fecha Registro en el Sistema:</label>
+            <div class="col-md-8">
+                {{ branch.registration}}
+            </div>
         </div>
+
     </div>
 
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Saldo Inicial</h2>
+    </div>
+    <div *ngIf="branch.initialAmount">
+        <div class="card-body">
+            <div class="row">
+                <p> {{branch.initialAmount.amount}} </p>
+                <p>{{branch.initialAmount.registration | date: "medium"}}</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!branch.initialAmount">
+        <div class="card-body">
+            <div class="row">
+                <p> No hay saldo inicial registrado </p>
+            </div>
+        </div>
+    </div>
 </div>
