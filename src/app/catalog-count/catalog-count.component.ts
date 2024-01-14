@@ -12,7 +12,7 @@ import { CatalogCount } from './domain/catalog-count-request';
   styleUrls: ['./catalog-count.component.scss'],
 })
 export class CatalogCountComponent implements OnInit {
-  private static NumericPattern = /\d{1,}/;
+  static NumericPattern = /\d{1,}/;
   pageTitle = 'Capturar Movimiento';
   catalogCountForm!: UntypedFormGroup;
   errorMessage = '';

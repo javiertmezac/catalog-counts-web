@@ -5,6 +5,10 @@ import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Branch } from '../model/branch';
 import { HandleHttpClientError } from './handle-error';
+import { CatalogCountService } from '../catalog-count/catalog-count.service';
+import {
+  CatalogCountRequest
+} from '../catalog-count/domain/catalog-count-request';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +19,8 @@ export class BranchService {
 
   constructor(
     private httpClient: HttpClient,
-    private handleHttpError: HandleHttpClientError
+    private handleHttpError: HandleHttpClientError,
+    private catalogCountService: CatalogCountService
   ) {}
 
   emptyBranch(): Branch {
@@ -40,6 +45,17 @@ export class BranchService {
     return this.httpClient
       .get<Branch>(`${this.branchPath}/${branchId}`)
       .pipe(catchError(this.handleHttpError.handleError));
+  }
+
+  saveBranchInitialAmount(branch: Branch, amount: number): Observable<any> {
+    var request : CatalogCountRequest = {
+      id: 0,
+      amount: amount,
+      details: 'Monto inicial',
+      registrationDate: branch.registration,
+      catalogCountEnumId: 26
+    }
+    return this.catalogCountService.saveCatalogCount(branch.id, request);
   }
 
 }
