@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Branch } from '../model/branch';
+import { Branch, BranchInitialAmount } from '../model/branch';
 import { HandleHttpClientError } from './handle-error';
 import { CatalogCountService } from '../catalog-count/catalog-count.service';
 import {
@@ -19,8 +19,7 @@ export class BranchService {
 
   constructor(
     private httpClient: HttpClient,
-    private handleHttpError: HandleHttpClientError,
-    private catalogCountService: CatalogCountService
+    private handleHttpError: HandleHttpClientError
   ) {}
 
   emptyBranch(): Branch {
@@ -31,7 +30,7 @@ export class BranchService {
       registration: 0,
       initialAmount: {
         id: 0,
-        registration: '',
+        registration: new Date(),
         amount: 0
       }
     };
@@ -48,14 +47,12 @@ export class BranchService {
   }
 
   saveBranchInitialAmount(branch: Branch, amount: number): Observable<any> {
-    var request : CatalogCountRequest = {
+    var request : BranchInitialAmount = {
       id: 0,
       amount: amount,
-      details: 'Monto inicial',
-      registrationDate: branch.registration,
-      catalogCountEnumId: 26
+      registration: new Date()
     }
-    return this.catalogCountService.saveCatalogCount(branch.id, request);
+    return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
   }
 
 }

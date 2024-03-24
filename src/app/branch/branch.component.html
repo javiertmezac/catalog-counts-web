@@ -9,41 +9,42 @@
 
     <div class="card-body">
         <div class="row mb-2">
-            <label class="col-md-2 col-form-label">Dirección:</label>
+            <label class="col-md-2 col-form-label"><strong>Dirección:</strong></label>
             <div class="col-md-8">
-                {{ branch.address}}
+                {{ branch.address }}
             </div>
         </div>
 
         <div class="row mb-2">
-            <label class="col-md-2 col-form-label">Fecha Registro en el Sistema:</label>
+            <label class="col-md-2 col-form-label"><strong>Fecha Registro en el Sistema:</strong></label>
             <div class="col-md-8">
-                {{ branch.registration | date: "medium" }}
+                {{ branch.registration | date: "mediumDate" }}
             </div>
         </div>
-
     </div>
-
 </div>
 
 <div class="card">
     <div class="card-header">
         <h2>Saldo Inicial</h2>
+        <i class="fa fa-info-circle" style="margin-right: 5px;" aria-hidden="true" title="Saldo Inicial"></i>
+        <i><span class="text-muted">Para la fecha del saldo inicial, el sistema toma por default la fecha de registro de la misión, y retrocede al mes anterior.</span> </i>
     </div>
-    <div *ngIf="branch.initialAmount.amount">
+    <div class="alert-info"></div>
+    <div *ngIf="branch.initialAmount">
         <div class="card-body">
             <div class="row">
-                <p> {{ branch.initialAmount.amount}} </p>
-                <p> {{ branch.initialAmount.registration | date: "medium"}}</p>
+                <p> <strong>Cantidad:</strong>  {{ branch.initialAmount.amount | currency }} </p>
+                <p> <strong>Fecha:</strong> {{ branch.initialAmount.registration | date: "MMM, yyy"}}</p>
             </div>
         </div>
     </div>
-    <div *ngIf="!branch.initialAmount.amount">
+    <div *ngIf="!branch.initialAmount">
         <div class="card-body">
             <div class="row">
                 <form novalidate (ngSubmit)="saveBranchInitialAmount()" [formGroup]="branchInitialAmountForm">
                     <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label" for="amountId">Cantidad:</label>
+                        <label class="col-md-2 col-form-label" for="amountId"><strong>Cantidad:</strong></label>
                         <div class="col-md-8">
                             <input class="form-control" id="amountId" type="text" placeholder="Cantidad (requerido)"
                                 formControlName="amount" [ngClass]="{
@@ -67,7 +68,7 @@
                     </div>
 
                     <div class="form-group row mb-2">
-                        <label class="col-md-2 col-form-label" for="cceId">Catálogo de Cuentas:</label>
+                        <label class="col-md-2 col-form-label" for="cceId"><strong>Catálogo de Cuentas:</strong></label>
                         <div class="col-md-8">
                             <data> 0.1 - Monto Inicial de Registro</data>
                         </div>
@@ -77,14 +78,10 @@
                         <div class="offset-md-2 col-md-4">
                             <button class="btn btn-primary mr-3" style="width: 100px" type="submit" [title]="
               branchInitialAmountForm.valid
-                ? 'Save your entered data'
+                ? 'Guardar Saldo Inicial'
                 : 'Disabled until the form data is valid'
             " [disabled]="!branchInitialAmountForm.valid">
                                 Guardar
-                            </button>
-                            <button class="btn btn-outline-secondary mr-3" style="width: 100px" type="button"
-                                title="Cancel your edits" [routerLink]="['/cc']">
-                                Cancelar
                             </button>
                         </div>
                     </div>
