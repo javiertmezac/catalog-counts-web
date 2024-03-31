@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 2.0.1.1
+release date: -
+
+- branch section enabled to capture initial amount
+- add deplot-to-s3.yml github action
+
+
 ## 2.0.0
 release date nov 5, 2023
 
