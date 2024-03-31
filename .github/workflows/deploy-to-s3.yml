@@ -23,5 +23,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'yarn'
+    - run: npm install @angular/cli
     - run: yarn build --configuration=production
     - run: ls ./dist/catalog-counts-web
