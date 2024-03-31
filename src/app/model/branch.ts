@@ -9,5 +9,5 @@ export interface Branch {
 export interface BranchInitialAmount {
   id: number
   amount: number
-  registration: string
+  registration: Date
 }

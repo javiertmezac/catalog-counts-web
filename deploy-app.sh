@@ -5,7 +5,7 @@ sleep 1
 
 yarn build --configuration=production
 
-echo "Build is finished ..., listing /dist/oasis"
+echo "Build is finished ..., listing /dist/catalog-counts-web"
 ls ./dist/catalog-counts-web
 
 echo "uploading files into bucket"

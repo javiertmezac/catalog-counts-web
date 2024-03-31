@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 2.0.1
+release date: Mar 30, 2024
+
+- branch section enabled to capture initial amount
+- add deploy-to-s3.yml github action
+
+
 ## 2.0.0
 release date nov 5, 2023
 

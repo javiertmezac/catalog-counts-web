@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-2">
     <div class="card-header">
         <h2>
             <strong>
@@ -9,17 +9,85 @@
 
     <div class="card-body">
         <div class="row mb-2">
-            <label class="col-md-2 col-form-label">Dirección:</label>
+            <label class="col-md-2 col-form-label"><strong>Dirección:</strong></label>
             <div class="col-md-8">
-                {{ branch.address}}
+                {{ branch.address }}
             </div>
         </div>
 
-        <div class="row">
-            <h4>Saldo Inicial</h4>
-            <p> {{branch.initialAmount.amount}} </p>
-            <p>{{branch.initialAmount.registration | date: "long"}}</p>
+        <div class="row mb-2">
+            <label class="col-md-2 col-form-label"><strong>Fecha Registro en el Sistema:</strong></label>
+            <div class="col-md-8">
+                {{ branch.registration | date: "mediumDate" }}
+            </div>
         </div>
     </div>
+</div>
 
+<div class="card">
+    <div class="card-header">
+        <h2>Saldo Inicial</h2>
+        <i class="fa fa-info-circle" style="margin-right: 5px;" aria-hidden="true" title="Saldo Inicial"></i>
+        <i><span class="text-muted">Para la fecha del saldo inicial, el sistema toma por default la fecha de registro de la misión, y retrocede al mes anterior.</span> </i>
+    </div>
+    <div class="alert-info"></div>
+    <div *ngIf="branch.initialAmount">
+        <div class="card-body">
+            <div class="row">
+                <p> <strong>Cantidad:</strong>  {{ branch.initialAmount.amount | currency }} </p>
+                <p> <strong>Fecha:</strong> {{ branch.initialAmount.registration | date: "MMM, yyy"}}</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!branch.initialAmount">
+        <div class="card-body">
+            <div class="row">
+                <form novalidate (ngSubmit)="saveBranchInitialAmount()" [formGroup]="branchInitialAmountForm">
+                    <div class="form-group row mb-2">
+                        <label class="col-md-2 col-form-label" for="amountId"><strong>Cantidad:</strong></label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="amountId" type="text" placeholder="Cantidad (requerido)"
+                                formControlName="amount" [ngClass]="{
+              'is-invalid':
+                (branchInitialAmountForm.get('amount')?.touched ||
+                  branchInitialAmountForm.get('amount')?.dirty) &&
+                !branchInitialAmountForm.get('amount')?.valid
+            }" />
+                            <span class="invalid-feedback">
+                                <span *ngIf="branchInitialAmountForm.controls['amount'].errors?.min">
+                                    Solo cantidades positivas
+                                </span>
+                                <span *ngIf="branchInitialAmountForm.controls['amount'].errors?.pattern">
+                                    Solo número son permitidos
+                                </span>
+                                <span *ngIf="branchInitialAmountForm.controls['amount'].errors?.required">
+                                    Cantidad Requerida
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                        <label class="col-md-2 col-form-label" for="cceId"><strong>Catálogo de Cuentas:</strong></label>
+                        <div class="col-md-8">
+                            <data> 0.1 - Monto Inicial de Registro</data>
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-2">
+                        <div class="offset-md-2 col-md-4">
+                            <button class="btn btn-primary mr-3" style="width: 100px" type="submit" [title]="
+              branchInitialAmountForm.valid
+                ? 'Guardar Saldo Inicial'
+                : 'Disabled until the form data is valid'
+            " [disabled]="!branchInitialAmountForm.valid">
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 </div>
