@@ -11,6 +11,7 @@ export const ANONYMOUS_USER: User = {
   username: undefined,
   userId: 0,
   roles: [],
+  branches: [],
   defaultBranch: 0,
 };
 

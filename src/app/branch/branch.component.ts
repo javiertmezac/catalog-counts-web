@@ -50,4 +50,6 @@ export class BranchComponent implements OnInit {
     .subscribe({ next: () => this.fetchBranch(this.branchId), error: (err) => this.errorMessage = err});
   }
 
+  getBranch(event: any) {}
+
 }

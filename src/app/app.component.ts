@@ -39,6 +39,8 @@ export class AppComponent {
       })
   }
 
+  getBranch(event: any) {}
+
   logout(): void {
     this.authService.removeSession();
     console.log('User is logout');
