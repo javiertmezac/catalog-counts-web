@@ -55,4 +55,6 @@ export class BranchService {
     return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
   }
 
+  
+
 }

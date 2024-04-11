@@ -17,29 +17,32 @@ export class AppComponent {
   userDetails!: User;
   branchDetails!: Branch;
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
     private branchService: BranchService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn$;
     this.authService.user$.subscribe({
       next: (data) => {
-        this.userDetails = data
+        this.userDetails = data;
         this.fetchBranchDetails(data.defaultBranch);
       },
     });
   }
 
   fetchBranchDetails(defaultBranch: number) {
-    this.branchService
-      .getBranch(defaultBranch).subscribe({
-        next: (branchData) => this.branchDetails = branchData,
-        error: (error) => console.log(error)
-      })
+    this.branchService.getBranch(defaultBranch).subscribe({
+      next: (branchData) => (this.branchDetails = branchData),
+      error: (error) => console.log(error),
+    });
   }
 
-  getBranch(event: any) {}
+  changeDefaultBranch(event: any) {
+    this.authService.changeUserDefaultBranch(event.target.value);
+  }
 
   logout(): void {
     this.authService.removeSession();

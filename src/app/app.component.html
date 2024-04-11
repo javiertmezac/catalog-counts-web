@@ -21,8 +21,7 @@
         </li>
 
         <li class="nav-item" *ngIf="branchDetails">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]"> Misión:
-            <strong>{{branchDetails.name}}</strong></a>
+          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]"> Detalles Misión </a>
         </li>
 
         <li class="nav-item">
@@ -31,7 +30,7 @@
 
         <li class=" nav-item dropdown" *ngIf="userDetails">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Usuario: {{ userDetails.username }}
+            Usuario: <strong>{{ userDetails.username }}</strong>
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item disabled">Rol: {{ userDetails.roles }}</a></li>
@@ -44,19 +43,16 @@
       </ul>
 
       <div class="d-flex">
-        <label class="col-form-label me-2"><strong>Misión:</strong></label>
-        <div class="">
-          <select class="form-control w-100" [(ngModel)]="userDetails.defaultBranch" name="branchId"
-            (change)="getBranch($event)">
-            <option value="">Seleccione una Cuenta para la Misión</option>
-            <option value="4">Reforma (dolar)</option>
-            <!-- <option *ngFor="let branch of " [value]="mission.id">{{ mission.name }}</option> -->
+        <label class="col-form-label me-2"><strong>Cuenta:</strong></label>
+        <div class="" *ngIf="userDetails">
+          <select class="form-control w-100" [(ngModel)]="userDetails.defaultBranch" name="defaultBranchId"
+            (change)="changeDefaultBranch($event)">
+            <option *ngFor="let branch of userDetails.branches" [value]="branch">{{ branch }}</option>
           </select>
         </div>
       </div>
 
     </div>
-
   </div>
 </nav>
 

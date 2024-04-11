@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { catchError, filter, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { User } from '../model/user';
+import { HandleHttpClientError } from '../shared/handle-error';
 
 //todo: improve the 2 behaviorSubject into one subject
 export const ANONYMOUS_USER: User = {
@@ -34,7 +35,10 @@ export class AuthService {
     .asObservable()
     .pipe(tap(console.log)); //todo: can we have something different here?
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private handleHttpError: HandleHttpClientError
+  ) {
     this.fetUserDetails();
   }
 
@@ -78,5 +82,16 @@ export class AuthService {
         this.subject.next(user ? custom_user : ANONYMOUS_USER);
       });
     }
+  }
+
+  changeUserDefaultBranch(branchId: number): void {
+    this.http
+      .patch<any>(
+        `${this.baseUri}/v1/user/changeDefaultBranch?defaultBranch=${branchId}`,
+        {}
+      )
+      .pipe(catchError(this.handleHttpError.handleError)).subscribe({
+      next: () => { this.subject.next({ ...this.subject.value, defaultBranch: branchId }) },
+      error: (error) => console.log(error)});
   }
 }
