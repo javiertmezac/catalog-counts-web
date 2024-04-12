@@ -5,6 +5,7 @@ import { AuthService } from './login/auth.service';
 import { Branch } from './model/branch';
 import { User } from './model/user';
 import { BranchService } from './shared/branch.service';
+import { UserService } from './shared/user.service';
 
 @Component({
   selector: 'cc-root',
@@ -19,13 +20,14 @@ export class AppComponent {
 
   constructor(
     private authService: AuthService,
+    private userService: UserService,
     private branchService: BranchService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
-    this.authService.user$.subscribe({
+    this.isLoggedIn$ = this.userService.isLoggedIn$;
+    this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
         this.fetchBranchDetails(data.defaultBranch);
@@ -41,11 +43,11 @@ export class AppComponent {
   }
 
   changeDefaultBranch(event: any) {
-    this.authService.changeUserDefaultBranch(event.target.value);
+    // this.userService.changeUserDefaultBranch(event.target.value);
   }
 
   logout(): void {
-    this.authService.removeSession();
+    this.authService.logout();
     console.log('User is logout');
     this.router.navigateByUrl('/login');
   }

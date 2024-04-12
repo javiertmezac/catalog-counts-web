@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../login/auth.service';
 import { Period } from '../model/period';
 import { User } from '../model/user';
 import { PeriodService } from '../shared/period.service';
 import { RolePermissionService } from '../shared/permissions/role-permission.service';
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'cc-catalog-count-list',
@@ -27,7 +27,7 @@ export class CatalogCountListComponent implements OnInit {
 
   constructor(
     private ccService: CatalogCountService,
-    private authService: AuthService,
+    private userService: UserService,
     private rolePermissionService: RolePermissionService,
     private periodService: PeriodService
   ) {}
@@ -42,7 +42,7 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe({
+    this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(

@@ -1,20 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { catchError, filter, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { User } from '../model/user';
-import { HandleHttpClientError } from '../shared/handle-error';
-
-//todo: improve the 2 behaviorSubject into one subject
-export const ANONYMOUS_USER: User = {
-  id_token: undefined,
-  username: undefined,
-  userId: 0,
-  roles: [],
-  branches: [],
-  defaultBranch: 0,
-};
+import { UserdetailsLocalstorageService } from '../shared/userdetails-localstorage.service';
+import { UserService } from '../shared/user.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -22,25 +11,11 @@ export const ANONYMOUS_USER: User = {
 export class AuthService {
   private baseUri = environment.baseUri;
 
-  private subject: BehaviorSubject<User> = new BehaviorSubject<User>(
-    ANONYMOUS_USER
-  );
-  private loginSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
-    false
-  );
-  user$: Observable<User> = this.subject
-    .asObservable()
-    .pipe(filter((user) => !!user.id_token));
-  isLoggedIn$: Observable<boolean> = this.loginSubject
-    .asObservable()
-    .pipe(tap(console.log)); //todo: can we have something different here?
-
   constructor(
     private http: HttpClient,
-    private handleHttpError: HandleHttpClientError
-  ) {
-    this.fetUserDetails();
-  }
+    private userService: UserService,
+    private userdetailsLocalStorageService: UserdetailsLocalstorageService
+  ) {}
 
   login(email: string, password: string): Observable<any> {
     const httpHeader = {
@@ -51,47 +26,13 @@ export class AuthService {
 
     let body = `email=${email}&password=${password}`;
 
-    return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader).pipe(
-      tap((data) => {
-        this.setSession(data);
-        this.fetUserDetails();
-      })
-    );
+    return this.http.post<any>(`${this.baseUri}/login`, body, httpHeader);
   }
 
-  setSession(authResult: any) {
-    localStorage.setItem('id_token', authResult.id_token);
-    this.loginSubject.next(true);
+  logout() {
+    // todo: call the api to logout
+    this.userdetailsLocalStorageService.removeSession();
+    this.userService.clearUserDetails();
   }
 
-  removeSession() {
-    localStorage.clear();
-    this.subject.next(ANONYMOUS_USER);
-    this.loginSubject.next(false);
-  }
-
-  //todo: should this be async?
-  fetUserDetails(): void {
-    const fromLocalStorage = localStorage.getItem('id_token');
-    if (fromLocalStorage) {
-      this.loginSubject.next(true);
-
-      this.http.get<User>(`${this.baseUri}/v1/user`).subscribe((user) => {
-        const custom_user = { ...user };
-        custom_user['id_token'] = fromLocalStorage;
-        this.subject.next(user ? custom_user : ANONYMOUS_USER);
-      });
-    }
-  }
-
-  changeUserDefaultBranch(branchId: number): void {
-    this.http
-      .patch<any>(
-        `${this.baseUri}/v1/user/changeDefaultBranch?defaultBranch=${branchId}`,
-        {}
-      )
-      .pipe(catchError(this.handleHttpError.handleError)).subscribe({
-      next: () => { this.subject.next({ ...this.subject.value, defaultBranch: branchId }) },
-      error: (error) => console.log(error)});
-  }
 }

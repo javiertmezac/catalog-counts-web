@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { AuthService } from '../login/auth.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard  {
-  constructor(private authService: AuthService, private route: Router) {}
+  constructor(private userService: UserService, private route: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -18,7 +18,7 @@ export class AuthGuard  {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.isLoggedIn$.pipe(
+    return this.userService.isLoggedIn$.pipe(
       tap((data) => {
         if (!data) {
           this.route.navigateByUrl('/login');

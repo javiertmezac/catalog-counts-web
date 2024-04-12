@@ -6,6 +6,7 @@ import { User } from '../model/user';
 import { DateTimeHandler } from '../shared/datetime-handler';
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
+import { UserService } from '../shared/user.service';
 
 @Component({
   templateUrl: './catalog-count.component.html',
@@ -25,7 +26,7 @@ export class CatalogCountComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private ccService: CatalogCountService,
-    private authService: AuthService
+    private userService: UserService
   ) {
     this.catalogCountForm = this.fb.group({
       amount: [
@@ -43,7 +44,7 @@ export class CatalogCountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe({
+    this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
         this.loadCcEnums();
