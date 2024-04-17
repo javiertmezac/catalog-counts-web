@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   changeDefaultBranch(event: any) {
-    // this.userService.changeUserDefaultBranch(event.target.value);
+    this.userService.changeUserDefaultBranch(event.target.value);
   }
 
   logout(): void {

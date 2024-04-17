@@ -19,7 +19,6 @@ export class LoginComponent {
   constructor(
     private fb: UntypedFormBuilder,
     private authService: AuthService,
-    private userDetailsService: UserdetailsLocalstorageService,
     private userService: UserService,
     private router: Router
   ) {
@@ -45,8 +44,7 @@ export class LoginComponent {
       if (val.email && val.password) {
         this.authService.login(val.email, val.password).subscribe({
           next: async (loginResponse: any) => {
-            await this.userDetailsService.setSession(loginResponse.id_token);
-            await this.userService.fetUserDetails();
+            this.userService.fetUserDetails(loginResponse.id_token);
             this.router.navigateByUrl('/cc');
           },
           error: (err: any) => {

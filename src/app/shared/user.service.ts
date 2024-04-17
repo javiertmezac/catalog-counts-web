@@ -41,49 +41,63 @@ export class UserService {
     private http: HttpClient,
     private userDetailsStorageService: UserdetailsLocalstorageService
   ) {
-    this.fetUserDetails();
+    this.loadUserDetails();
   }
 
-  fetUserDetails(): void {
-    let id_token = this.userDetailsStorageService.getSession().id_token;
-    if (id_token) {
+  getUserDetailsFromLocalStorage(): User {
+    try {
+      let userDetails = this.userDetailsStorageService.getSession();
+      if (userDetails.id_token != undefined) {
+        return userDetails;
+      } else {
+        return ANONYMOUS_USER;
+      }
+    } catch (error) {
+      return ANONYMOUS_USER;
+    }
+  }
+
+  private loadUserDetails() {
+    let userFromStorage = this.getUserDetailsFromLocalStorage();
+    if (userFromStorage != ANONYMOUS_USER) {
+      this.subject.next(userFromStorage);
       this.loginSubject.next(true);
+    } else {
+      this.clearUserDetails(); 
+    }
+  }
 
-      this.http.get<User>(`${this.baseUri}/v1/user`).subscribe(
-        (user) => {
-          const custom_user = { ...user };
-          custom_user['id_token'] = id_token;
+  fetUserDetails(idToken: string): void {
+    if (idToken) {
+      this.http
+        .get<User>(`${this.baseUri}/v1/user`, {
+          headers: { Authorization: `Bearer ${idToken}` },
+        })
+        .subscribe(
+          (user) => {
+            const custom_user = { ...user };
+            custom_user['id_token'] = idToken;
 
-          this.subject.next(custom_user);
-          this.userDetailsStorageService.setSession(
-            id_token,
-            custom_user.defaultBranch
-          );
-        },
-        (error) => {
-          this.subject.next(ANONYMOUS_USER);
-        }
-      );
+            this.userDetailsStorageService.setSession(custom_user);
+
+            this.subject.next(custom_user);
+            this.loginSubject.next(true);
+          },
+          (error) => {
+            this.subject.next(ANONYMOUS_USER);
+          }
+        );
     }
   }
 
   clearUserDetails(): void {
     this.subject.next(ANONYMOUS_USER);
     this.loginSubject.next(false);
+    this.userDetailsStorageService.removeSession();
   }
 
-  // changeUserDefaultBranch(branchId: number): void {
-  //   this.http
-  //     .patch<any>(
-  //       `${this.baseUri}/v1/user/changeDefaultBranch?defaultBranch=${branchId}`,
-  //       {}
-  //     )
-  //     .pipe(catchError(this.handleHttpError.handleError))
-  //     .subscribe({
-  //       next: () => {
-  //         this.subject.next({ ...this.subject.value, defaultBranch: branchId });
-  //       },
-  //       error: (error) => console.log(error),
-  //     });
-  // }
+  changeUserDefaultBranch(branchId: number): void {
+    this.userDetailsStorageService.updateDefaultBranch(branchId);
+    this.subject.next({ ...this.subject.value, defaultBranch: branchId });
+  }
 }

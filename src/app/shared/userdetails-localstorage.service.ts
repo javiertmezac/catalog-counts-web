@@ -1,29 +1,35 @@
 import { Injectable } from '@angular/core';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserdetailsLocalstorageService {
-  private key = "userSessionDetails"
+  private userDataKey = 'userData';
+
   constructor() {}
 
-  async setSession(id_token: string, defaultBranch: number = 0) {
-    let userDetails = {
-      id_token: id_token,
-      defaultBranch: defaultBranch,
-    };
-
-    console.log('setdetails', userDetails);
-    localStorage.setItem(this.key, JSON.stringify(userDetails));
+  setSession(user: User) {
+    localStorage.setItem(this.userDataKey, JSON.stringify(user));
   }
 
-  getSession() {
-    let userDetails = localStorage.getItem(this.key) || '{}';
-    console.log('getdetails', userDetails);
-    return JSON.parse(userDetails);
+  getSession(): User {
+    try {
+      let userDetails = localStorage.getItem(this.userDataKey) || '{}';
+      return JSON.parse(userDetails);
+    } catch (error) {
+      throw new Error('Error while getting user details from local storage')
+    }
+  }
+
+  updateDefaultBranch(branchId: number) {
+    let userDetails = this.getSession();
+    userDetails.defaultBranch = branchId;
+    this.setSession(userDetails);
   }
 
   removeSession() {
     localStorage.clear();
   }
+
 }
