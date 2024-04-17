@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../login/auth.service';
 import { User } from '../model/user';
@@ -7,6 +11,7 @@ import { DateTimeHandler } from '../shared/datetime-handler';
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
 import { UserService } from '../shared/user.service';
+import { interval } from 'rxjs';
 
 @Component({
   templateUrl: './catalog-count.component.html',
@@ -59,7 +64,12 @@ export class CatalogCountComponent implements OnInit {
         next: (data) => {
           this.populateCatalogCount(data);
         },
-        error: (err) => (this.errorMessage = err),
+        error: (err) => {
+          this.errorMessage = 'Movimiento no encontrado - redirigiendo...';
+          setTimeout(() => {
+            this.router.navigateByUrl('/cc');
+          }, 2000);
+        },
       });
   }
 
@@ -137,6 +147,7 @@ export class CatalogCountComponent implements OnInit {
     this.router.navigateByUrl('/cc');
   }
 
+  //todo: improve logic
   loadCcEnums() {
     this.ccService.getCatalogCountEnums().subscribe({
       next: (data) => {

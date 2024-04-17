@@ -26,7 +26,7 @@ export class ReportsComponent implements OnInit {
     this.reportService.periodsReportStatus(this.branchId).subscribe({
       next: (data) => {
         this.periodsReportStatus = data.periodReportList;
-      },
+      }
     });
   }
 }
