@@ -21,24 +21,12 @@
         </li>
 
         <li class="nav-item" *ngIf="branchDetails">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]"> Detalles Misión </a>
+          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]"> Detalles Misión
+          </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link" routerLink="/about">Acerca de!</a>
-        </li>
-
-        <li class=" nav-item dropdown" *ngIf="userDetails">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Usuario: <strong>{{ userDetails.username }}</strong>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item disabled">Rol: {{ userDetails.roles }}</a></li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" (click)="logout()">Salir!</a></li>
-          </ul>
         </li>
       </ul>
 
@@ -50,6 +38,21 @@
             <option *ngFor="let branch of userDetails.branches" [value]="branch">{{ branch }}</option>
           </select>
         </div>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class=" nav-item dropdown" *ngIf="userDetails">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="refreshUserDetails()">
+              Usuario: <strong>{{ userDetails.username }}</strong>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item disabled">Rol: {{ userDetails.roles }}</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" (click)="logout()">Salir!</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
 
     </div>

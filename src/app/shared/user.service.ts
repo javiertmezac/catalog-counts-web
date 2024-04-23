@@ -63,30 +63,48 @@ export class UserService {
       this.subject.next(userFromStorage);
       this.loginSubject.next(true);
     } else {
-      this.clearUserDetails(); 
+      this.clearUserDetails();
     }
+  }
+
+  private httpGetUserDetails(idToken: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUri}/v1/user`, {
+      headers: { Authorization: `Bearer ${idToken}` },
+    });
   }
 
   fetUserDetails(idToken: string): void {
     if (idToken) {
-      this.http
-        .get<User>(`${this.baseUri}/v1/user`, {
-          headers: { Authorization: `Bearer ${idToken}` },
-        })
-        .subscribe(
-          (user) => {
-            const custom_user = { ...user };
-            custom_user['id_token'] = idToken;
+      this.httpGetUserDetails(idToken).subscribe(
+        (user) => {
+          const custom_user = { ...user };
+          custom_user['id_token'] = idToken;
 
-            this.userDetailsStorageService.setSession(custom_user);
+          this.userDetailsStorageService.setSession(custom_user);
 
-            this.subject.next(custom_user);
-            this.loginSubject.next(true);
-          },
-          (error) => {
-            this.subject.next(ANONYMOUS_USER);
-          }
-        );
+          this.subject.next(custom_user);
+          this.loginSubject.next(true);
+        },
+        (error) => {
+          this.subject.next(ANONYMOUS_USER);
+        }
+      );
+    }
+  }
+
+  refreshUserDetails(): void {
+    let userFromStorage = this.getUserDetailsFromLocalStorage();
+    let token = userFromStorage.id_token;
+    let defaultBranch = userFromStorage.defaultBranch;
+
+    if (token) {
+      this.httpGetUserDetails(token).subscribe((user) => {
+        const custom_user = { ...user };
+        custom_user['id_token'] = token;
+        custom_user['defaultBranch'] = defaultBranch;
+
+        this.userDetailsStorageService.setSession(custom_user);
+      });
     }
   }
 

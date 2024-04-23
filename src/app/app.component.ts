@@ -46,6 +46,11 @@ export class AppComponent {
     this.userService.changeUserDefaultBranch(event.target.value);
   }
 
+  refreshUserDetails() {
+    console.log('Refreshing user details');
+    this.userService.refreshUserDetails();
+  }
+
   logout(): void {
     this.authService.logout();
     console.log('User is logout');
