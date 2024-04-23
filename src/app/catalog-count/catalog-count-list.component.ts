@@ -7,6 +7,8 @@ import { RolePermissionService } from '../shared/permissions/role-permission.ser
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
 import { UserService } from '../shared/user.service';
+import { Branch } from '../model/branch';
+import { BranchService } from '../shared/branch.service';
 
 @Component({
   selector: 'cc-catalog-count-list',
@@ -19,6 +21,7 @@ export class CatalogCountListComponent implements OnInit {
   isLoadingCatalogCounts = true;
   errorMessage = '';
   userDetails!: User;
+  defaultBranch!: Branch;
   currentPeriod!: Period;
   hasWriteAccess = false;
   displayCatalogCountAlert = false;
@@ -29,7 +32,8 @@ export class CatalogCountListComponent implements OnInit {
     private ccService: CatalogCountService,
     private userService: UserService,
     private rolePermissionService: RolePermissionService,
-    private periodService: PeriodService
+    private periodService: PeriodService,
+    private branchService: BranchService
   ) {}
 
   get listFilter(): string {
@@ -50,15 +54,19 @@ export class CatalogCountListComponent implements OnInit {
         );
         this.fetchCatalogCountList(data.defaultBranch);
         this.getPeriodDescription();
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
       },
       error: (err) => (this.errorMessage = err),
     });
   }
 
-  performFilter(filterBy:any): any[] {
+  performFilter(filterBy: any): any[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.catalogCounts.filter((cc: CatalogCount) =>
-      cc.details.toLocaleLowerCase().includes(filterBy) || cc.catalogCountEnum.toLocaleLowerCase().includes(filterBy));
+    return this.catalogCounts.filter(
+      (cc: CatalogCount) =>
+        cc.details.toLocaleLowerCase().includes(filterBy) ||
+        cc.catalogCountEnum.toLocaleLowerCase().includes(filterBy)
+    );
   }
 
   getPeriodDescription() {

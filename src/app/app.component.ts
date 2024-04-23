@@ -6,6 +6,7 @@ import { Branch } from './model/branch';
 import { User } from './model/user';
 import { BranchService } from './shared/branch.service';
 import { UserService } from './shared/user.service';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cc-root',
@@ -16,7 +17,6 @@ export class AppComponent {
   title = 'catalog-counts-web';
   isLoggedIn$: Observable<boolean> | undefined;
   userDetails!: User;
-  branchDetails!: Branch;
 
   constructor(
     private authService: AuthService,
@@ -30,19 +30,12 @@ export class AppComponent {
     this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
-        this.fetchBranchDetails(data.defaultBranch);
       },
     });
   }
 
-  fetchBranchDetails(defaultBranch: number) {
-    this.branchService.getBranch(defaultBranch).subscribe({
-      next: (branchData) => (this.branchDetails = branchData),
-      error: (error) => console.log(error),
-    });
-  }
-
   changeDefaultBranch(event: any) {
+    console.log(event.target.value);
     this.userService.changeUserDefaultBranch(event.target.value);
   }
 
@@ -53,6 +46,7 @@ export class AppComponent {
 
   logout(): void {
     this.authService.logout();
+    this.branchService.clearBranches();
     console.log('User is logout');
     this.router.navigateByUrl('/login');
   }

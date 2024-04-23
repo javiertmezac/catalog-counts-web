@@ -58,6 +58,7 @@ export class UserService {
   }
 
   private loadUserDetails() {
+    console.log('Loading user details');
     let userFromStorage = this.getUserDetailsFromLocalStorage();
     if (userFromStorage != ANONYMOUS_USER) {
       this.subject.next(userFromStorage);

@@ -6,9 +6,11 @@
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
 
-<div *ngIf="userDetails?.defaultBranch != 0">
+<div *ngIf="userDetails?.defaultBranch != 0 && defaultBranch">
   <div>
-    <h1>Historial de Movimientos</h1>
+    <div class="d-flex">
+      <h1>Historial de Movimientos</h1> <h1> - {{ defaultBranch.name }}</h1>
+    </div>
 
     <div *ngIf="currentPeriod" class="mb-3">
       <div *ngIf="displayConfirmationAlert">
