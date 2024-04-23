@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PeriodReportResponse } from '../model/period-report-status';
 import { ReportService } from './report.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'cc-reports',
@@ -14,12 +15,18 @@ export class ReportsComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.branchId = Number(this.route.snapshot.paramMap.get('misionid'));
-    this.fetchPeriodsStatus();
+    this.userService.user$.subscribe((user) => {
+      this.branchId = user.defaultBranch;
+      this.fetchPeriodsStatus();
+    });
+
+    // this.branchId = Number(this.route.snapshot.paramMap.get('misionid'));
+    // this.fetchPeriodsStatus();
   }
 
   fetchPeriodsStatus() {

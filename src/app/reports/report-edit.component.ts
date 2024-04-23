@@ -28,13 +28,11 @@ export class ReportEditComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let periodId = Number(this.route.snapshot.paramMap.get('periodid'));
-    // this.userService.user$.subscribe((user) => {
-    //   this.router.navigate.updateParams({ branchId: user.defaultBranch });
-    // });
-
-    this.branchId = Number(this.route.snapshot.paramMap.get('misionid'));
-    this.fetchPeriod(periodId);
+    this.userService.user$.subscribe((user) => {
+      let periodId = Number(this.route.snapshot.paramMap.get('periodid'));
+      this.branchId = user.defaultBranch;
+      this.fetchPeriod(periodId);
+    });
   }
 
   fetchPeriod(periodid: number) {

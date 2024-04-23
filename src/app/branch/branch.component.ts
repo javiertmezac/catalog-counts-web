@@ -16,7 +16,7 @@ import { UserService } from '../shared/user.service';
   styleUrls: ['./branch.component.scss'],
 })
 export class BranchComponent implements OnInit {
-  pageTitle = 'Detalles de la Misión';
+  pageTitle = 'Detalles de la Cuenta';
   branchId: number = 0;
   errorMessage = '';
   branch!: Branch;

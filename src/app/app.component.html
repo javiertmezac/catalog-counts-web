@@ -17,11 +17,11 @@
 
         <li class="nav-item" *ngIf="userDetails">
           <a class="nav-link active" aria-current="page"
-            [routerLink]="['/mision', userDetails.defaultBranch, 'report']">Reportes</a>
+            routerLink="/mision/report">Reportes</a>
         </li>
 
         <li class="nav-item" *ngIf="branchDetails">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]"> Detalles Misión
+          <a class="nav-link active" aria-current="page" routerLink="/mision/details"> Detalles Cuenta
           </a>
         </li>
 
@@ -49,7 +49,7 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" (click)="logout()">Salir!</a></li>
+              <li><a class="btn btn-outline-danger" (click)="logout()">Salir!</a></li>
             </ul>
           </li>
         </ul>

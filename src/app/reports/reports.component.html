@@ -20,7 +20,6 @@
           <a
             [routerLink]="[
               '/mision',
-              branchId,
               'period',
               p.periodId,
               'report',
@@ -33,7 +32,7 @@
           </a>
           <p
             *ngIf="p.reportUUID"
-            [routerLink]="['/mision', branchId, 'report', p.reportUUID, 'edit']"
+            [routerLink]="['/mision','report', p.reportUUID, 'edit']"
           >
             {{ p.reportUUID }}
           </p>
