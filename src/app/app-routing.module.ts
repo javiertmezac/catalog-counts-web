@@ -25,18 +25,18 @@ const routes: Routes = [
     component: CatalogCountComponent,
   },
   {
-    path: 'mision/:misionid',
+    path: 'mision/details',
     canActivate: [AuthGuard],
     component: BranchComponent,
 
   },
   {
-    path: 'mision/:misionid/report',
+    path: 'mision/report',
     canActivate: [AuthGuard],
     component: ReportsComponent,
   },
   {
-    path: 'mision/:misionid/period/:periodid/report/:reportUuid/edit',
+    path: 'mision/period/:periodid/report/:reportUuid/edit',
     canActivate: [AuthGuard],
     component: ReportEditComponent,
   },

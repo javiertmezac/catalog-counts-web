@@ -2,7 +2,7 @@
 <div class="container card">
   <div *ngIf="report">
     <div class="row col-12">
-      <h4 class="col-6">Mision: {{ report.mision }}</h4>
+      <h4 class="col-6">Cuenta: {{ report.mision }}</h4>
       <h4 class="col-6">Periodo: {{ report.period }}</h4>
     </div>
     <div class="row">
@@ -134,7 +134,7 @@
   <div>
     <button
       class="btn btn-outline-secondary"
-      [routerLink]="['/mision', branchId, 'report']"
+      routerLink="/mision/report"
     >
       Regresar
     </button>

@@ -3,5 +3,6 @@ export interface User {
   username: string | undefined;
   userId: number;
   roles: number[];
+  branches: number[];
   defaultBranch: number;
 }

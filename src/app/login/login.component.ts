@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
+import { UserdetailsLocalstorageService } from '../shared/userdetails-localstorage.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'cc-login',
@@ -17,11 +19,18 @@ export class LoginComponent {
   constructor(
     private fb: UntypedFormBuilder,
     private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {
     this.form = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required],
+    });
+
+    this.userService.isLoggedIn$.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        this.router.navigateByUrl('/cc');
+      }
     });
   }
 
@@ -34,16 +43,19 @@ export class LoginComponent {
 
       if (val.email && val.password) {
         this.authService.login(val.email, val.password).subscribe({
-          next: () => {
+          next: async (loginResponse: any) => {
+            this.userService.fetUserDetails(loginResponse.id_token);
             this.router.navigateByUrl('/cc');
           },
-          error: (err) => {
+          error: (err: any) => {
             if (err.statusText === 'Unknown Error') {
-              this.errorMessage = 'No se pudo conectar con el servidor!'
+              this.errorMessage = 'No se pudo conectar con el servidor! - Informar a Soporte!'
             } else if (err.status == 500){
-              this.errorMessage = 'Error interno del servidor!'
-            } else {
+              this.errorMessage = 'Error interno del servidor!, Intentar de nuevo!'
+            } else if (err.status == 400) {
               this.errorMessage = 'Credenciales incorrectas!'
+            } else {
+              this.errorMessage = 'Error desconocido! - Informar a Soporte!'
             }
 
             this.isLoginBtnClickable = true;

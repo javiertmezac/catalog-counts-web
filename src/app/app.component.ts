@@ -5,6 +5,8 @@ import { AuthService } from './login/auth.service';
 import { Branch } from './model/branch';
 import { User } from './model/user';
 import { BranchService } from './shared/branch.service';
+import { UserService } from './shared/user.service';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cc-root',
@@ -15,32 +17,36 @@ export class AppComponent {
   title = 'catalog-counts-web';
   isLoggedIn$: Observable<boolean> | undefined;
   userDetails!: User;
-  branchDetails!: Branch;
 
-  constructor(private authService: AuthService,
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
     private branchService: BranchService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
-    this.authService.user$.subscribe({
+    this.isLoggedIn$ = this.userService.isLoggedIn$;
+    this.userService.user$.subscribe({
       next: (data) => {
-        this.userDetails = data
-        this.fetchBranchDetails(data.defaultBranch);
+        this.userDetails = data;
       },
     });
   }
 
-  fetchBranchDetails(defaultBranch: number) {
-    this.branchService
-      .getBranch(defaultBranch).subscribe({
-        next: (branchData) => this.branchDetails = branchData,
-        error: (error) => console.log(error)
-      })
+  changeDefaultBranch(event: any) {
+    console.log(event.target.value);
+    this.userService.changeUserDefaultBranch(event.target.value);
+  }
+
+  refreshUserDetails() {
+    console.log('Refreshing user details');
+    this.userService.refreshUserDetails();
   }
 
   logout(): void {
-    this.authService.removeSession();
+    this.authService.logout();
+    this.branchService.clearBranches();
     console.log('User is logout');
     this.router.navigateByUrl('/login');
   }
