@@ -1,5 +1,11 @@
 # Catalog Count Web
 
+## 2.1.0
+release date: Apr 25, 2024
+
+- Support multiple accounts within same logged in user
+- go-up btn
+
 ## 2.0.1
 release date: Mar 30, 2024
 
