@@ -1,48 +1,65 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isLoggedIn$ | async">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="cc">
-      <img src="../assets/tcojc_spanish_logo_gold.png" width="150" height="35" class="d-inline-block align-top" >
+      <img src="../assets/tcojc_spanish_logo_gold.png" width="150" height="35" class="d-inline-block align-top">
       Catálogo de Cuentas
     </a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
       aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarText">
+    <div class="collapse navbar-collapse" id="navbarText" *ngIf="userDetails">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" routerLink="cc">Movimientos</a>
         </li>
 
-        <li class="nav-item" *ngIf="userDetails">
-          <a class="nav-link active" aria-current="page"
-            [routerLink]="['/mision', userDetails.defaultBranch, 'report']">Reportes</a>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/mision/report">Reportes</a>
         </li>
 
-        <li class="nav-item" *ngIf="branchDetails">
-          <a class="nav-link active" aria-current="page" [routerLink]="['/mision', branchDetails.id]" > Misión: <strong>{{branchDetails.name}}</strong></a>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" routerLink="/mision/details"> Detalles Cuenta
+          </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link" routerLink="/about">Acerca de!</a>
         </li>
       </ul>
-      <span class="navbar-text">
-        <div class="d-flex">
-          <p *ngIf="userDetails">
-            Hola! {{ userDetails.username }}
-          </p>
-          <p *ngIf="userDetails">
-            Rol:  {{ userDetails.roles }}
-          </p>
-          <button class="btn btn-outline-danger" type="button" (click)="logout()">
-            Salir!
-          </button>
+
+      <div class="d-flex">
+        <label class="col-form-label me-2"><strong>Cuenta:</strong></label>
+        <div *ngIf="userDetails">
+          <select class="form-control w-100" name="defaultBranchId" [(ngModel)]="userDetails.defaultBranch" [disabled]="!userDetails.branches"
+            (change)="changeDefaultBranch($event)">
+            <option *ngFor="let branch of userDetails.branches" [value]="branch">{{ branch }}</option>
+          </select>
         </div>
-      </span>
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class=" nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+              (click)="refreshUserDetails()" *ngIf="userDetails">
+              Usuario: <strong>{{ userDetails.username }}</strong>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item disabled">Rol: {{ userDetails.roles }}</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="btn btn-outline-danger" (click)="logout()">Salir!</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </nav>
+
+
 
 <div style="padding: 1.5%">
   <router-outlet></router-outlet>

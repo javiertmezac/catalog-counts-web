@@ -1,39 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Branch, BranchInitialAmount } from '../model/branch';
 import { HandleHttpClientError } from './handle-error';
-import { CatalogCountService } from '../catalog-count/catalog-count.service';
-import {
-  CatalogCountRequest
-} from '../catalog-count/domain/catalog-count-request';
+import { UserService } from './user.service';
+
+export const EMPTY_BRANCH: Branch = {
+  id: 0,
+  name: '',
+  address: '',
+  registration: 0,
+  initialAmount: {
+    id: 0,
+    registration: new Date(),
+    amount: 0,
+  },
+};
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BranchService {
-  baseUri = environment.baseUri;
-  branchPath = `${this.baseUri}/v1/branch`;
+  private baseUri = environment.baseUri;
+  private branchPath = `${this.baseUri}/v1/branch`;
+
+  private subject: BehaviorSubject<Branch[]> = new BehaviorSubject<Branch[]>([]);
+  // public branches$: Observable<Branch[]> = this.subject.asObservable();
 
   constructor(
     private httpClient: HttpClient,
-    private handleHttpError: HandleHttpClientError
-  ) {}
+    private handleHttpError: HandleHttpClientError,
+    private userService: UserService,
+  ) {
+  }
 
   emptyBranch(): Branch {
-    return {
-      id: 0,
-      name: '',
-      address: '',
-      registration: 0,
-      initialAmount: {
-        id: 0,
-        registration: new Date(),
-        amount: 0
-      }
-    };
+    return EMPTY_BRANCH;
+  }
+
+  clearBranches() {
+    this.subject.next([]);
   }
 
   getBranch(branchId: number): Observable<Branch> {
@@ -54,5 +63,4 @@ export class BranchService {
     }
     return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
   }
-
 }

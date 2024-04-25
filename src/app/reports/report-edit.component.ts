@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuditReportRequest } from '../model/audit-report-request';
 import { Period } from '../model/period';
 import { PeriodService } from '../shared/period.service';
 import { DefaultReport } from './domain/default-report';
 import { ReportService } from './report.service';
+import { UserService } from '../shared/user.service';
 
 @Component({
   selector: 'cc-repor-edit',
@@ -20,13 +21,18 @@ export class ReportEditComponent implements OnInit {
   constructor(
     private reportService: ReportService,
     private periodService: PeriodService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.branchId = Number(this.route.snapshot.paramMap.get('misionid'));
-    let periodId = Number(this.route.snapshot.paramMap.get('periodid'));
-    this.fetchPeriod(periodId);
+
+    this.userService.user$.subscribe((user) => {
+      let periodId = Number(this.route.snapshot.paramMap.get('periodid'));
+      this.branchId = user.defaultBranch;
+      this.fetchPeriod(periodId);
+    });
   }
 
   fetchPeriod(periodid: number) {

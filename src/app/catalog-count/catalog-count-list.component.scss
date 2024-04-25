@@ -1,3 +1,14 @@
 .cc-tr:nth-child(even) * {
     background-color: #f8f8f8;
 }
+
+.go-up-btn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.go-up-btn.show {
+    display: block;
+}

@@ -1,5 +1,5 @@
-<div class="card mb-2">
-    <div class="card-header">
+<div class="card mb-2" *ngIf="branch">
+    <div class="card-header" >
         <h2>
             <strong>
                 {{ pageTitle }} : {{ branch.name }}
@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card" *ngIf="branch">
     <div class="card-header">
         <h2>Saldo Inicial</h2>
         <i class="fa fa-info-circle" style="margin-right: 5px;" aria-hidden="true" title="Saldo Inicial"></i>

@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../login/auth.service';
 import { Period } from '../model/period';
 import { User } from '../model/user';
 import { PeriodService } from '../shared/period.service';
 import { RolePermissionService } from '../shared/permissions/role-permission.service';
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
+import { UserService } from '../shared/user.service';
+import { Branch } from '../model/branch';
+import { BranchService } from '../shared/branch.service';
 
 @Component({
   selector: 'cc-catalog-count-list',
@@ -19,17 +21,20 @@ export class CatalogCountListComponent implements OnInit {
   isLoadingCatalogCounts = true;
   errorMessage = '';
   userDetails!: User;
+  defaultBranch!: Branch;
   currentPeriod!: Period;
   hasWriteAccess = false;
   displayCatalogCountAlert = false;
   displayConfirmationAlert = false;
   private _listFilter = '';
+  isButtonVisible = false;
 
   constructor(
     private ccService: CatalogCountService,
-    private authService: AuthService,
+    private userService: UserService,
     private rolePermissionService: RolePermissionService,
-    private periodService: PeriodService
+    private periodService: PeriodService,
+    private branchService: BranchService
   ) {}
 
   get listFilter(): string {
@@ -42,7 +47,7 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe({
+    this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(
@@ -50,15 +55,19 @@ export class CatalogCountListComponent implements OnInit {
         );
         this.fetchCatalogCountList(data.defaultBranch);
         this.getPeriodDescription();
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
       },
       error: (err) => (this.errorMessage = err),
     });
   }
 
-  performFilter(filterBy:any): any[] {
+  performFilter(filterBy: any): any[] {
     filterBy = filterBy.toLocaleLowerCase();
-    return this.catalogCounts.filter((cc: CatalogCount) =>
-      cc.details.toLocaleLowerCase().includes(filterBy) || cc.catalogCountEnum.toLocaleLowerCase().includes(filterBy));
+    return this.catalogCounts.filter(
+      (cc: CatalogCount) =>
+        cc.details.toLocaleLowerCase().includes(filterBy) ||
+        cc.catalogCountEnum.toLocaleLowerCase().includes(filterBy)
+    );
   }
 
   getPeriodDescription() {
@@ -142,5 +151,14 @@ export class CatalogCountListComponent implements OnInit {
           });
       }
     }
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isButtonVisible = window.scrollY > 100;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
