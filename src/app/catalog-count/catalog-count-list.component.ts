@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Period } from '../model/period';
 import { User } from '../model/user';
@@ -27,6 +27,7 @@ export class CatalogCountListComponent implements OnInit {
   displayCatalogCountAlert = false;
   displayConfirmationAlert = false;
   private _listFilter = '';
+  isButtonVisible = false;
 
   constructor(
     private ccService: CatalogCountService,
@@ -150,5 +151,14 @@ export class CatalogCountListComponent implements OnInit {
           });
       }
     }
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.isButtonVisible = window.scrollY > 100;
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
