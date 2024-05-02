@@ -19,7 +19,7 @@ export class CatalogCountListComponent implements OnInit {
   catalogCounts: any[] = [];
   filteredCatalogCounts: any[] = [];
   isLoadingCatalogCounts = true;
-  errorMessage = '';
+  errorMessage: string[] = [];
   userDetails!: User;
   defaultBranch!: Branch;
   currentPeriod!: Period;
@@ -57,7 +57,7 @@ export class CatalogCountListComponent implements OnInit {
         this.getPeriodDescription();
         this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
       },
-      error: (err) => (this.errorMessage = err),
+      error: (err) => (this.errorMessage.push(err)),
     });
   }
 
@@ -80,7 +80,7 @@ export class CatalogCountListComponent implements OnInit {
       error: (err) => {
         let customError =
           'IMPORTANTE!!! Avisar que no hay periodo de corte habilitado!';
-        this.errorMessage = customError;
+        this.errorMessage.push(customError);
       },
     });
   }
@@ -118,7 +118,7 @@ export class CatalogCountListComponent implements OnInit {
 
         this.isLoadingCatalogCounts = false;
       },
-      error: (err) => (this.errorMessage = err),
+      error: (err) => (this.errorMessage.push(err)),
     });
   }
 
@@ -129,7 +129,7 @@ export class CatalogCountListComponent implements OnInit {
         .subscribe({
           next: () =>
             this.fetchCatalogCountList(this.userDetails.defaultBranch),
-          error: (err) => (this.errorMessage = err),
+          error: (err) => (this.errorMessage.push(err)),
         });
     }
   }
@@ -147,7 +147,7 @@ export class CatalogCountListComponent implements OnInit {
             next: () => {
               this.ngOnInit();
             },
-            error: (err) => (this.errorMessage = err),
+            error: (err) => (this.errorMessage.push(err)),
           });
       }
     }

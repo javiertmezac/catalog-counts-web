@@ -22,7 +22,6 @@ export class ReportEditComponent implements OnInit {
     private reportService: ReportService,
     private periodService: PeriodService,
     private route: ActivatedRoute,
-    private router: Router,
     private userService: UserService
   ) {}
 

@@ -6,6 +6,12 @@
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
 
+<div class="alert alert-warning mt-2" *ngIf="errorMessage.length > 0">
+  <div class="alert" *ngFor="let error of errorMessage">
+    {{ error }}
+  </div>
+</div>
+
 <div *ngIf="userDetails?.defaultBranch != 0 && defaultBranch">
   <div>
     <div class="d-flex">
@@ -41,9 +47,7 @@
     </div>
   </div>
 
-  <div class="alert alert-warning mt-2" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </div>
+  
 
   <div *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
     <h2>No existen registros!</h2>
