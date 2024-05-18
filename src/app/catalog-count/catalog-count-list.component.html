@@ -12,10 +12,15 @@
   </div>
 </div>
 
-<div *ngIf="userDetails?.defaultBranch != 0 && defaultBranch">
+<div *ngIf="isLoadingCatalogCounts">
+  <h4>Cargando ...</h4>
+</div>
+
+<div *ngIf="catalogCounts.length >= 0 && defaultBranch">
   <div>
     <div class="d-flex">
-      <h1>Historial de Movimientos</h1> <h1> - {{ defaultBranch.name }}</h1>
+      <h1>Historial de Movimientos</h1>
+      <h1> - {{ defaultBranch.name }}</h1>
     </div>
 
     <div *ngIf="currentPeriod" class="mb-3">
@@ -47,16 +52,11 @@
     </div>
   </div>
 
-  
-
-  <div *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
+  <div class="m-4" *ngIf="catalogCounts.length == 0 && isLoadingCatalogCounts == false">
     <h2>No existen registros!</h2>
-    <h4>Capturar nuevo registro!</h4>
+    <h5>Capturar saldo inicial <a routerLink="/mision/details">click aquí!</a></h5>
   </div>
 
-  <div *ngIf="isLoadingCatalogCounts">
-    <h4>Cargando ...</h4>
-  </div>
 
   <div *ngIf="catalogCounts.length">
     <div class="row">

@@ -53,11 +53,14 @@ export class CatalogCountListComponent implements OnInit {
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(
           this.userDetails
         );
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
+
+        this.cleanResources();
+
         this.fetchCatalogCountList(data.defaultBranch);
         this.getPeriodDescription();
-        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
       },
-      error: (err) => (this.errorMessage.push(err)),
+      error: (err) => (this.addOrReplaceString(err)),
     });
   }
 
@@ -80,7 +83,7 @@ export class CatalogCountListComponent implements OnInit {
       error: (err) => {
         let customError =
           'IMPORTANTE!!! Avisar que no hay periodo de corte habilitado!';
-        this.errorMessage.push(customError);
+        this.addOrReplaceString(customError);
       },
     });
   }
@@ -118,7 +121,7 @@ export class CatalogCountListComponent implements OnInit {
 
         this.isLoadingCatalogCounts = false;
       },
-      error: (err) => (this.errorMessage.push(err)),
+      error: (err) => (this.addOrReplaceString(err)),
     });
   }
 
@@ -129,7 +132,7 @@ export class CatalogCountListComponent implements OnInit {
         .subscribe({
           next: () =>
             this.fetchCatalogCountList(this.userDetails.defaultBranch),
-          error: (err) => (this.errorMessage.push(err)),
+          error: (err) => (this.addOrReplaceString(err)),
         });
     }
   }
@@ -147,7 +150,7 @@ export class CatalogCountListComponent implements OnInit {
             next: () => {
               this.ngOnInit();
             },
-            error: (err) => (this.errorMessage.push(err)),
+            error: (err) => (this.addOrReplaceString(err)),
           });
       }
     }
@@ -160,5 +163,24 @@ export class CatalogCountListComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  addOrReplaceString(newErrorMessage: string) {
+    const index = this.errorMessage.findIndex(str => str === newErrorMessage);
+
+    if (index !== -1) {
+      this.errorMessage[index] = newErrorMessage;
+    } else {
+      this.errorMessage.push(newErrorMessage);
+    }
+  }
+
+
+  //todo: improve?
+  cleanResources() {
+    this.catalogCounts = [];
+    this.filteredCatalogCounts = [];
+    this.errorMessage = [];
+    this.isLoadingCatalogCounts = true;
   }
 }
