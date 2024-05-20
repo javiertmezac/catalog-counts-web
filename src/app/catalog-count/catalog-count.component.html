@@ -109,7 +109,7 @@
                 ? 'Save your entered data'
                 : 'Disabled until the form data is valid'
             "
-            [disabled]="!catalogCountForm.valid"
+            [disabled]="!catalogCountForm.valid || isSubmitting"
           >
             Guardar
           </button>

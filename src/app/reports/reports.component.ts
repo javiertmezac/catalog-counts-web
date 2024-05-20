@@ -15,7 +15,6 @@ export class ReportsComponent implements OnInit {
 
   constructor(
     private reportService: ReportService,
-    private route: ActivatedRoute,
     private userService: UserService
   ) {}
 
@@ -24,9 +23,6 @@ export class ReportsComponent implements OnInit {
       this.branchId = user.defaultBranch;
       this.fetchPeriodsStatus();
     });
-
-    // this.branchId = Number(this.route.snapshot.paramMap.get('misionid'));
-    // this.fetchPeriodsStatus();
   }
 
   fetchPeriodsStatus() {

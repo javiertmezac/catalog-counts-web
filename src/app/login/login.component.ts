@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
-import { UserdetailsLocalstorageService } from '../shared/userdetails-localstorage.service';
 import { UserService } from '../shared/user.service';
 
 @Component({

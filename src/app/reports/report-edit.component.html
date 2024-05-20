@@ -1,5 +1,10 @@
 <h2>Detalles Reporte</h2>
-<div class="container card">
+
+<div *ngIf="!report">
+  <h4>Cargando ...</h4>
+</div>
+
+<div class="container card" *ngIf="report">
   <div *ngIf="report">
     <div class="row col-12">
       <h4 class="col-6">Cuenta: {{ report.mision }}</h4>
