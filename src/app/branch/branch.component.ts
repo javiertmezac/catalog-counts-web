@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Branch } from '../model/branch';
 import { BranchService } from '../shared/branch.service';
 import {
@@ -25,6 +25,7 @@ export class BranchComponent implements OnInit {
   constructor(
     private userService: UserService,
     private branchService: BranchService,
+    private router:Router,
     private fb: UntypedFormBuilder
   ) {
 
@@ -61,7 +62,10 @@ export class BranchComponent implements OnInit {
         this.branchInitialAmountForm.value.amount
       )
       .subscribe({
-        next: () => this.fetchBranch(this.branchId),
+        next: () => {
+          this.fetchBranch(this.branchId);
+          this.router.navigateByUrl("/cc")
+        },
         error: (err) => (this.errorMessage = err),
       });
   }

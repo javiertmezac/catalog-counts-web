@@ -21,6 +21,7 @@ export class CatalogCountComponent implements OnInit {
   static NumericPattern = /\d{1,}/;
   pageTitle = 'Capturar Movimiento';
   catalogCountForm!: UntypedFormGroup;
+  isSubmitting = false
   errorMessage = '';
   ccEnums: any[] = [];
   userDetails!: User;
@@ -121,19 +122,26 @@ export class CatalogCountComponent implements OnInit {
 
         payload.catalogCountEnumId = payload.catalogCountEnum.value;
 
+        this.isSubmitting = true;
         if (payload.id === 0) {
           this.ccService
             .saveCatalogCount(this.userDetails.defaultBranch, payload)
             .subscribe({
               next: () => this.onSaveComplete(),
-              error: (err) => (this.errorMessage = err),
+              error: (err) => {
+                this.errorMessage = err
+                this.isSubmitting = false;
+              },
             });
         } else {
           this.ccService
             .updateCatalogCount(this.userDetails.defaultBranch, payload)
             .subscribe({
               next: () => this.onSaveComplete(),
-              error: (err) => (this.errorMessage = err),
+              error: (err) => {
+                this.errorMessage = err
+                this.isSubmitting = false;
+              },
             });
         }
       } else {
@@ -144,6 +152,7 @@ export class CatalogCountComponent implements OnInit {
 
   onSaveComplete() {
     this.catalogCountForm.reset();
+    this.isSubmitting = false;
     this.router.navigateByUrl('/cc');
   }
 

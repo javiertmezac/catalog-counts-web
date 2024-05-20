@@ -22,7 +22,6 @@ export class ReportEditComponent implements OnInit {
     private reportService: ReportService,
     private periodService: PeriodService,
     private route: ActivatedRoute,
-    private router: Router,
     private userService: UserService
   ) {}
 
@@ -48,8 +47,9 @@ export class ReportEditComponent implements OnInit {
   generateReport() {
     let payload: AuditReportRequest = {
       fromMonth: this.period.fromMonth,
+      fromYear: this.period.year,
       toMonth: this.period.toMonth,
-      year: this.period.year,
+      toYear: this.period.year,
       reporterComments: '',
     };
     this.reportService.generateReport(this.branchId, payload).subscribe({
