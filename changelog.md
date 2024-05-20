@@ -1,7 +1,7 @@
 # Catalog Count Web
 
 ## 2.1.1
-release date:  -
+release date:  May 20, 2024
 
 - cc-list improve error handling
 - change default report to consider fromMonth, fromYear, toMonth, toYear
