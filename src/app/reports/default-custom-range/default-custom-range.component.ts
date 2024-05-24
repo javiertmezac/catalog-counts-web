@@ -50,6 +50,7 @@ export class DefaultCustomRangeComponent {
 
 
   generateReport() {
+
     if (this.defaultCustomReportForm.valid) {
         this.reportRequestParams = { ...this.defaultCustomReportForm.value };
     }

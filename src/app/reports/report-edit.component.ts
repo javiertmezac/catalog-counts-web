@@ -25,12 +25,15 @@ export class ReportEditComponent implements OnInit {
 
     this.userService.user$.subscribe((user) => {
       this.branchId = user.defaultBranch;
+      if(this.inputReportRequestParams != this.reportService.emptyReportRequestParams()) {
+        this.generateReport();
+      }
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     const values = changes['inputReportRequestParams']
-    if (values.currentValue != values.previousValue) {
+    if (this.branchId != 0 && (values.currentValue != values.previousValue)) {
       this.inputReportRequestParams = { ...values.currentValue };
       this.isLoading = true;
       this.generateReport()
@@ -44,6 +47,7 @@ export class ReportEditComponent implements OnInit {
       next: (response) => {
         this.report = response;
         this.isLoading = false;
+        this.errorMessage = ''
       },
       error: (err) => (this.errorMessage = err),
     });
