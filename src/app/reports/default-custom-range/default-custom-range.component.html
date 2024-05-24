@@ -1,0 +1,132 @@
+<div class="card">
+  <div class="card-header">
+    <h3>
+      <strong>
+        {{ pageTitle }}
+      </strong>
+    </h3>
+  </div>
+
+  <div class="card-body">
+    <form novalidate (ngSubmit)="generateReport()" [formGroup]="defaultCustomReportForm">
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="fromMonthId"
+          >Mes (desde):</label
+        >
+        <div class="col-md-8">
+          <select
+            id="fromMonthId"
+            formControlName="fromMonth"
+            class="form-control"
+          >
+            <option [ngValue]="" disabled selected>
+              Seleccionar Mes Inicial
+            </option>
+            <option *ngFor="let e of months" [ngValue]="e.id">
+              {{ e.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="fromYearId">Año (desde):</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="fromYearId"
+            type="text"
+            placeholder="Año (requerido)"
+            formControlName="fromYear"
+            [ngClass]="{
+              'is-invalid':
+                (defaultCustomReportForm.get('fromYear')?.touched ||
+                  defaultCustomReportForm.get('fromYear')?.dirty) &&
+                !defaultCustomReportForm.get('fromYear')?.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="defaultCustomReportForm.controls['fromYear'].errors?.min">
+              Año no aceptable
+            </span>
+            <span *ngIf="defaultCustomReportForm.controls['fromYear'].errors?.pattern">
+              Solo número son permitidos
+            </span>
+            <span *ngIf="defaultCustomReportForm.controls['fromYear'].errors?.required">
+              Año Requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="toMonthId"
+          >Mes (hasta):</label
+        >
+        <div class="col-md-8">
+          <select id="toMonthId" formControlName="toMonth" class="form-control">
+            <option [ngValue]="" disabled selected>
+              Seleccionar Mes Final
+            </option>
+            <option *ngFor="let e of months" [ngValue]="e.id">
+              {{ e.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <label class="col-md-2 col-form-label" for="toYearId">Año (hasta):</label>
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="toYearId"
+            type="text"
+            placeholder="Año (requerido)"
+            formControlName="toYear"
+            [ngClass]="{
+              'is-invalid':
+                (defaultCustomReportForm.get('toYear')?.touched ||
+                  defaultCustomReportForm.get('toYear')?.dirty) &&
+                !defaultCustomReportForm.get('toYear')?.valid
+            }"
+          />
+          <span class="invalid-feedback">
+            <span *ngIf="defaultCustomReportForm.controls['toYear'].errors?.min">
+              Año no aceptable
+            </span>
+            <span *ngIf="defaultCustomReportForm.controls['toYear'].errors?.pattern">
+              Solo número son permitidos
+            </span>
+            <span *ngIf="defaultCustomReportForm.controls['toYear'].errors?.required">
+              Año Requerido
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2">
+        <div class="offset-md-2 col-md-4">
+          <button
+            class="btn btn-primary mr-3"
+            style="width: 100px"
+            type="submit"
+            [title]="
+              defaultCustomReportForm.valid
+                ? 'Crear Reporte'
+                : 'Disabled until the form data is valid'
+            "
+            [disabled]="!defaultCustomReportForm.valid"
+          >
+            Crear Reporte
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <cc-report-edit [inputReportRequestParams]="reportRequestParams"></cc-report-edit>
+
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>
+

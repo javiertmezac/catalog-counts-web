@@ -1,147 +1,138 @@
-<h2>Detalles Reporte</h2>
+<div *ngIf="report">
 
-<div *ngIf="!report">
-  <h4>Cargando ...</h4>
-</div>
-
-<div class="container card" *ngIf="report">
-  <div *ngIf="report">
-    <div class="row col-12">
-      <h4 class="col-6">Cuenta: {{ report.mision }}</h4>
-      <h4 class="col-6">Periodo: {{ report.period }}</h4>
-    </div>
-    <div class="row">
-      <div class="col-4"></div>
-      <div class="col-4 description">Saldo Inicial</div>
-      <div class="col-4 amount-detail">
-        {{ report.previousBalance | currency }}
-      </div>
-    </div>
-
-    <br />
-
-    <div class="incomes">
-      <div class="row">
-        <div class="col-4 description">Ofrendas</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumIncomes.offering | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Diezmos</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumIncomes.tithe | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Donaciones</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumIncomes.donations | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 description">Total Ingresos</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumIncomes.sumIncomesTotal | currency }}
-        </div>
-      </div>
-    </div>
-
-    <br />
-
-    <div class="expenses">
-      <div class="row">
-        <div class="col-4 description">Servicios</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.services | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Ayudas</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.helps | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Generales</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.general | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Alimentos</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.food | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Viajes y Transportación</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.traveling | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Papelería</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.stationery | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Inmuebles</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.immovables | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4 description">Gastos Legales y Honorarios</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.fees | currency }}
-        </div>
-        <div class="col-4"></div>
-      </div>
-      <div class="row">
-        <div class="col-4"></div>
-        <div class="col-4 description">Total Egresos</div>
-        <div class="col-4 amount-detail">
-          {{ report.sumExpenses.sumExpensesTotal | currency }}
-        </div>
-      </div>
-    </div>
-
-    <br />
-
-    <div class="row">
-      <div class="col-4"></div>
-      <div class="col-4 description">Saldo Final Auditado</div>
-      <div class="col-4 amount-detail">{{ report.total | currency }}</div>
-    </div>
-
-    <div class="row report-details">
-      <div>Auditor: {{ report.Auditor }}</div>
-      <div>Tesorero: {{ report.treasurer }}</div>
-      <div>Secretario: {{ report.secretary }}</div>
-    </div>
+  <div *ngIf="isLoading">
+    <h4>Cargando ...</h4>
   </div>
 
-  <hr />
+  <div class="container card" *ngIf="!isLoading">
+    <div *ngIf="report">
+      <div class="row col-12">
+        <h4 class="col-6">Cuenta: {{ report.mision }}</h4>
+        <h4 class="col-6">Periodo: {{ report.period }}</h4>
+      </div>
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 description">Saldo Inicial</div>
+        <div class="col-4 amount-detail">
+          {{ report.previousBalance | currency }}
+        </div>
+      </div>
 
-  <div>
-    <button
-      class="btn btn-outline-secondary"
-      routerLink="/mision/report"
-    >
-      Regresar
-    </button>
+      <br />
+
+      <div class="incomes">
+        <div class="row">
+          <div class="col-4 description">Ofrendas</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumIncomes.offering | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Diezmos</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumIncomes.tithe | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Donaciones</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumIncomes.donations | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4 description">Total Ingresos</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumIncomes.sumIncomesTotal | currency }}
+          </div>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="expenses">
+        <div class="row">
+          <div class="col-4 description">Servicios</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.services | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Ayudas</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.helps | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Generales</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.general | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Alimentos</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.food | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Viajes y Transportación</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.traveling | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Papelería</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.stationery | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Inmuebles</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.immovables | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4 description">Gastos Legales y Honorarios</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.fees | currency }}
+          </div>
+          <div class="col-4"></div>
+        </div>
+        <div class="row">
+          <div class="col-4"></div>
+          <div class="col-4 description">Total Egresos</div>
+          <div class="col-4 amount-detail">
+            {{ report.sumExpenses.sumExpensesTotal | currency }}
+          </div>
+        </div>
+      </div>
+
+      <br />
+
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 description">Saldo Final Auditado</div>
+        <div class="col-4 amount-detail">{{ report.total | currency }}</div>
+      </div>
+
+      <div class="row report-details">
+        <div>Auditor: {{ report.Auditor }}</div>
+        <div>Tesorero: {{ report.treasurer }}</div>
+        <div>Secretario: {{ report.secretary }}</div>
+      </div>
+    </div>
+
   </div>
 </div>

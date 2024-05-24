@@ -1,7 +1,5 @@
-export interface AuditReportRequest {
-  fromMonth: number;
-  fromYear: number;
-  toMonth: number;
-  toYear: number;
+import { BaseDefaultPeriodReport } from "./period";
+
+export interface AuditReportRequest extends BaseDefaultPeriodReport {
   reporterComments: string;
 }

@@ -3,6 +3,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router';
 import { Period } from '../model/period';
 import { PeriodService } from '../shared/period.service';
+import { Month } from '../model/month'
 
 @Component({
   selector: 'cc-period-edit',
@@ -114,9 +115,4 @@ export class PeriodEditComponent implements OnInit {
     this.months.push({ id: 11, label: 'Noviembre' });
     this.months.push({ id: 12, label: 'Diciembre' });
   }
-}
-
-export interface Month {
-  id: number;
-  label: string;
 }
