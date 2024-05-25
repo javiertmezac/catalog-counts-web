@@ -17,6 +17,7 @@ import { PeriodComponent } from './period/period.component';
 import { PeriodEditComponent } from './period/period-edit.component';
 import { BranchComponent } from './branch/branch.component';
 import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DefaultCustomRangeComponent } from './reports/default-custom-range/defa
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
   ],
   providers: [
     {
