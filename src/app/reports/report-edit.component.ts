@@ -14,7 +14,8 @@ export class ReportEditComponent implements OnInit {
   errorMessage = '';
   branchId: number = 0;
   isLoading = true;
-  @Input() inputReportRequestParams: AuditReportRequest = this.reportService.emptyReportRequestParams();
+  // @Input() inputReportRequestParams: AuditReportRequest = this.reportService.emptyReportRequestParams();
+  @Input() inputReportRequestParams!: AuditReportRequest;
 
   constructor(
     private reportService: ReportService,
@@ -42,6 +43,10 @@ export class ReportEditComponent implements OnInit {
 
 
   generateReport() {
+
+    if (this.inputReportRequestParams === undefined) {
+      return;
+    }
 
     this.reportService.generateReport(this.branchId, this.inputReportRequestParams).subscribe({
       next: (response) => {

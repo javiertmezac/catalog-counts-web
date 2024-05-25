@@ -1,5 +1,7 @@
 <div>
-  <div><h2>Reportes</h2></div>
+  <div>
+    <h2>Reportes</h2>
+  </div>
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
@@ -10,63 +12,52 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let p of periodsReportStatus">
+      <tr *ngFor="let p of periodsReportStatus | slice: (page-1) * pageSize : page * pageSize">
         <td>
           <p>
             {{ p.periodDescription }}
           </p>
         </td>
         <td>
-          <a
-            [routerLink]="[
-              '/mision',
-              'period',
-              p.periodId,
-              'report',
-              0,
-              'edit'
-            ]"
-            *ngIf="!p.reportUUID"
-          >
-            ver reporte
-          </a>
-          <p
-            *ngIf="p.reportUUID"
-            [routerLink]="['/mision','report', p.reportUUID, 'edit']"
-          >
-            {{ p.reportUUID }}
-          </p>
+          <button class="btn btn-link" (click)="generateReportForSelectedPeriod(p.periodId)"> ver
+            reporte </button>
         </td>
 
         <td>
           <strong>Rol:</strong>
           {{
-            p.confirmationList[0]?.roleDescription
-              ? p.confirmationList[0]?.roleDescription
-              : "-"
+          p.confirmationList[0]?.roleDescription
+          ? p.confirmationList[0]?.roleDescription
+          : "-"
           }}
           <strong>Día:</strong>
           {{
-            p.confirmationList[0]?.confirmationDate
-              ? (p.confirmationList[0].confirmationDate | date)
-              : "-"
+          p.confirmationList[0]?.confirmationDate
+          ? (p.confirmationList[0].confirmationDate | date)
+          : "-"
           }}
         </td>
         <td>
           <strong>Rol:</strong>
           {{
-            p.confirmationList[1]?.roleDescription
-              ? p.confirmationList[1].roleDescription
-              : "-"
+          p.confirmationList[1]?.roleDescription
+          ? p.confirmationList[1].roleDescription
+          : "-"
           }}
           <strong>Día:</strong>
           {{
-            p.confirmationList[1]?.confirmationDate
-              ? (p.confirmationList[1]?.confirmationDate | date)
-              : "-"
+          p.confirmationList[1]?.confirmationDate
+          ? (p.confirmationList[1]?.confirmationDate | date)
+          : "-"
           }}
         </td>
       </tr>
     </tbody>
   </table>
+
+  <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="periodsReportStatus.length"></ngb-pagination>
+
+  <div>
+    <cc-report-edit [inputReportRequestParams]="reportRequestParams"></cc-report-edit>
+  </div>
 </div>
