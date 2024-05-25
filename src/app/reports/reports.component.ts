@@ -40,7 +40,7 @@ export class ReportsComponent implements OnInit {
     });
   }
 
-  generateReportForSelectedPeriod(periodId: number) {
+  generateReportForSelectedPeriod(content: any, periodId: number) {
     this.periodService.getPeriod(periodId).subscribe({
       next: (periodData) => {
         let periodRequestParams: AuditReportRequest = {
@@ -51,7 +51,13 @@ export class ReportsComponent implements OnInit {
           reporterComments: ''
         }
         this.reportRequestParams = periodRequestParams;
+        this.openModal(content)
       }
     });
   }
+
+
+  openModal(content: any) {
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+	}
 }

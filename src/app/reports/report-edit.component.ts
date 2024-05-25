@@ -14,7 +14,6 @@ export class ReportEditComponent implements OnInit {
   errorMessage = '';
   branchId: number = 0;
   isLoading = true;
-  // @Input() inputReportRequestParams: AuditReportRequest = this.reportService.emptyReportRequestParams();
   @Input() inputReportRequestParams!: AuditReportRequest;
 
   constructor(

@@ -19,7 +19,7 @@
           </p>
         </td>
         <td>
-          <button class="btn btn-link" (click)="generateReportForSelectedPeriod(p.periodId)"> ver
+          <button class="btn btn-link" (click)="generateReportForSelectedPeriod(content, p.periodId)"> ver
             reporte </button>
         </td>
 
@@ -57,7 +57,13 @@
 
   <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="periodsReportStatus.length"></ngb-pagination>
 
-  <div>
-    <cc-report-edit [inputReportRequestParams]="reportRequestParams"></cc-report-edit>
-  </div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Reporte Mensual</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <cc-report-edit [inputReportRequestParams]="reportRequestParams"></cc-report-edit>
+    </div>
+  </ng-template>
 </div>
