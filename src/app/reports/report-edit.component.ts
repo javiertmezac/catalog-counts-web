@@ -1,14 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { AuditReportRequest } from '../model/audit-report-request';
-import { Period } from '../model/period';
-import { PeriodService } from '../shared/period.service';
 import { DefaultReport } from './domain/default-report';
 import { ReportService } from './report.service';
 import { UserService } from '../shared/user.service';
 
 @Component({
-  selector: 'cc-repor-edit',
+  selector: 'cc-report-edit',
   templateUrl: './report-edit.component.html',
   styleUrls: ['./report-edit.component.scss'],
 })
@@ -16,45 +13,45 @@ export class ReportEditComponent implements OnInit {
   report!: DefaultReport;
   errorMessage = '';
   branchId: number = 0;
-  period!: Period;
+  isLoading = true;
+  @Input() inputReportRequestParams!: AuditReportRequest;
 
   constructor(
     private reportService: ReportService,
-    private periodService: PeriodService,
-    private route: ActivatedRoute,
     private userService: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
     this.userService.user$.subscribe((user) => {
-      let periodId = Number(this.route.snapshot.paramMap.get('periodid'));
       this.branchId = user.defaultBranch;
-      this.fetchPeriod(periodId);
+      if(this.inputReportRequestParams != this.reportService.emptyReportRequestParams()) {
+        this.generateReport();
+      }
     });
   }
 
-  fetchPeriod(periodid: number) {
-    this.periodService.getPeriod(periodid).subscribe({
-      next: (data) => {
-        this.period = data;
-        this.generateReport();
-      },
-      error: (err) => (this.errorMessage = err),
-    });
+  ngOnChanges(changes: SimpleChanges) {
+    const values = changes['inputReportRequestParams']
+    if (this.branchId != 0 && (values.currentValue != values.previousValue)) {
+      this.inputReportRequestParams = { ...values.currentValue };
+      this.isLoading = true;
+      this.generateReport()
+    }
   }
+
 
   generateReport() {
-    let payload: AuditReportRequest = {
-      fromMonth: this.period.fromMonth,
-      fromYear: this.period.year,
-      toMonth: this.period.toMonth,
-      toYear: this.period.year,
-      reporterComments: '',
-    };
-    this.reportService.generateReport(this.branchId, payload).subscribe({
+
+    if (this.inputReportRequestParams === undefined) {
+      return;
+    }
+
+    this.reportService.generateReport(this.branchId, this.inputReportRequestParams).subscribe({
       next: (response) => {
         this.report = response;
+        this.isLoading = false;
+        this.errorMessage = ''
       },
       error: (err) => (this.errorMessage = err),
     });

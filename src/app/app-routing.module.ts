@@ -11,6 +11,7 @@ import { PeriodComponent } from './period/period.component';
 import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
+import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
     path: 'mision/report',
     canActivate: [AuthGuard],
     component: ReportsComponent,
+  },
+  {
+    path: 'mision/report/create',
+    canActivate: [AuthGuard],
+    component: DefaultCustomRangeComponent,
   },
   {
     path: 'mision/period/:periodid/report/:reportUuid/edit',

@@ -1,3 +1,10 @@
+export interface BaseDefaultPeriodReport {
+  fromMonth: number;
+  fromYear: number;
+  toMonth: number;
+  toYear: number;
+}
+
 export interface Period {
   id: number;
   description: string;
