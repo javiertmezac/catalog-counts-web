@@ -1,5 +1,14 @@
 # Catalog Count Web
 
+## 3.0.0
+release date: May 26, 2024
+
+- add default report with custom date range
+- "general styling"
+- upgrade to angular 17 (typescript to 5, zonejs to 0.14)
+- install ng-bootstrap to use pagination and modal
+
+
 ## 2.1.1
 release date:  May 20, 2024
 
