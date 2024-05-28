@@ -5,4 +5,5 @@ export interface User {
   roles: number[];
   branches: number[];
   defaultBranch: number;
+  defaultRole: string | undefined;
 }

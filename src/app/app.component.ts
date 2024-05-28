@@ -17,6 +17,7 @@ export class AppComponent {
   title = 'catalog-counts-web';
   isLoggedIn$: Observable<boolean> | undefined;
   userDetails!: User;
+  defaultBranch!: Branch
 
   constructor(
     private authService: AuthService,
@@ -32,15 +33,19 @@ export class AppComponent {
         this.userDetails = data;
       },
     });
+
+    this.branchService.defaultBranch.subscribe({
+      next: (data) => {
+        this.defaultBranch = data;
+      }
+    })
   }
 
   changeDefaultBranch(event: any) {
-    console.log(event.target.value);
     this.userService.changeUserDefaultBranch(event.target.value);
   }
 
   refreshUserDetails() {
-    console.log('Refreshing user details');
     this.userService.refreshUserDetails();
   }
 

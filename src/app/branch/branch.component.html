@@ -1,4 +1,5 @@
 <div class="container">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
     <div class="card mb-2" *ngIf="branch">
         <div class="card-header">
             <h2>
@@ -9,6 +10,13 @@
         </div>
 
         <div class="card-body">
+            <div class="row mb-2">
+                <label class="col-md-2 col-form-label"><strong>Identificador:</strong></label>
+                <div class="col-md-8">
+                    {{ branch.id}}
+                </div>
+            </div>
+
             <div class="row mb-2">
                 <label class="col-md-2 col-form-label"><strong>Dirección:</strong></label>
                 <div class="col-md-8">

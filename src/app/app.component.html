@@ -1,68 +1,75 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light" *ngIf="isLoggedIn$ | async">
-  <div class="container-fluid">
-    <a class="navbar-brand" routerLink="cc">
-      <img src="../assets/tcojc_spanish_logo_gold.png" width="150" height="35" class="d-inline-block align-top">
-      Catálogo de Cuentas
-    </a>
+<div *ngIf="isLoggedIn$ | async">
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
-      aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText" *ngIf="userDetails">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="cc">Movimientos</a>
-        </li>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="cc">
+        <img src="../assets/tcojc_spanish_logo_gold.png" width="150" height="35" class="d-inline-block align-top">
+        <!-- Catálogo de Cuentas -->
+      </a>
 
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/mision/report">Reportes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/mision/report/create">Generar Reporte</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" routerLink="/mision/details"> Detalles Cuenta
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/about">Acerca de!</a>
-        </li>
-      </ul>
-
-      <div class="d-flex">
-        <label class="col-form-label me-2"><strong>Cuenta:</strong></label>
-        <div *ngIf="userDetails">
-          <select class="form-control w-100" name="defaultBranchId" [(ngModel)]="userDetails.defaultBranch" [disabled]="!userDetails.branches"
-            (change)="changeDefaultBranch($event)">
-            <option *ngFor="let branch of userDetails.branches" [value]="branch">{{ branch }}</option>
-          </select>
-        </div>
-
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText" *ngIf="userDetails">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class=" nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
-              (click)="refreshUserDetails()" *ngIf="userDetails">
-              Usuario: <strong>{{ userDetails.username }}</strong>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="cc">Movimientos</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/mision/report">Reportes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/mision/report/create">Generar Reporte</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" routerLink="/mision/details"> Detalles Cuenta
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item disabled">Rol: {{ userDetails.roles }}</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="btn btn-outline-danger" (click)="logout()">Salir!</a></li>
-            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/about">Acerca de!</a>
           </li>
         </ul>
+
+        <div class="d-flex">
+
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class=" nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+                (click)="refreshUserDetails()" *ngIf="userDetails">
+                Usuario: <strong>{{ userDetails.username }}</strong>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item disabled">Rol: {{ userDetails.defaultRole }}</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="btn btn-outline-danger" (click)="logout()">Salir!</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <label class="col-form-label me-2"><strong>Cuenta:</strong></label>
+          <div *ngIf="userDetails">
+            <select class="form-control w-100" name="defaultBranchId" [(ngModel)]="userDetails.defaultBranch"
+              [disabled]="!userDetails.branches" (change)="changeDefaultBranch($event)">
+              <option *ngFor="let branch of userDetails.branches" [value]="branch">{{ branch }}</option>
+            </select>
+          </div>
+        </div>
+
       </div>
-
     </div>
-  </div>
-</nav>
+  </nav>
 
+  <nav class="navbar navbar-light justify-content-center" style="background-color: #e3f2fd;">
+    <span class="navbar-brand mb-0 h1"> Catálogo de Cuentas: {{ defaultBranch.name }}</span>
+  </nav>
 
+</div>
 
 <div style="padding: 1.5%">
   <router-outlet></router-outlet>

@@ -13,18 +13,16 @@ export class HandleHttpClientError {
     if (err.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       errorMessage = `An error occurred: ${err.error.message}`;
-    }if(err.status == 0){
-      errorMessage = `Cannot establish a connection to the server`;
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       errorMessage = `Server returned code: ${err.status}, statusText: ${err.message}`;
 
-      if (err.error) {
-        errorMessage =
-          errorMessage +
-          `, message: ${err.error.message}, type: ${err.error.type}`;
-      }
+      // if (err.error) {
+        // errorMessage =
+          // errorMessage +
+          // `, message: ${err.error.message}, type: ${err.error.type}`;
+      // }
     }
     return throwError(errorMessage);
   }
