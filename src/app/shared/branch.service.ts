@@ -42,6 +42,7 @@ export class BranchService {
     })
   }
 
+
   private setDefaultBranchSubject(branchId: number){
     this.getBranch(branchId).subscribe({
       next: (data) => {
@@ -76,4 +77,13 @@ export class BranchService {
     }
     return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
   }
+
+  insert(branch: Branch):Observable<any> {
+    return this.httpClient.post<Branch>(this.branchPath, branch, {
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).pipe(catchError(this.handleHttpError.handleError))
+  }
+
 }

@@ -12,6 +12,7 @@ import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
 import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
+import { BranchEditComponent } from './branch/edit/branch-edit.component';
 
 const routes: Routes = [
   {
@@ -65,6 +66,11 @@ const routes: Routes = [
     path: 'about/system-info',
     canActivate: [AuthGuard],
     component: SystemInfoComponent,
+  },
+  {
+    path: 'admin/accounts',
+    canActivate: [AuthGuard],
+    component: BranchEditComponent,
   },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'cc', pathMatch: 'full' },
