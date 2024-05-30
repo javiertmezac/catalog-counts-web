@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 3.0.1
+release date: May 30, 2024
+
+- general styling and error handling improvements
+  - add sub-nav to always display catalog count
+  - error handling while loggin
+
 ## 3.0.0
 release date: May 26, 2024
 

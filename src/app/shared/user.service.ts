@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { UserdetailsLocalstorageService } from './userdetails-localstorage.service';
+import { Router } from '@angular/router';
 
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
@@ -13,6 +14,7 @@ export const ANONYMOUS_USER: User = {
   roles: [],
   branches: [],
   defaultBranch: 0,
+  defaultRole: undefined
 };
 
 @Injectable({
@@ -26,7 +28,7 @@ export class UserService {
   );
 
   private loginSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
-    false
+   false
   );
 
   user$: Observable<User> = this.subject
@@ -39,9 +41,10 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private userDetailsStorageService: UserdetailsLocalstorageService
+    private router: Router,
+    private userDetailsStorageService: UserdetailsLocalstorageService,
   ) {
-    this.loadUserDetails();
+    this.loadUserDetails();//todo: how to avoid this loadUserDetails??
   }
 
   getUserDetailsFromLocalStorage(): User {
@@ -74,22 +77,20 @@ export class UserService {
     });
   }
 
-  fetUserDetails(idToken: string): void {
+  async fetUserDetails(idToken: string): Promise<any> {
     if (idToken) {
-      this.httpGetUserDetails(idToken).subscribe(
-        (user) => {
-          const custom_user = { ...user };
-          custom_user['id_token'] = idToken;
+      try {
+        let user = await this.httpGetUserDetails(idToken).toPromise();
+        const custom_user = { ...user };
+        custom_user['id_token'] = idToken;
 
-          this.userDetailsStorageService.setSession(custom_user);
+        this.userDetailsStorageService.setSession(custom_user);
 
-          this.subject.next(custom_user);
-          this.loginSubject.next(true);
-        },
-        (error) => {
-          this.subject.next(ANONYMOUS_USER);
-        }
-      );
+        this.subject.next(custom_user);
+        this.loginSubject.next(true);
+      } catch (error) {
+        throw error;
+      }
     }
   }
 
@@ -105,6 +106,9 @@ export class UserService {
         custom_user['defaultBranch'] = defaultBranch;
 
         this.userDetailsStorageService.setSession(custom_user);
+      },  (error) => {
+        this.clearUserDetails();
+        this.router.navigateByUrl("/login")
       });
     }
   }

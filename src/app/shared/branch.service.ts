@@ -28,13 +28,26 @@ export class BranchService {
   private branchPath = `${this.baseUri}/v1/branch`;
 
   private subject: BehaviorSubject<Branch[]> = new BehaviorSubject<Branch[]>([]);
-  // public branches$: Observable<Branch[]> = this.subject.asObservable();
+  public defaultBranch: BehaviorSubject<Branch> = new BehaviorSubject<Branch>(this.emptyBranch())
 
   constructor(
     private httpClient: HttpClient,
     private handleHttpError: HandleHttpClientError,
     private userService: UserService,
   ) {
+    this.userService.user$.subscribe({
+      next: (data) => {
+        this.setDefaultBranchSubject(data.defaultBranch)
+      }
+    })
+  }
+
+  private setDefaultBranchSubject(branchId: number){
+    this.getBranch(branchId).subscribe({
+      next: (data) => {
+        this.defaultBranch.next(data);
+      }
+    })
   }
 
   emptyBranch(): Branch {
