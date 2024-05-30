@@ -6,7 +6,6 @@ import { Branch } from './model/branch';
 import { User } from './model/user';
 import { BranchService } from './shared/branch.service';
 import { UserService } from './shared/user.service';
-import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cc-root',

@@ -1,4 +1,4 @@
-<div *ngIf="isLoggedIn$ | async">
+<div class="fixed-top" *ngIf="isLoggedIn$ | async">
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -71,6 +71,6 @@
 
 </div>
 
-<div style="padding: 1.5%">
+<div style="padding: 1.5%; margin-top: 100px;">
   <router-outlet></router-outlet>
 </div>
