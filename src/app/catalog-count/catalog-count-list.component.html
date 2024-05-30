@@ -6,7 +6,7 @@
   Usuario {{ userDetails?.username }} no está asignado a una Misión
 </div>
 
-<div class="alert alert-warning mt-2" *ngIf="errorMessage.length > 0">
+<div class="alert alert-danger mt-2" *ngIf="errorMessage.length > 0">
   <div class="alert" *ngFor="let error of errorMessage">
     {{ error }}
   </div>
@@ -20,7 +20,6 @@
   <div>
     <div class="row">
       <h1>Historial de Movimientos</h1>
-      <h1> - {{ defaultBranch.name }} - </h1>
     </div>
 
     <div *ngIf="currentPeriod" class="mb-3">
@@ -75,8 +74,7 @@
     <table class="table table-hover">
       <thead class="thead-dark">
         <tr>
-          <th>#</th>
-          <th>Fecha Registro (yyyy-MM-dd)</th>
+          <th>Fecha Registro</th>
           <th>Número de Cuenta</th>
           <th>Cantidad</th>
           <th>Detalles</th>
@@ -86,7 +84,6 @@
       </thead>
       <tbody *ngIf="catalogCounts.length > 0">
         <tr *ngFor="let cc of filteredCatalogCounts" class="cc-tr">
-          <td>{{ cc.id }}</td>
           <td>
             {{ cc.registrationDate | date: "medium" }}
           </td>

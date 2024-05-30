@@ -2,61 +2,71 @@
   <div>
     <h2>Reportes</h2>
   </div>
-  <table class="table table-hover">
-    <thead class="thead-dark">
-      <tr>
-        <th>Periodo</th>
-        <th>Report</th>
-        <th>Confirmado #1</th>
-        <th>Confirmado #2</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let p of periodsReportStatus | slice: (page-1) * pageSize : page * pageSize">
-        <td>
-          <p>
-            {{ p.periodDescription }}
-          </p>
-        </td>
-        <td>
-          <button class="btn btn-link" (click)="generateReportForSelectedPeriod(content, p.periodId)"> ver
-            reporte </button>
-        </td>
 
-        <td>
-          <strong>Rol:</strong>
-          {{
-          p.confirmationList[0]?.roleDescription
-          ? p.confirmationList[0]?.roleDescription
-          : "-"
-          }}
-          <strong>Día:</strong>
-          {{
-          p.confirmationList[0]?.confirmationDate
-          ? (p.confirmationList[0].confirmationDate | date)
-          : "-"
-          }}
-        </td>
-        <td>
-          <strong>Rol:</strong>
-          {{
-          p.confirmationList[1]?.roleDescription
-          ? p.confirmationList[1].roleDescription
-          : "-"
-          }}
-          <strong>Día:</strong>
-          {{
-          p.confirmationList[1]?.confirmationDate
-          ? (p.confirmationList[1]?.confirmationDate | date)
-          : "-"
-          }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }} </div>
 
-  <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="periodsReportStatus.length"></ngb-pagination>
+  <div *ngIf="periodsReportStatus.length == 0">
+    <h4>Cargando ...</h4>
+  </div>
 
+
+  <div *ngIf="periodsReportStatus.length > 0">
+    <table class="table table-hover" >
+      <thead class="thead-dark">
+        <tr>
+          <th>Periodo</th>
+          <th>Report</th>
+          <th>Confirmado #1</th>
+          <th>Confirmado #2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of periodsReportStatus | slice: (page-1) * pageSize : page * pageSize">
+          <td>
+            <p>
+              {{ p.periodDescription }}
+            </p>
+          </td>
+          <td>
+            <button class="btn btn-link" (click)="generateReportForSelectedPeriod(content, p.periodId)"> ver
+              reporte </button>
+          </td>
+
+          <td>
+            <strong>Rol:</strong>
+            {{
+            p.confirmationList[0]?.roleDescription
+            ? p.confirmationList[0]?.roleDescription
+            : "-"
+            }}
+            <strong>Día:</strong>
+            {{
+            p.confirmationList[0]?.confirmationDate
+            ? (p.confirmationList[0].confirmationDate | date)
+            : "-"
+            }}
+          </td>
+          <td>
+            <strong>Rol:</strong>
+            {{
+            p.confirmationList[1]?.roleDescription
+            ? p.confirmationList[1].roleDescription
+            : "-"
+            }}
+            <strong>Día:</strong>
+            {{
+            p.confirmationList[1]?.confirmationDate
+            ? (p.confirmationList[1]?.confirmationDate | date)
+            : "-"
+            }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination [(page)]="page" [pageSize]="pageSize"
+      [collectionSize]="periodsReportStatus.length"></ngb-pagination>
+  </div>
   <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Reporte Mensual</h4>

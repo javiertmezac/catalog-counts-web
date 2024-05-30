@@ -38,13 +38,17 @@ export class LoginComponent {
     this.isLoginBtnClickable = false;
     this.btnText = 'Ingresando...';
 
-    setTimeout(() => {
 
       if (val.email && val.password) {
         this.authService.login(val.email, val.password).subscribe({
           next: async (loginResponse: any) => {
-            this.userService.fetUserDetails(loginResponse.id_token);
-            this.router.navigateByUrl('/cc');
+            try {
+              await this.userService.fetUserDetails(loginResponse.id_token);
+              this.router.navigateByUrl("/cc")
+            } catch (error:any) {
+              this.errorMessage = "Error al cargar los detalles del usuario - Informar a Soporte!"
+              this.clearErrorMessage();
+            }
           },
           error: (err: any) => {
             if (err.statusText === 'Unknown Error') {
@@ -56,16 +60,18 @@ export class LoginComponent {
             } else {
               this.errorMessage = 'Error desconocido! - Informar a Soporte!'
             }
-
-            this.isLoginBtnClickable = true;
-            this.btnText = 'Ingresar';
-            setTimeout(() => {
-              this.errorMessage = '';
-            }, 3500);
+            this.clearErrorMessage();
           },
         });
       }
 
-    }, 1000);
+  }
+
+  private clearErrorMessage() {
+    this.isLoginBtnClickable = true;
+    this.btnText = 'Ingresar';
+    setTimeout(() => {
+      this.errorMessage = '';
+    }, 3500);
   }
 }

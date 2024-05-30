@@ -13,6 +13,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ReportsComponent implements OnInit {
   periodsReportStatus: PeriodReportResponse[] = [];
+  errorMessage = '';
   branchId = 0;
   page = 1
   pageSize = 10
@@ -36,7 +37,8 @@ export class ReportsComponent implements OnInit {
     this.reportService.periodsReportStatus(this.branchId).subscribe({
       next: (data) => {
         this.periodsReportStatus = data.periodReportList;
-      }
+      },
+      error: (err) => this.errorMessage = err
     });
   }
 
