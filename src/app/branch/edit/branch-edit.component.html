@@ -38,14 +38,21 @@
                 <select id="timezoneId" formControlName="timezoneId" class="form-control">
                     <option [ngValue]="" disabled selected>Seleccionar Zona Horaria</option>
                     <option *ngFor="let e of timezones" [ngValue]="e.id">
-                        {{ e.label }}
+                        {{ e.id }} - {{ e.label }}
                     </option>
                 </select>
             </div>
 
             <div class="form-group mt-2">
                 <button class="btn btn-primary" type="submit" [disabled]="branchForm.invalid">Guardar</button>
+                <button class="btn btn-secondary" (click)="cancel()" [disabled]="branchForm.invalid">Cancelar</button>
             </div>
         </form>
     </div>
+
+
+</div>
+
+<div class="card-body">
+    <cc-branch-list (selectedBranchEvent)="populate($event)"></cc-branch-list>
 </div>

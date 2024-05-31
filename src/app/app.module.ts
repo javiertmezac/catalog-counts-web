@@ -18,7 +18,6 @@ import { PeriodEditComponent } from './period/period-edit.component';
 import { BranchComponent } from './branch/branch.component';
 import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BranchEditComponent } from './branch/edit/branch-edit.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +32,6 @@ import { BranchEditComponent } from './branch/edit/branch-edit.component';
     PeriodComponent,
     PeriodEditComponent,
     BranchComponent,
-    BranchEditComponent,
     DefaultCustomRangeComponent,
   ],
   imports: [

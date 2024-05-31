@@ -1,6 +1,8 @@
 export interface Branch extends BrancheBase {
   id:  number;
   registration: number
+  status: boolean
+  timezoneId: number,
   initialAmount: BranchInitialAmount
 }
 
@@ -13,8 +15,4 @@ export interface BranchInitialAmount {
 export interface BrancheBase {
   name: string | undefined;
   address: string;
-}
-
-export interface RegisterBranch extends BrancheBase {
-  timezoneId: number
 }

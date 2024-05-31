@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RegisterBranch } from 'src/app/model/branch';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Branch, } from 'src/app/model/branch';
 import { TimeZoneTypes } from 'src/app/model/timezone-types';
 import { BranchService } from 'src/app/shared/branch.service';
 import { TimezoneTypesService } from 'src/app/shared/timezone-types.service';
+import { BranchListComponent } from './branch-list.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'cc-branch-edit',
+  standalone: true,
+  imports: [BranchListComponent, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './branch-edit.component.html',
   styleUrl: './branch-edit.component.scss'
 })
@@ -15,6 +19,7 @@ export class BranchEditComponent {
   errorMessage = ''
   branchForm!: FormGroup;
   timezones: TimeZoneTypes[] = []
+  branch: Branch = this.branchService.emptyBranch();
 
   constructor(private fb: FormBuilder,
     private branchService: BranchService,
@@ -27,22 +32,45 @@ export class BranchEditComponent {
       timezoneId: ['', Validators.required],
     });
 
-    this.timezoneService.getTimeZones().subscribe((data) => this.timezones = data.timezone )
+    this.timezoneService.getTimeZones().subscribe((data) => this.timezones = data.timezone)
+  }
+
+  cancel() {
+    this.clearForm()
   }
 
   onSubmit(): void {
     if (this.branchForm.valid) {
-      const branch: RegisterBranch = {...this.branchForm.value};
+      if (this.branchForm.dirty) {
+        const branch: Branch = {...this.branch, ...this.branchForm.value };
+        console.log(branch)
+        if (branch.id === 0) {
+          this.branchService.insert(branch).subscribe({
+            next: () => {
+              alert('added successfully!')
+              this.clearForm();
+            },
+            error: (err) => this.errorMessage = err
+          })
+        } else {
+          //update
+        }
 
-      this.branchService.insert(branch).subscribe({
-        next: () => {
-          alert('added successfully!')
-          this.clearForm();
-        },
-        error: (err) => this.errorMessage = err
-      })
       }
     }
+  }
+
+  populate(selectedBranch: Branch) {
+    if (this.branchForm) {
+      this.branchForm.reset();
+    }
+    this.branch = selectedBranch;
+    this.branchForm.patchValue({
+      name: this.branch.name,
+      address: this.branch.address,
+      timezoneId: this.branch.timezoneId
+    })
+  }
 
   clearForm() {
     this.branchForm.reset();
