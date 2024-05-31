@@ -32,6 +32,17 @@
                     </span>
                 </span>
             </div>
+
+            <div class="form-group ">
+                <label class="col-form-label" for="timezoneId">Zona Horaria:</label>
+                <select id="timezoneId" formControlName="timezoneId" class="form-control">
+                    <option [ngValue]="" disabled selected>Seleccionar Zona Horaria</option>
+                    <option *ngFor="let e of timezones" [ngValue]="e.id">
+                        {{ e.label }}
+                    </option>
+                </select>
+            </div>
+
             <div class="form-group mt-2">
                 <button class="btn btn-primary" type="submit" [disabled]="branchForm.invalid">Guardar</button>
             </div>

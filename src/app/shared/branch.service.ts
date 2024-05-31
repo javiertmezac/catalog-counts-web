@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { Branch, BranchInitialAmount } from '../model/branch';
+import { Branch, BranchInitialAmount, RegisterBranch } from '../model/branch';
 import { HandleHttpClientError } from './handle-error';
 import { UserService } from './user.service';
 
@@ -78,8 +78,8 @@ export class BranchService {
     return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
   }
 
-  insert(branch: Branch):Observable<any> {
-    return this.httpClient.post<Branch>(this.branchPath, branch, {
+  insert(branch: RegisterBranch):Observable<any> {
+    return this.httpClient.post<RegisterBranch>(this.branchPath, branch, {
       headers: {
         'content-type': 'application/json'
       }
