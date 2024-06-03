@@ -13,6 +13,7 @@ import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
 import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
 import { BranchEditComponent } from './branch/edit/branch-edit.component';
+import { adminGuard } from './shared/admin.guard';
 
 const routes: Routes = [
   {
@@ -69,7 +70,7 @@ const routes: Routes = [
   },
   {
     path: 'admin/accounts',
-    canActivate: [AuthGuard],
+    canActivate: [adminGuard],
     component: BranchEditComponent,
   },
   { path: 'login', component: LoginComponent },
