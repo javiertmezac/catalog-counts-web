@@ -77,7 +77,7 @@ export class BranchService {
       amount: amount,
       registration: new Date()
     }
-    return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}`, request).pipe(catchError(this.handleHttpError.handleError));
+    return this.httpClient.post<BranchInitialAmount>(`${this.branchPath}/${branch.id}/initial-amount`, request).pipe(catchError(this.handleHttpError.handleError));
   }
 
   insert(branch: Branch):Observable<any> {
@@ -87,6 +87,18 @@ export class BranchService {
       }
     }).pipe(catchError(this.handleHttpError.handleError))
   }
+
+  update(branch: Branch):Observable<any> {
+    if (branch.id === 0 || branch.id === undefined) {
+      throw Error('cannot update branch')
+    }
+    return this.httpClient.post<Branch>(`${this.branchPath}/${branch.id}`, branch, {
+      headers: {
+        'content-type': 'application/json'
+      }
+    }).pipe(catchError(this.handleHttpError.handleError))
+  }
+
 
   getList():Observable<any> {
     return this.httpClient.get(this.branchPath).pipe(catchError(this.handleHttpError.handleError))

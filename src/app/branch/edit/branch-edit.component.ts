@@ -29,7 +29,7 @@ export class BranchEditComponent {
     this.branchForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
-      timezoneId: ['', Validators.required],
+      timezoneId: ['', Validators.required]
     });
 
     this.timezoneService.getTimeZones().subscribe((data) => this.timezones = data.timezone)
@@ -43,7 +43,7 @@ export class BranchEditComponent {
     if (this.branchForm.valid) {
       if (this.branchForm.dirty) {
         const branch: Branch = {...this.branch, ...this.branchForm.value };
-        console.log(branch)
+
         if (branch.id === 0) {
           this.branchService.insert(branch).subscribe({
             next: () => {
@@ -53,7 +53,13 @@ export class BranchEditComponent {
             error: (err) => this.errorMessage = err
           })
         } else {
-          //update
+          this.branchService.update(branch).subscribe({
+            next: () => {
+              alert('updated successfully!')
+              this.clearForm();
+            },
+            error: (err) => this.errorMessage = err
+          })
         }
 
       }
@@ -64,8 +70,10 @@ export class BranchEditComponent {
     if (this.branchForm) {
       this.branchForm.reset();
     }
+
     this.branch = selectedBranch;
     this.branchForm.patchValue({
+      id: this.branch.id,
       name: this.branch.name,
       address: this.branch.address,
       timezoneId: this.branch.timezoneId
