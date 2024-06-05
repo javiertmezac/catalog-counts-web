@@ -29,7 +29,8 @@ export class BranchEditComponent {
     this.branchForm = this.fb.group({
       name: ['', Validators.required],
       address: ['', Validators.required],
-      timezoneId: ['', Validators.required]
+      timezoneId: ['', Validators.required],
+      status: [true, Validators.required]
     });
 
     this.timezoneService.getTimeZones().subscribe((data) => this.timezones = data.timezone)
@@ -76,7 +77,8 @@ export class BranchEditComponent {
       id: this.branch.id,
       name: this.branch.name,
       address: this.branch.address,
-      timezoneId: this.branch.timezoneId
+      timezoneId: this.branch.timezoneId,
+      status : this.branch.status
     })
   }
 

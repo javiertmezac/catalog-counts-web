@@ -100,7 +100,7 @@ export class BranchService {
   }
 
 
-  getList():Observable<any> {
+  getList(): Observable<any> {
     return this.httpClient.get(this.branchPath).pipe(catchError(this.handleHttpError.handleError))
   }
 
