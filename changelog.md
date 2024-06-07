@@ -1,5 +1,12 @@
 # Catalog Count Web
 
+## 3.1.0
+release date: -
+
+- register/capture branch/account
+  - only super_admin role is able to see this option
+
+
 ## 3.0.1
 release date: May 30, 2024
 

@@ -1,0 +1,32 @@
+<div class="container">
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Fecha Registro</th>
+                <th>Status</th>
+                <th>Timezone ID</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="branches.length > 0">
+            <tr *ngFor="let b of branches">
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar" (click)="update(b)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+                <td>{{b.id}}</td>
+                <td>{{b.name}}</td>
+                <td>{{b.address}}</td>
+                <td>{{b.registration }}</td>
+                <td>{{b.status}}</td>
+                <td>{{b.timezoneId}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

@@ -47,6 +47,7 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //todo: improve this logic
     this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
