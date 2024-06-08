@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './branch-edit.component.scss'
 })
 export class BranchEditComponent {
-  title = 'Capturar Cuenta - Misión'
+  title = 'Misión - Cuenta'
   errorMessage = ''
   branchForm!: FormGroup;
   timezones: TimeZoneTypes[] = []
