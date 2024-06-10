@@ -34,6 +34,7 @@ export class PersonaEditComponent {
     if (this.personaForm.valid) {
       if (this.personaForm.dirty) {
         const persona: Persona = {...this.persona, ...this.personaForm.value };
+        this.persona = persona;
 
         if (persona.id === 0) {
           this.personaService.insert(persona).subscribe({
@@ -52,11 +53,27 @@ export class PersonaEditComponent {
             error: (err) => this.errorMessage = err
           })
         }
-
       }
     }
   }
-  cancel() {}
+  cancel() {
+    this.personaForm.reset()
+  }
+
+  populate(selectedPersona: Persona) {
+    if(this.personaForm) {
+      this.personaForm.reset()
+    }
+
+    this.persona = selectedPersona;
+    this.personaForm.patchValue({
+      id: this.persona.id,
+      name: this.persona.name,
+      lastname: this.persona.lastname,
+      status: this.persona.status
+    })
+
+  }
 
   clearForm() {
     this.personaForm.reset();

@@ -11,14 +11,14 @@
             </tr>
         </thead>
         <tbody *ngIf="people.length > 0">
-            <tr *ngFor="let p of people">
+            <tr *ngFor="let p of people" [ngClass]="{'highlight': !p.status}">
                 <td>
                     <button class="btn btn-sm btn-outline-secondary" title="Editar" (click)="update(p)">
                         <i class="fa fa-edit"></i>
                     </button>
                 </td>
                 <td>{{p.id}}</td>
-                <td>{{p.completeName}}</td>
+                <td>{{p.name}}  {{p.lastname}}</td>
                 <td>{{p.registration }}</td>
                 <td>{{p.status}}</td>
             </tr>

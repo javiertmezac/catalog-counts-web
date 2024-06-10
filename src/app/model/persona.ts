@@ -5,7 +5,3 @@ export interface Persona {
     status: boolean,
     registration: string 
 }
-
-export interface PersonaResponse extends Persona {
-    completeName: string
-}
