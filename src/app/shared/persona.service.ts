@@ -22,7 +22,7 @@ export class PersonaService {
       headers: {
         'Content-Type' : 'application/json'
       }
-    });
+    }).pipe(catchError(this.handleError.handleError));
   }
   
   insert(persona: Persona): Observable<any> {
