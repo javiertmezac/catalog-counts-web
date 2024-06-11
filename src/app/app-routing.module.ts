@@ -12,6 +12,9 @@ import { ReportEditComponent } from './reports/report-edit.component';
 import { ReportsComponent } from './reports/reports.component';
 import { AuthGuard } from './shared/auth.guard';
 import { DefaultCustomRangeComponent } from './reports/default-custom-range/default-custom-range.component';
+import { BranchEditComponent } from './branch/edit/branch-edit.component';
+import { adminGuard } from './shared/admin.guard';
+import { PersonaEditComponent } from './persona/edit/persona-edit.component';
 
 const routes: Routes = [
   {
@@ -65,6 +68,16 @@ const routes: Routes = [
     path: 'about/system-info',
     canActivate: [AuthGuard],
     component: SystemInfoComponent,
+  },
+  {
+    path: 'admin/accounts',
+    canActivate: [adminGuard],
+    component: BranchEditComponent,
+  },
+  {
+    path: 'admin/personas',
+    canActivate: [adminGuard],
+    component: PersonaEditComponent,
   },
   { path: 'login', component: LoginComponent },
   { path: '', redirectTo: 'cc', pathMatch: 'full' },

@@ -1,0 +1,65 @@
+<div class="container card">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage}}</div>
+    <div class="card-header">
+        <h3>
+            <strong>
+                {{ title }}
+            </strong>
+        </h3>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="branchForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label class="col-form-label" for="name">Name</label>
+                <input class="form-control" id="name" formControlName="name" placeholder="ie name (pesos o dolar)"
+                    [ngClass]="{'is-invalid': (branchForm.get('name')?.invalid && branchForm.get('name')?.touched)}">
+                <span class="invalid-feedback">
+                    <span *ngIf="branchForm.controls['name'].errors?.required">
+                        Name is required.
+                    </span>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label" for="address">Address</label>
+                <input class="form-control" id="address" formControlName="address"
+                    [ngClass]="{'is-invalid': (branchForm.get('address')?.invalid && branchForm.get('address')?.touched)}">
+                <span class="invalid-feedback">
+                    <span *ngIf="branchForm.controls['address'].errors?.required">
+                        Address is required.
+                    </span>
+                </span>
+            </div>
+
+            <div class="form-group ">
+                <label class="col-form-label" for="timezoneId">Zona Horaria:</label>
+                <select id="timezoneId" formControlName="timezoneId" class="form-control">
+                    <option [ngValue]="" disabled selected>Seleccionar Zona Horaria</option>
+                    <option *ngFor="let e of timezones" [ngValue]="e.id">
+                        {{ e.id }} - {{ e.label }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="status" formControlName="status">
+                <label class="form-check-label" for="status">
+                    Status
+                </label>
+            </div>
+
+            <div class="form-group mt-2">
+                <button class="btn btn-primary" type="submit" [disabled]="branchForm.invalid">Guardar</button>
+                <button class="btn btn-secondary" (click)="cancel()" >Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+<div class="card-body">
+    <cc-branch-list (selectedBranchEvent)="populate($event)"></cc-branch-list>
+</div>

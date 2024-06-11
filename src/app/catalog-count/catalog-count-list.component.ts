@@ -47,13 +47,14 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //todo: improve this logic
     this.userService.user$.subscribe({
       next: (data) => {
         this.userDetails = data;
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(
           this.userDetails
         );
-        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;}, (err) => this.errorMessage.push(err));
 
         this.cleanResources();
 

@@ -6,6 +6,7 @@ import { Branch } from './model/branch';
 import { User } from './model/user';
 import { BranchService } from './shared/branch.service';
 import { UserService } from './shared/user.service';
+import { RolePermissionService } from './shared/permissions/role-permission.service';
 
 @Component({
   selector: 'cc-root',
@@ -17,11 +18,13 @@ export class AppComponent {
   isLoggedIn$: Observable<boolean> | undefined;
   userDetails!: User;
   defaultBranch!: Branch
+  isAdmin$: Observable<Boolean> | undefined;
 
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private branchService: BranchService,
+    private permissionService: RolePermissionService,
     private router: Router
   ) {}
 
@@ -38,6 +41,8 @@ export class AppComponent {
         this.defaultBranch = data;
       }
     })
+
+    this.isAdmin$ = this.permissionService.isAdmin$;
   }
 
   changeDefaultBranch(event: any) {

@@ -4,7 +4,6 @@
     <div class="container-fluid">
       <a class="navbar-brand" routerLink="cc">
         <img src="../assets/tcojc_spanish_logo_gold.png" width="150" height="35" class="d-inline-block align-top">
-        <!-- Catálogo de Cuentas -->
       </a>
 
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
@@ -31,6 +30,16 @@
 
           <li class="nav-item">
             <a class="nav-link" routerLink="/about">Acerca de!</a>
+          </li>
+
+          <li class=" nav-item dropdown" *ngIf="isAdmin$ | async">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Admin - options
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/admin/accounts">Cuentas</a></li>
+              <li><a class="dropdown-item" routerLink="/admin/personas">Personas</a></li>
+            </ul>
           </li>
         </ul>
 
@@ -71,6 +80,6 @@
 
 </div>
 
-<div style="padding: 1.5%; margin-top: 100px;">
+<div style="padding: 1.5%; margin-top: 115px;">
   <router-outlet></router-outlet>
 </div>
