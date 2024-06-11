@@ -1,0 +1,56 @@
+<div class="container card">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage}}</div>
+    <div class="card-header">
+        <h3>
+            <strong>
+                {{ title }}
+            </strong>
+        </h3>
+    </div>
+
+    <div class="card-body">
+        <form [formGroup]="personaForm" (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+                <label class="col-form-label" for="name">Name</label>
+                <input class="form-control" id="name" formControlName="name"
+                    [ngClass]="{'is-invalid': (personaForm.get('name')?.invalid && personaForm.get('name')?.touched)}">
+                <span class="invalid-feedback">
+                    <span *ngIf="personaForm.controls['name'].errors?.required">
+                        Name is required.
+                    </span>
+                </span>
+            </div>
+
+            <div class="form-group">
+                <label class="col-form-label" for="lastname">Apellido</label>
+                <input class="form-control" id="lastname" formControlName="lastname"
+                    [ngClass]="{'is-invalid': (personaForm.get('lastname')?.invalid && personaForm.get('lastname')?.touched)}">
+                <span class="invalid-feedback">
+                    <span *ngIf="personaForm.controls['lastname'].errors?.required">
+                        Apellido is required.
+                    </span>
+                </span>
+            </div>
+
+
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="status" formControlName="status">
+                <label class="form-check-label" for="status">
+                    Status
+                </label>
+            </div>
+
+            <div class="form-group mt-2">
+                <button class="btn btn-primary" type="submit" [disabled]="personaForm.invalid">Guardar</button>
+                <button class="btn btn-secondary" (click)="cancel()" >Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+<div class="card-body">
+    <cc-persona-list (selectedPersonaEvent)="populate($event)"></cc-persona-list>
+</div>

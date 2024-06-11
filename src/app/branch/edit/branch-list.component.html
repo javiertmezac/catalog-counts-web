@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody *ngIf="branches.length > 0">
-            <tr *ngFor="let b of branches">
+            <tr *ngFor="let b of branches" [ngClass]="{'highlight': !b.status}">
                 <td>
                     <button class="btn btn-sm btn-outline-secondary" title="Editar" (click)="update(b)">
                         <i class="fa fa-edit"></i>

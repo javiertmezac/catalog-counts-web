@@ -13,7 +13,7 @@
 
             <div class="form-group">
                 <label class="col-form-label" for="name">Name</label>
-                <input class="form-control" id="name" formControlName="name"
+                <input class="form-control" id="name" formControlName="name" placeholder="ie name (pesos o dolar)"
                     [ngClass]="{'is-invalid': (branchForm.get('name')?.invalid && branchForm.get('name')?.touched)}">
                 <span class="invalid-feedback">
                     <span *ngIf="branchForm.controls['name'].errors?.required">
@@ -52,7 +52,7 @@
 
             <div class="form-group mt-2">
                 <button class="btn btn-primary" type="submit" [disabled]="branchForm.invalid">Guardar</button>
-                <button class="btn btn-secondary" (click)="cancel()" [disabled]="branchForm.invalid">Cancelar</button>
+                <button class="btn btn-secondary" (click)="cancel()" >Cancelar</button>
             </div>
         </form>
     </div>

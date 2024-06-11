@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './branch-edit.component.scss'
 })
 export class BranchEditComponent {
-  title = 'Capturar Cuenta - Misión'
+  title = 'Misión - Cuenta'
   errorMessage = ''
   branchForm!: FormGroup;
   timezones: TimeZoneTypes[] = []
@@ -43,7 +43,7 @@ export class BranchEditComponent {
   onSubmit(): void {
     if (this.branchForm.valid) {
       if (this.branchForm.dirty) {
-        const branch: Branch = {...this.branch, ...this.branchForm.value };
+        const branch: Branch = { ...this.branch, ...this.branchForm.value };
 
         if (branch.id === 0) {
           this.branchService.insert(branch).subscribe({
@@ -78,7 +78,7 @@ export class BranchEditComponent {
       name: this.branch.name,
       address: this.branch.address,
       timezoneId: this.branch.timezoneId,
-      status : this.branch.status
+      status: this.branch.status
     })
   }
 

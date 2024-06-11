@@ -54,7 +54,7 @@ export class CatalogCountListComponent implements OnInit {
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(
           this.userDetails
         );
-        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;}, (err) => this.errorMessage.push(err));
 
         this.cleanResources();
 

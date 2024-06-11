@@ -1,0 +1,28 @@
+<div class="container">
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha Registro</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="people.length > 0">
+            <tr *ngFor="let p of people" [ngClass]="{'highlight': !p.status}">
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar" (click)="update(p)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+                <td>{{p.id}}</td>
+                <td>{{p.name}}  {{p.lastname}}</td>
+                <td>{{p.registration }}</td>
+                <td>{{p.status}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

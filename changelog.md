@@ -5,6 +5,7 @@ release date: -
 
 - register/capture branch/account
   - only super_admin role is able to see this option
+- Edit and List Persona component 
 
 
 ## 3.0.1
