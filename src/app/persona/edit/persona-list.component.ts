@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output, SimpleChanges, inject } from '@angular/core';
+import { Component, EventEmitter,  Output,  inject } from '@angular/core';
+import { FormGroup,  ReactiveFormsModule } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Persona } from 'src/app/model/persona';
 import { PersonaService } from 'src/app/shared/persona.service';
 
 @Component({
   selector: 'cc-persona-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './persona-list.component.html',
   styleUrl: './persona-list.component.scss'
 })
 export class PersonaListComponent {
   people: Persona[] = []
   personaService = inject(PersonaService)
+  modalService = inject(NgbModal)
   @Output() selectedPersonaEvent = new EventEmitter<Persona>();
+  selectedPersona: Persona = this.personaService.emptyPersona();
+  personaLoginForm!: FormGroup;
 
   ngOnInit() {
     this.fetchPeople();
@@ -29,4 +34,22 @@ export class PersonaListComponent {
   update(persona: Persona) {
     this.selectedPersonaEvent.emit(persona);
   }
+
+
+
+  assignLoginAccount(content: any, persona: Persona) {
+    this.selectedPersona = persona;
+    this.openModal(content);
+  }
+
+  openModal(content: any) {
+		this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+	}
+
+  onSubmit() {
+
+  }
+
+  cancel() {}
+  generateRandomPassword(persona: Persona){}
 }
