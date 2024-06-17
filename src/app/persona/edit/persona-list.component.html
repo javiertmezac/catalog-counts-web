@@ -26,25 +26,32 @@
                         [ngClass]="{'is-invalid': (personaLoginForm.get('pass')?.invalid && personaLoginForm.get('pass')?.touched)}">
                     <span class="invalid-feedback">
                         <span *ngIf="personaLoginForm.controls['pass'].errors?.required">
-                            Password no valida [numeros | letras | mayusculas | simbolos].
+                            password es requerido.
+                        </span>
+                        <span *ngIf="personaLoginForm.controls['pass'].errors?.pattern">
+                            Password no válida
+                            [8 caracteres | letra |  mayúscula | número | símbolo].
                         </span>
                     </span>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-form-label" for="pass">confirmar password</label>
-                    <input class="form-control" id="pass" formControlName="passconfirm" type="password"
+                    <label class="col-form-label" for="passconfirm">confirmar password</label>
+                    <input class="form-control" id="passconfirm" formControlName="passconfirm" type="password"
                         [ngClass]="{'is-invalid': (personaLoginForm.get('passconfirm')?.invalid && personaLoginForm.get('passconfirm')?.touched)}">
                     <span class="invalid-feedback">
                         <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.required">
-                           Password no concuerda. 
+                           confirmar password es requerido.
+                        </span>
+                        <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.mustMatch">
+                            password no concuerda.
                         </span>
                     </span>
                 </div>
 
-                <div class="form-group mt-2">
+                <div class="modal-footer form-group mt-3">
                     <button class="btn btn-primary" type="submit" [disabled]="personaLoginForm.invalid">Guardar</button>
-                    <button class="btn btn-secondary" (click)="cancel()">Cancelar</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button>
                 </div>
             </form>
         </div>
