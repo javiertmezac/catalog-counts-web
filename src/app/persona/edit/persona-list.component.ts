@@ -5,6 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Persona } from 'src/app/model/persona';
 import { PersonaService } from 'src/app/shared/persona.service';
 import { MatchPassword } from './match-password.validator';
+import { AuthService } from 'src/app/login/auth.service';
 
 @Component({
   selector: 'cc-persona-list',
@@ -15,12 +16,18 @@ import { MatchPassword } from './match-password.validator';
 })
 export class PersonaListComponent {
   passwordPattern = '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$';
-  people: Persona[] = []
+
   personaService = inject(PersonaService)
   modalService = inject(NgbModal)
+  authService = inject(AuthService)
+
+  people: Persona[] = []
   @Output() selectedPersonaEvent = new EventEmitter<Persona>();
   selectedPersona: Persona = this.personaService.emptyPersona();
   personaLoginForm!: FormGroup;
+  loginRegistrationResult = ''
+  isSubmitClickable = true 
+
 
   constructor(private fb: FormBuilder) { }
 
@@ -37,6 +44,7 @@ export class PersonaListComponent {
     }, formOptions);
 
     this.fetchPeople();
+
   }
 
   private fetchPeople() {
@@ -67,7 +75,24 @@ export class PersonaListComponent {
   }
 
   onSubmit() {
+    if (this.personaLoginForm.valid && this.selectedPersona) {
+      this.isSubmitClickable = false;
+      const payload = this.personaLoginForm.value
+      this.authService.register(this.selectedPersona.id, payload.name, payload.pass).subscribe(
+        (data) => this.displayMessage(`" ${payload.name} " registro creado. (modal cierra en 2s)`),
+        (error) => this.displayMessage(error)
+      )
+    }
+  }
 
+  displayMessage(message: string) {
+    this.loginRegistrationResult = message;
+
+    setTimeout(() => {
+      this.loginRegistrationResult = '';
+      this.isSubmitClickable = true;
+      this.modalService.dismissAll();
+    }, 2500)
   }
 
   generateRandomPassword(persona: Persona) { }

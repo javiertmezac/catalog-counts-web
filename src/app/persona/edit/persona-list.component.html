@@ -49,8 +49,12 @@
                     </span>
                 </div>
 
+                <div class="alert alert-warning mt-2" *ngIf="loginRegistrationResult">
+                    {{ loginRegistrationResult }}
+                </div>
+
                 <div class="modal-footer form-group mt-3">
-                    <button class="btn btn-primary" type="submit" [disabled]="personaLoginForm.invalid">Guardar</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!(personaLoginForm.valid && isSubmitClickable)">Guardar</button>
                     <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button>
                 </div>
             </form>
