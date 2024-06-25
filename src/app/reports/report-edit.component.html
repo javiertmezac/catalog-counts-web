@@ -2,7 +2,7 @@
   <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <div *ngIf="report">
-  <hr>
+    <hr>
 
     <div *ngIf="isLoading">
       <h4>Cargando ...</h4>
@@ -63,6 +63,7 @@
         <br />
 
         <div class="expenses">
+
           <div class="row">
             <div class="col-4 description">Servicios</div>
             <div class="col-4 amount-detail">
@@ -70,6 +71,22 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row">
+              <div class="col-4 description-child">CFE</div>
+              <div class="col-4 amount-detail-child">
+                {{ 100 | currency}}
+              </div>
+              <div class="col-4"></div>
+          </div>
+          <div class="row">
+              <div class="col-4 description-child">Ayudas</div>
+              <div class="col-4 amount-detail-child">
+                {{ 1002.9 | currency}}
+              </div>
+              <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Ayudas</div>
             <div class="col-4 amount-detail">

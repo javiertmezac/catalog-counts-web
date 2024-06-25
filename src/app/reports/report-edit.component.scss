@@ -4,11 +4,26 @@
   text-align: center;
 }
 
+.description-child {
+  color: black;
+  background-color: #c4b772;
+  text-align: right;
+  font-size: small;
+}
+
 .amount-detail {
   border-style: solid;
   border-width: 1px;
   border-color: gray;
   text-align: right;
+}
+
+.amount-detail-child {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  text-align: left;
+  font-size: small;
 }
 
 .incomes > div {
