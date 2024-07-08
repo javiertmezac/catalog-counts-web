@@ -8,4 +8,12 @@ export interface SumExpenses {
   fees: number;
   immovables: number;
   sumExpensesTotal: number;
+  sumExpensesDetails: SumExpensesDetails[];
+}
+
+export interface SumExpensesDetails {
+  sumAmount: number;
+  family: string;
+  name: string;
+  identifier: string
 }

@@ -1,7 +1,15 @@
 .description {
   color: black;
+  font-weight: bolder;
   background-color: #f8e690;
   text-align: center;
+}
+
+.description-child {
+  color: black;
+  background-color: #f2eccc;
+  text-align: right;
+  font-size: small;
 }
 
 .amount-detail {
@@ -9,6 +17,14 @@
   border-width: 1px;
   border-color: gray;
   text-align: right;
+}
+
+.amount-detail-child {
+  border-style: solid;
+  border-width: 1px;
+  border-color: gray;
+  text-align: left;
+  font-size: small;
 }
 
 .incomes > div {
