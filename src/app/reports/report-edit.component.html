@@ -2,7 +2,7 @@
   <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <div *ngIf="report">
-  <hr>
+    <hr>
 
     <div *ngIf="isLoading">
       <h4>Cargando ...</h4>
@@ -63,6 +63,7 @@
         <br />
 
         <div class="expenses">
+
           <div class="row">
             <div class="col-4 description">Servicios</div>
             <div class="col-4 amount-detail">
@@ -70,6 +71,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('services')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Ayudas</div>
             <div class="col-4 amount-detail">
@@ -77,6 +87,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('helps')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Generales</div>
             <div class="col-4 amount-detail">
@@ -84,6 +103,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('general')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Alimentos</div>
             <div class="col-4 amount-detail">
@@ -91,6 +119,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('food')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Viajes y Transportación</div>
             <div class="col-4 amount-detail">
@@ -98,6 +135,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('traveling')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Papelería</div>
             <div class="col-4 amount-detail">
@@ -105,6 +151,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('stationary')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Inmuebles</div>
             <div class="col-4 amount-detail">
@@ -112,6 +167,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('immovables')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4 description">Gastos Legales y Honorarios</div>
             <div class="col-4 amount-detail">
@@ -119,6 +183,15 @@
             </div>
             <div class="col-4"></div>
           </div>
+
+          <div class="row" *ngFor="let expenseDetail of getSumExpensesDetailsByFamily('fees')">
+            <div class="col-4 description-child">{{ expenseDetail.name }}</div>
+            <div class="col-4 amount-detail-child">
+              {{ expenseDetail.sumAmount | currency}}
+            </div>
+            <div class="col-4"></div>
+          </div>
+
           <div class="row">
             <div class="col-4"></div>
             <div class="col-4 description">Total Egresos</div>

@@ -3,6 +3,7 @@ import { AuditReportRequest } from '../model/audit-report-request';
 import { DefaultReport } from './domain/default-report';
 import { ReportService } from './report.service';
 import { UserService } from '../shared/user.service';
+import { SumExpensesDetails } from './domain/report-sum-expenses';
 
 @Component({
   selector: 'cc-report-edit',
@@ -55,5 +56,9 @@ export class ReportEditComponent implements OnInit {
       },
       error: (err) => (this.errorMessage = err),
     });
+  }
+
+  getSumExpensesDetailsByFamily(family: string): SumExpensesDetails[] {
+    return this.report.sumExpenses.sumExpensesDetails.filter(x => x.family == family);
   }
 }
