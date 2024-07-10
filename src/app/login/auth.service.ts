@@ -4,6 +4,8 @@ import { environment } from '../../environments/environment';
 import { UserdetailsLocalstorageService } from '../shared/userdetails-localstorage.service';
 import { UserService } from '../shared/user.service';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { HandleHttpClientError } from '../shared/handle-error';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +16,9 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private userService: UserService,
+    private handleHttpClientError: HandleHttpClientError,
     private userdetailsLocalStorageService: UserdetailsLocalstorageService
-  ) {}
+  ) { }
 
   login(email: string, password: string): Observable<any> {
     const httpHeader = {
@@ -33,6 +36,16 @@ export class AuthService {
     // todo: call the api to logout
     this.userdetailsLocalStorageService.removeSession();
     this.userService.clearUserDetails();
+  }
+
+  register(personaId: number, uname: string, password: string): Observable<any> {
+    const payload = {
+      password: password,
+      username: uname,
+      personaId: personaId
+    }
+    return this.http.post(`${this.baseUri}/login/register`, payload)
+      .pipe(catchError(this.handleHttpClientError.handleError));
   }
 
 }
