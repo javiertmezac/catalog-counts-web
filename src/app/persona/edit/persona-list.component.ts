@@ -25,6 +25,7 @@ export class PersonaListComponent {
   @Output() selectedPersonaEvent = new EventEmitter<Persona>();
   selectedPersona: Persona = this.personaService.emptyPersona();
   personaLoginForm!: FormGroup;
+  rolAndBranchForm!: FormGroup;
   loginRegistrationResult = ''
   isSubmitClickable = true 
 
@@ -95,5 +96,8 @@ export class PersonaListComponent {
     }, 2500)
   }
 
-  generateRandomPassword(persona: Persona) { }
+  assignRolAndBranch(content: any, persona: Persona) { 
+    this.selectedPersona = persona;
+    this.openModal(content)
+  }
 }

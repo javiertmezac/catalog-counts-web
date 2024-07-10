@@ -61,6 +61,44 @@
         </div>
     </ng-template>
 
+    <ng-template #rolAndBranchContent let-modal>
+
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-basic-title">Asignar Rol y Cuenta (Misión) </h2>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="modal-subtitle">{{selectedPersona.name}} {{selectedPersona.lastname}}</h5>
+            <form [formGroup]="rolAndBranchForm" (ngSubmit)="onSubmit()">
+
+                <div class="modal-footer form-group mt-3">
+                    <!-- <button class="btn btn-primary" type="submit" [disabled]="!(rolAndBranchForm.valid && isSubmitClickable)">Guardar</button> -->
+                    <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button> -->
+                </div>
+            </form>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Cuenta</th>
+                        <th>Rol</th>
+                        <th>Fecha Asignación</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Reforma</td>
+                        <td>Tesorero</td>
+                        <td>hoy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </ng-template>
+
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
@@ -86,16 +124,17 @@
                 <td>{{p.registration }}</td>
                 <td>{{p.status}}</td>
                 <td>
-                    <button class="btn-sm btn-outline-secondary" title="Asignar Cuenta"
+                    <button class="btn-sm btn-outline-secondary" title="Asignar Cuenta Usuario"
                         (click)="assignLoginAccount(content, p)" [disabled]="!p.status">
                         <i class="fa fa-sign-in"></i>
                         login
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-outline-secondary" title="Generar Nueva Contraseña"
-                        (click)="generateRandomPassword(p)" [disabled]="!p.status">
-                        <i class="fa fa-key"></i>
+                    <button class="btn btn-sm btn-outline-secondary" title="Asignar Rol"
+                        (click)="assignRolAndBranch(rolAndBranchContent, p)" [disabled]="!p.status">
+                        <i class="fa fa-user"></i>
+                        rol & cuenta
                     </button>
                 </td>
             </tr>
