@@ -22,6 +22,10 @@ export class RolePermissionService {
     return user.roles.includes(Role.Secretary);
   }
 
+  shouldDisplayConfirmationAlert(user: User) {
+    return user.roles.includes(Role.Secretary) || user.roles.includes(Role.Treasure);
+  }
+
   setIsAdmin(user: User) {
     this.isAdminSubject.next(user.roles.includes(Role.SuperAdmin));
   }
