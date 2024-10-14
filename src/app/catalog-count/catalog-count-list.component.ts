@@ -47,15 +47,16 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //todo: improve this logic
     this.userService.user$.subscribe({
       next: (data) => {
+        this.cleanResources();
+
         this.userDetails = data;
         this.hasWriteAccess = this.rolePermissionService.hasUserWriteAccess(
           this.userDetails
         );
-        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;});
-
-        this.cleanResources();
+        this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;}, (err) => this.errorMessage.push(err));
 
         this.fetchCatalogCountList(data.defaultBranch);
         this.getPeriodDescription();
@@ -78,7 +79,11 @@ export class CatalogCountListComponent implements OnInit {
       next: (data) => {
         let takeFirstValue = 0;
         this.currentPeriod = data.periodResponseList[takeFirstValue];
-        this.shouldCatalogCountAlertBeDisplayed();
+
+        if (this.rolePermissionService.shouldDisplayConfirmationAlert(this.userDetails)) {
+          this.displayConfirmationAlertDialog();
+        }
+
       },
       error: (err) => {
         let customError =
@@ -88,7 +93,7 @@ export class CatalogCountListComponent implements OnInit {
     });
   }
 
-  async shouldCatalogCountAlertBeDisplayed() {
+  async displayConfirmationAlertDialog() {
     let currentDate = new Date();
     let date = currentDate.getDate();
     let minDate = 1;

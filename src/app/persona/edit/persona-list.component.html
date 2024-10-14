@@ -1,0 +1,144 @@
+<div class="container">
+
+    <ng-template #content let-modal>
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-basic-title">Asignar Login</h2>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="modal-subtitle">{{selectedPersona.name}} {{selectedPersona.lastname}}</h5>
+            <form [formGroup]="personaLoginForm" (ngSubmit)="onSubmit()">
+
+                <div class="form-group">
+                    <label class="col-form-label" for="name">username</label>
+                    <input class="form-control" id="name" formControlName="name"
+                        [ngClass]="{'is-invalid': (personaLoginForm.get('name')?.invalid && personaLoginForm.get('name')?.touched)}">
+                    <span class="invalid-feedback">
+                        <span *ngIf="personaLoginForm.controls['name'].errors?.required">
+                            nombre de usuario es requerido.
+                        </span>
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="pass">password</label>
+                    <input class="form-control" id="pass" formControlName="pass" type="password"
+                        [ngClass]="{'is-invalid': (personaLoginForm.get('pass')?.invalid && personaLoginForm.get('pass')?.touched)}">
+                    <span class="invalid-feedback">
+                        <span *ngIf="personaLoginForm.controls['pass'].errors?.required">
+                            password es requerido.
+                        </span>
+                        <span *ngIf="personaLoginForm.controls['pass'].errors?.pattern">
+                            Password no válida
+                            [8 caracteres | letra |  mayúscula | número | símbolo].
+                        </span>
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="passconfirm">confirmar password</label>
+                    <input class="form-control" id="passconfirm" formControlName="passconfirm" type="password"
+                        [ngClass]="{'is-invalid': (personaLoginForm.get('passconfirm')?.invalid && personaLoginForm.get('passconfirm')?.touched)}">
+                    <span class="invalid-feedback">
+                        <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.required">
+                           confirmar password es requerido.
+                        </span>
+                        <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.mustMatch">
+                            password no concuerda.
+                        </span>
+                    </span>
+                </div>
+
+                <div class="alert alert-warning mt-2" *ngIf="loginRegistrationResult">
+                    {{ loginRegistrationResult }}
+                </div>
+
+                <div class="modal-footer form-group mt-3">
+                    <button class="btn btn-primary" type="submit" [disabled]="!(personaLoginForm.valid && isSubmitClickable)">Guardar</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <ng-template #rolAndBranchContent let-modal>
+
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-basic-title">Asignar Rol y Cuenta (Misión) </h2>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+        </div>
+        <div class="modal-body">
+            <h5 class="modal-subtitle">{{selectedPersona.name}} {{selectedPersona.lastname}}</h5>
+            <form [formGroup]="rolAndBranchForm" (ngSubmit)="onSubmit()">
+
+                <div class="modal-footer form-group mt-3">
+                    <!-- <button class="btn btn-primary" type="submit" [disabled]="!(rolAndBranchForm.valid && isSubmitClickable)">Guardar</button> -->
+                    <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button> -->
+                </div>
+            </form>
+
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Cuenta</th>
+                        <th>Rol</th>
+                        <th>Fecha Asignación</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Reforma</td>
+                        <td>Tesorero</td>
+                        <td>hoy</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </ng-template>
+
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Fecha Registro</th>
+                <th>Status</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody *ngIf="people.length > 0">
+            <tr *ngFor="let p of people" [ngClass]="{'highlight': !p.status}">
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary" title="Editar" (click)="update(p)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+                <td>{{p.id}}</td>
+                <td>{{p.name}} {{p.lastname}}</td>
+                <td>{{p.registration }}</td>
+                <td>{{p.status}}</td>
+                <td>
+                    <button class="btn-sm btn-outline-secondary" title="Asignar Cuenta Usuario"
+                        (click)="assignLoginAccount(content, p)" [disabled]="!p.status">
+                        <i class="fa fa-sign-in"></i>
+                        login
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-outline-secondary" title="Asignar Rol"
+                        (click)="assignRolAndBranch(rolAndBranchContent, p)" [disabled]="!p.status">
+                        <i class="fa fa-user"></i>
+                        rol & cuenta
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

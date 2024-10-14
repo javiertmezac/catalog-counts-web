@@ -1,5 +1,18 @@
 # Catalog Count Web
 
+## 3.1.0-beta
+release date: Oct 13, 2024
+
+- register/capture branch/account
+  - only super_admin role is able to see this option
+- Edit and List Persona component 
+- Add login account to persona
+- only Treasure and Secretary are able to confirm on "Confirmation Dialog"
+
+### Issues / Findings
+- Admin - Persona Component (BETA)
+  - missing to include actie user into one or many accounts / branches.
+
 ## 3.0.2
 release date: Jul 7, 2024
 

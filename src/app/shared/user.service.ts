@@ -6,6 +6,7 @@ import { filter, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { UserdetailsLocalstorageService } from './userdetails-localstorage.service';
 import { Router } from '@angular/router';
+import { JwtService } from './jwt.service';
 
 export const ANONYMOUS_USER: User = {
   id_token: undefined,
@@ -28,7 +29,7 @@ export class UserService {
   );
 
   private loginSubject: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
-   false
+    false
   );
 
   user$: Observable<User> = this.subject
@@ -43,6 +44,7 @@ export class UserService {
     private http: HttpClient,
     private router: Router,
     private userDetailsStorageService: UserdetailsLocalstorageService,
+    private jwtService: JwtService
   ) {
     this.loadUserDetails();//todo: how to avoid this loadUserDetails??
   }
@@ -63,7 +65,8 @@ export class UserService {
   private loadUserDetails() {
     console.log('Loading user details');
     let userFromStorage = this.getUserDetailsFromLocalStorage();
-    if (userFromStorage != ANONYMOUS_USER) {
+    if (userFromStorage != ANONYMOUS_USER &&
+      !this.jwtService.isTokenExpired(userFromStorage.id_token || '')) {
       this.subject.next(userFromStorage);
       this.loginSubject.next(true);
     } else {
@@ -106,7 +109,7 @@ export class UserService {
         custom_user['defaultBranch'] = defaultBranch;
 
         this.userDetailsStorageService.setSession(custom_user);
-      },  (error) => {
+      }, (error) => {
         this.clearUserDetails();
         this.router.navigateByUrl("/login")
       });
