@@ -13,6 +13,10 @@ release date: Oct 13, 2024
 - Admin - Persona Component (BETA)
   - missing to include actie user into one or many accounts / branches.
 
+## 3.0.2
+release date: Jul 7, 2024
+
+- display sum expenses details within default report (both "generate report" and monthly report components)
 
 ## 3.0.1
 release date: May 30, 2024
