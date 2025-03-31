@@ -49,7 +49,7 @@
           <textarea
             class="form-control"
             id="detailsId"
-            placeholder="Detalles"
+            placeholder="Detalles (requerido)"
             formControlName="details"
             [ngClass]="{
               'is-invalid':
@@ -68,17 +68,35 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="cceId"
-          >Catalogo de Cuentas:</label
+          >Catálogo de Cuentas:</label
         >
         <div class="col-md-8">
           <select
             id="cceId"
             formControlName="catalogCountEnum"
             class="form-control"
+            [(ngModel)]="selectedCcEnum"
           >
-            <option [ngValue]="" disabled selected>Seleccionar Catalogo</option>
             <option *ngFor="let e of ccEnums" [ngValue]="e">
               {{ e.label }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row mb-2" *ngIf="selectedCcEnum && selectedCcEnum.value==12">
+        <label class="col-md-2 col-form-label" for="transferToAccountId"
+          >Transferencia a:</label
+        >
+        <div class="col-md-8">
+          <select
+            id="transferToAccountId"
+            formControlName="transferToAccountId"
+            class="form-control"
+          >
+            <option [ngValue]="" disabled selected>Seleccionar Cuenta</option>
+            <option *ngFor="let a of accounts" [ngValue]="a">
+              {{ a.name }}
             </option>
           </select>
         </div>

@@ -99,7 +99,6 @@ export class BranchService {
     }).pipe(catchError(this.handleHttpError.handleError))
   }
 
-
   getList(): Observable<any> {
     return this.httpClient.get(this.branchPath).pipe(catchError(this.handleHttpError.handleError))
   }

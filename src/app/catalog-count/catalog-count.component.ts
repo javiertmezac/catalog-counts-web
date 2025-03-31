@@ -10,6 +10,8 @@ import { DateTimeHandler } from '../shared/datetime-handler';
 import { CatalogCountService } from './catalog-count.service';
 import { CatalogCount } from './domain/catalog-count-request';
 import { UserService } from '../shared/user.service';
+import { BranchService } from '../shared/branch.service';
+import { Branch } from '../model/branch';
 
 @Component({
   templateUrl: './catalog-count.component.html',
@@ -22,14 +24,17 @@ export class CatalogCountComponent implements OnInit {
   isSubmitting = false
   errorMessage = '';
   ccEnums: any[] = [];
+  accounts: any[] = [];
   userDetails!: User;
   cc!: CatalogCount;
+  selectedCcEnum: any
 
   constructor(
     private fb: UntypedFormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private ccService: CatalogCountService,
+    private branchService: BranchService,
     private userService: UserService
   ) {
     this.catalogCountForm = this.fb.group({
@@ -44,6 +49,7 @@ export class CatalogCountComponent implements OnInit {
       details: ['', Validators.required],
       registrationDate: [Validators.required],
       catalogCountEnum: ['', Validators.required],
+      transferToAccountId: [0]
     });
   }
 
@@ -53,6 +59,13 @@ export class CatalogCountComponent implements OnInit {
         this.userDetails = data;
         this.loadCcEnums();
       },
+    });
+
+    this.branchService.getList().subscribe({
+      next: (data) => {
+        let unfilteredAccounts: Branch[] = data.branchResponseList
+        this.accounts = unfilteredAccounts.filter(x => !this.userDetails.branches.includes(x.id));
+      }
     });
   }
 
@@ -119,6 +132,10 @@ export class CatalogCountComponent implements OnInit {
           1000;
 
         payload.catalogCountEnumId = payload.catalogCountEnum.value;
+        
+        if (payload.transferToAccountId) {
+          payload.transferToAccountId = payload.transferToAccountId.id;
+        }
 
         this.isSubmitting = true;
         if (payload.id === 0) {
@@ -153,7 +170,7 @@ export class CatalogCountComponent implements OnInit {
     this.isSubmitting = false;
     this.router.navigateByUrl('/cc');
   }
-
+  
   //todo: improve logic
   loadCcEnums() {
     this.ccService.getCatalogCountEnums().subscribe({
