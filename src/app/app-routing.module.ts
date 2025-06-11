@@ -15,6 +15,7 @@ import { DefaultCustomRangeComponent } from './reports/default-custom-range/defa
 import { BranchEditComponent } from './branch/edit/branch-edit.component';
 import { adminGuard } from './shared/admin.guard';
 import { PersonaEditComponent } from './persona/edit/persona-edit.component';
+import { TransferregistryComponent } from './transferregistry/transferregistry.component';
 
 const routes: Routes = [
   {
@@ -33,6 +34,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: BranchComponent,
 
+  },
+  {
+    path: 'mision/transferregistry',
+    canActivate: [AuthGuard],
+    component: TransferregistryComponent,
   },
   {
     path: 'mision/report',
