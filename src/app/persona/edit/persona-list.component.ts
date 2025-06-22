@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, inject, Input } from '@angular/core';
 import { AbstractControlOptions, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Persona } from 'src/app/model/persona';
+import { Persona, PersonaUtils } from 'src/app/model/persona';
 import { PersonaService } from 'src/app/shared/persona.service';
 import { MatchPassword } from './match-password.validator';
 import { AuthService } from 'src/app/login/auth.service';
@@ -23,14 +23,26 @@ export class PersonaListComponent {
 
   people: Persona[] = []
   @Output() selectedPersonaEvent = new EventEmitter<Persona>();
+  @Input() updatedPersona: Persona = this.personaService.emptyPersona();
   selectedPersona: Persona = this.personaService.emptyPersona();
   personaLoginForm!: FormGroup;
   rolAndBranchForm!: FormGroup;
   loginRegistrationResult = ''
   isSubmitClickable = true 
+  shouldReload = false;
 
 
   constructor(private fb: FormBuilder) { }
+
+  ngOnChanges() {
+    if (this.shouldReload === false && !PersonaUtils.isEqual(this.selectedPersona, this.updatedPersona)) {
+      console.log('updated persona: ', this.updatedPersona.id)
+      this.shouldReload = true;
+    } else if (this.shouldReload && PersonaUtils.isEqual(this.personaService.emptyPersona(), this.updatedPersona)) {
+      this.shouldReload = false;
+      this.fetchPeople();
+    }
+  }
 
   ngOnInit() {
 
@@ -45,7 +57,6 @@ export class PersonaListComponent {
     }, formOptions);
 
     this.fetchPeople();
-
   }
 
   private fetchPeople() {
@@ -56,6 +67,7 @@ export class PersonaListComponent {
   }
 
   update(persona: Persona) {
+    this.selectedPersona = persona
     this.selectedPersonaEvent.emit(persona);
   }
 

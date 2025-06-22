@@ -122,7 +122,7 @@
                 <td>{{p.id}}</td>
                 <td>{{p.name}} {{p.lastname}}</td>
                 <td>{{p.registration }}</td>
-                <td>{{p.status}}</td>
+                <td>{{ p.status == true ? 'Activo': 'Inactivo'}}</td>
                 <td>
                     <button class="btn-sm btn-outline-secondary" title="Asignar Cuenta Usuario"
                         (click)="assignLoginAccount(content, p)" [disabled]="!p.status">

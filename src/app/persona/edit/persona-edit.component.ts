@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { PersonaService } from 'src/app/shared/persona.service';
 import { Persona } from 'src/app/model/persona';
 import { PersonaListComponent } from './persona-list.component';
+import { Role, RoleDefinition } from 'src/app/model/role';
+import { Branch } from 'src/app/model/branch';
 
 @Component({
   selector: 'cc-persona-edit',
@@ -17,6 +19,8 @@ export class PersonaEditComponent {
   personaForm!: FormGroup;
   errorMessage = ''
   persona: Persona = this.personaService.emptyPersona();
+  roles: RoleDefinition[] = []
+  accounts: Branch[] =  []
 
   constructor(private fb: FormBuilder,
     private personaService: PersonaService
@@ -71,11 +75,11 @@ export class PersonaEditComponent {
       name: this.persona.name,
       lastname: this.persona.lastname,
       status: this.persona.status
-    })
-
+    });
   }
 
   clearForm() {
     this.personaForm.reset();
+    this.persona = this.personaService.emptyPersona();
   }
 }
