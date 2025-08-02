@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { catchError } from 'rxjs/operators';
 import { HandleHttpClientError } from './handle-error';
+import { RoleDefinition } from '../model/role';
+import { Branch } from '../model/branch';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +37,25 @@ export class PersonaService {
 
   getAll(): Observable<any> {
     return this.httpClient.get(this.url);
+  }
+
+  assignBranchAndRole(persona: Persona, branchId: number, roleId: number): Observable<any> {
+    let body  =  {
+      'branchId' : branchId,
+      'roleId' : roleId
+    }
+    console.log('body: ', body)
+    return this.httpClient.post(`${this.url}/${persona.id}/branch`, body,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).pipe(catchError(this.handleError.handleError));
+  }
+
+  getPersonaRolAndBranchDetails(persona: Persona): Observable<any> {
+    return this.httpClient.get(`${this.url}/${persona.id}/details`).pipe(catchError(this.handleError.handleError));
+
   }
 
   emptyPersona(): Persona {

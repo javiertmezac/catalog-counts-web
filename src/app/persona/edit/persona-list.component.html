@@ -30,7 +30,7 @@
                         </span>
                         <span *ngIf="personaLoginForm.controls['pass'].errors?.pattern">
                             Password no válida
-                            [8 caracteres | letra |  mayúscula | número | símbolo].
+                            [8 caracteres | letra | mayúscula | número | símbolo].
                         </span>
                     </span>
                 </div>
@@ -41,7 +41,7 @@
                         [ngClass]="{'is-invalid': (personaLoginForm.get('passconfirm')?.invalid && personaLoginForm.get('passconfirm')?.touched)}">
                     <span class="invalid-feedback">
                         <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.required">
-                           confirmar password es requerido.
+                            confirmar password es requerido.
                         </span>
                         <span *ngIf="personaLoginForm.controls['passconfirm'].errors?.mustMatch">
                             password no concuerda.
@@ -54,8 +54,10 @@
                 </div>
 
                 <div class="modal-footer form-group mt-3">
-                    <button class="btn btn-primary" type="submit" [disabled]="!(personaLoginForm.valid && isSubmitClickable)">Guardar</button>
-                    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button>
+                    <button class="btn btn-primary" type="submit"
+                        [disabled]="!(personaLoginForm.valid && isSubmitClickable)">Guardar</button>
+                    <button type="button" class="btn btn-outline-secondary"
+                        (click)="modal.close('cancel')">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -63,17 +65,36 @@
 
     <ng-template #rolAndBranchContent let-modal>
 
+        <div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage}}</div>
+
         <div class="modal-header">
             <h2 class="modal-title" id="modal-basic-title">Asignar Rol y Cuenta (Misión) </h2>
             <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
         </div>
         <div class="modal-body">
             <h5 class="modal-subtitle">{{selectedPersona.name}} {{selectedPersona.lastname}}</h5>
-            <form [formGroup]="rolAndBranchForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="rolAndBranchForm" (ngSubmit)="onBranchAndRoleSubmit()">
+                <div class="form-group">
+                    <label class="col-form-label" for="accountId">Asignar Cuenta:</label>
+                    <select id="accountId" formControlName="accountId" class="form-control">
+                        <option *ngFor="let a of accounts" [ngValue]="a.id">
+                            {{ a.id + ' - ' + a.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label" for="roleId">Asignar Rol:</label>
+                    <select id="roleId" formControlName="roleId" class="form-control">
+                        <option *ngFor="let r of roles" [ngValue]="r.id">
+                            {{ r.id + ' - ' + r.name }}
+                        </option>
+                    </select>
+                </div>
 
                 <div class="modal-footer form-group mt-3">
-                    <!-- <button class="btn btn-primary" type="submit" [disabled]="!(rolAndBranchForm.valid && isSubmitClickable)">Guardar</button> -->
-                    <!-- <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button> -->
+                    <button class="btn btn-primary" type="submit" [disabled]="!(rolAndBranchForm.valid && isSubmitClickable)">Guardar</button>
+                    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('cancel')">Cancelar</button>
                 </div>
             </form>
 
@@ -87,16 +108,14 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>Reforma</td>
-                        <td>Tesorero</td>
-                        <td>hoy</td>
+                    <tr *ngFor="let d of personaDetails">
+                        <td>{{ d.branchId }}</td>
+                        <td>{{ d.roleId }}</td>
+                        <td>{{ d.entryDate }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
-
     </ng-template>
 
     <table class="table table-hover">
