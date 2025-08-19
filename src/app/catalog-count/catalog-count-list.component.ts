@@ -28,6 +28,10 @@ export class CatalogCountListComponent implements OnInit {
   displayConfirmationAlert = false;
   private _listFilter = '';
   isButtonVisible = false;
+  maxDate = environment.maxDate
+  pagination = { currentPage: 0, pageSize: 20, totalPages: 0, totalItems: 0 };
+  jumpToPage = 1;
+  yearFilter = new Date().getFullYear()
 
   constructor(
     private ccService: CatalogCountService,
@@ -58,7 +62,8 @@ export class CatalogCountListComponent implements OnInit {
         );
         this.branchService.getBranch(data.defaultBranch).subscribe((branch) => {this.defaultBranch = branch;}, (err) => this.errorMessage.push(err));
 
-        this.fetchCatalogCountList(data.defaultBranch);
+        // this.fetchCatalogCountList(data.defaultBranch);
+        this.fetchCatalogCountListV2(data.defaultBranch)
         this.getPeriodDescription();
       },
       error: (err) => (this.addOrReplaceString(err)),
@@ -130,6 +135,18 @@ export class CatalogCountListComponent implements OnInit {
     });
   }
 
+  fetchCatalogCountListV2(branchId: number, page = 1, filterYear = this.yearFilter) {
+    this.ccService.getCatalogCountsV2(branchId, { page: page, pageSize: this.pagination.pageSize, filterYear: filterYear}).subscribe({
+      next: (data) => {
+        this.catalogCounts = data.catalogCountResponseCollection;
+        this.filteredCatalogCounts = this.catalogCounts;
+
+        this.isLoadingCatalogCounts = false;
+      },
+      error: (err) => (this.addOrReplaceString(err)),
+    });
+  }
+
   deleteCatalogCount(cc: any) {
     if (confirm(`Seguro de eliminar el Catálogo de Cuenta # ${cc.id}`)) {
       this.ccService
@@ -178,6 +195,23 @@ export class CatalogCountListComponent implements OnInit {
     } else {
       this.errorMessage.push(newErrorMessage);
     }
+  }
+
+  goToPage() {
+    const pageIndex = this.jumpToPage - 1;
+
+    if (
+      pageIndex >= 0 &&
+      pageIndex < this.pagination.totalPages
+    ) {
+      this.onPageChange(pageIndex);
+    } else {
+      alert('Invalid page number');
+    }
+  }
+
+  onPageChange(newPage: number) {
+    this.fetchCatalogCountListV2(this.userDetails.defaultBranch, newPage, this.yearFilter);
   }
 
 

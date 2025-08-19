@@ -34,7 +34,7 @@
             PERIODO '{{ currentPeriod.description }}'
             <br />
             ALERTA: recuerda terminar tu captura de registros a más tardar el
-            día 10!
+            día {{maxDate}}!
           </h4>
         </div>
         <div class="alert alert-success">
@@ -58,7 +58,7 @@
 
 
   <div *ngIf="catalogCounts.length">
-    <div class="row">
+    <!-- <div class="row">
       <div class="col mb-2">
         <button class="btn btn-outline-secondary" routerLink="/cc/0/edit" *ngIf="hasWriteAccess">
           + registro movimiento
@@ -67,6 +67,34 @@
       <div class="col">
         <label style="margin-right: 5px;">Filtrar por:</label>
         <input type="text" [(ngModel)]="listFilter" size="50%" />
+      </div> -->
+    <!-- </div> -->
+
+    <!-- Row 1: Registry Button -->
+    <div class="row mb-3">
+      <div class="col text-start">
+        <button id="registry" class="btn btn-outline-secondary" routerLink="/cc/0/edit" *ngIf="hasWriteAccess">
+          + registro movimiento
+        </button>
+      </div>
+    </div>
+
+    <!-- Row 2: Filter Section -->
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 d-flex flex-wrap justify-content-center align-items-center gap-2 filter-section">
+
+        <!-- Year Input -->
+        <div class="flex-grow-1">
+          <label for="yearInput" class="me-2">Año:</label>
+          <input id="yearInput" type="number" class="form-control" min="2022" [(ngModel)]="yearFilter" />
+        </div>
+
+        <!-- Text Filter -->
+        <div class="flex-grow-1">
+          <label for="textFilter" class="me-2">Filtrar por:</label>
+          <input id="textFilter" type="text" class="form-control" [(ngModel)]="listFilter" />
+        </div>
+
       </div>
     </div>
 
@@ -106,6 +134,37 @@
         </tr>
       </tbody>
     </table>
+
+    <div class="d-flex align-items-center gap-3 flex-wrap pagination">
+
+      <!-- Prev Button -->
+      <button class="btn btn-outline-secondary btn-sm" (click)="onPageChange(pagination.currentPage - 1)"
+        [disabled]="pagination.currentPage === 0" title="Previous Page">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+
+      <!-- Page Counter -->
+      <span class="text-muted small">
+        Page {{ pagination.currentPage + 1 }} of {{ pagination.totalPages }}
+      </span>
+
+      <!-- Next Button -->
+      <button class="btn btn-outline-secondary btn-sm" (click)="onPageChange(pagination.currentPage + 1)"
+        [disabled]="pagination.currentPage + 1 >= pagination.totalPages" title="Next Page">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+
+      <!-- Go to Page Input -->
+      <div class="d-flex align-items-center ms-3">
+        <label class="me-2 small text-muted mb-0">Go to:</label>
+        <input type="number" [(ngModel)]="jumpToPage" [min]="1" [max]="pagination.totalPages"
+          (keydown.enter)="goToPage()" class="form-control form-control-sm" style="width: 70px;" />
+
+        <button class="btn btn-outline-primary btn-sm ms-2" (click)="goToPage()" title="Go to page">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
 
     <button class="btn btn-secondary go-up-btn" (click)="scrollToTop()" [ngClass]="{'show': isButtonVisible}">
       Arriba <i class="fa fa-arrow-up"></i>
