@@ -61,6 +61,21 @@ export class CatalogCountService {
       .pipe(catchError(this.handleError.handleError));
   }
 
+  getCatalogCountsV2(branchId: number, params: {
+    page: number;
+    pageSize: number;
+    filterYear: number;
+    search: string;
+  }): Observable<any> {
+    if (branchId == 0) {
+      return of(null);
+    }
+    const catalogCountUri = `${this.baseUri}/v2/branch/${branchId}/catalog-count?page=${params.page}&pageSize=${params.pageSize}&filterYear=${params.filterYear}&search=${params.search}`;
+    return this.httpClient
+      .get(catalogCountUri)
+      .pipe(catchError(this.handleError.handleError));
+  }
+
   emptyCatalogCount(): CatalogCount {
     return {
       id: 0,
