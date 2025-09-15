@@ -5,6 +5,7 @@ import { PersonaService } from 'src/app/shared/persona.service';
 import { Persona } from 'src/app/model/persona';
 import { PersonaListComponent } from './persona-list.component';
 
+
 @Component({
   selector: 'cc-persona-edit',
   standalone: true,
@@ -71,11 +72,11 @@ export class PersonaEditComponent {
       name: this.persona.name,
       lastname: this.persona.lastname,
       status: this.persona.status
-    })
-
+    });
   }
 
   clearForm() {
     this.personaForm.reset();
+    this.persona = this.personaService.emptyPersona();
   }
 }

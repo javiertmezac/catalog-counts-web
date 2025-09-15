@@ -1,0 +1,64 @@
+<div class="container">
+    <div class="alert alert-danger" *ngIf="errorMessage">{{errorMessage}}</div>
+
+    <div class="card mb-2">
+        <div class="card-header">
+            <h2>
+                <strong>
+                    Historial Transferencias
+                </strong>
+            </h2>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Identificator</th>
+                        <th>Movimiento Origen</th>
+                        <th>Cuenta Origen</th>
+                        <th>Registrado Por</th>
+                        <th>Fecha Registro</th>
+                        <th>Movimiento Destino</th>
+                        <th>Cuenta Destino</th>
+                        <th>Cantidad</th>
+                        <th>Aceptado Por</th>
+                        <th>Fecha Aceptado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tr of transferRegistries">
+                        <td>{{ tr.transferRegistryId}}</td>
+                        <td>
+                            <button type="button" class="btn btn-link" [routerLink]="['/cc', tr.fromAccountCatalogCountId, 'edit']"
+                                *ngIf="defaultBranch == tr.fromAccountId">
+                                {{ tr.fromAccountCatalogCountId }}
+                            </button>
+                            <p *ngIf="defaultBranch != tr.fromAccountId">{{ tr.fromAccountCatalogCountId }}</p>
+                        </td>
+                        <td>{{ tr.fromAccountName}}</td>
+                        <td>{{ tr.entryPersona}}</td>
+                        <td>
+                            {{ tr.entryDateText | date: "medium" }}
+                        </td>
+                        <td>{{ tr.toAccountCatalogCountId}}</td>
+                        <td>{{ tr.toAccountName}}</td>
+                        <td>{{ tr.amount | currency }}</td>
+                        <td>
+                            <button type="button" class="btn btn-link"
+                                *ngIf="defaultBranch == tr.toAccountId && tr.toAccountCatalogCountId == 0"
+                                (click)="acceptTransfer(tr)">
+                                Aceptar Transferencia
+                            </button>
+                            <p *ngIf="tr.toAccountCatalogCountId != 0"> {{
+                                tr.acceptedPersona }}</p>
+                        </td>
+                        <td>
+                            {{ tr.acceptedDateText | date: "medium" }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

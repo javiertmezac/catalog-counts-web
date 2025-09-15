@@ -69,6 +69,11 @@ export class CatalogCountListComponent implements OnInit {
   }
 
   getPeriodDescription() {
+    let currentDate = new Date();
+    if(currentDate.getDate() > environment.maxDate) {
+      return
+    }
+
     this.periodService.getCurrentPeriod().subscribe({
       next: (data) => {
         let takeFirstValue = 0;

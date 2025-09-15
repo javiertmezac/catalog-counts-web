@@ -4,6 +4,7 @@ export interface CatalogCountRequest {
   amount: number;
   details: string;
   registrationDate: number;
+  transferToAccountId: number;
 }
 
 export interface CatalogCount extends CatalogCountRequest {

@@ -3,3 +3,9 @@ export enum Role {
   Secretary = 2,
   SuperAdmin = 3
 }
+
+export interface RoleDefinition {
+  id: number,
+  name: string,
+  role: Role
+}

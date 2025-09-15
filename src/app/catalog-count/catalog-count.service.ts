@@ -84,6 +84,7 @@ export class CatalogCountService {
       catalogCountEnumId: 0,
       details: '',
       registrationDate: 0,
+      transferToAccountId: 0,
       total: 0,
       editable: false,
     };
