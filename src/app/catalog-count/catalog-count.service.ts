@@ -65,11 +65,12 @@ export class CatalogCountService {
     page: number;
     pageSize: number;
     filterYear: number;
+    search: string;
   }): Observable<any> {
     if (branchId == 0) {
       return of(null);
     }
-    const catalogCountUri = `${this.baseUri}/v2/branch/${branchId}/catalog-count?page=${params.page}&pageSize=${params.pageSize}&filterYear=${params.filterYear}`;
+    const catalogCountUri = `${this.baseUri}/v2/branch/${branchId}/catalog-count?page=${params.page}&pageSize=${params.pageSize}&filterYear=${params.filterYear}&search=${params.search}`;
     return this.httpClient
       .get(catalogCountUri)
       .pipe(catchError(this.handleError.handleError));
