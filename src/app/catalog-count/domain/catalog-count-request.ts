@@ -4,10 +4,12 @@ export interface CatalogCountRequest {
   amount: number;
   details: string;
   registrationDate: number;
+  outOfDateRange: boolean;
 }
 
-export interface CatalogCount extends CatalogCountRequest {
+export interface CatalogCountCumulativeSumResponse extends CatalogCountRequest {
   total: number;
-  catalogCountEnum: string;
   editable: boolean;
+  catalogCountEnumDisplay: string;
+  entryDate: string;
 }

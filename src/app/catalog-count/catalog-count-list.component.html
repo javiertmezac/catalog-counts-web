@@ -104,9 +104,13 @@
       <tbody *ngIf="catalogCounts.length > 0">
         <tr *ngFor="let cc of catalogCounts" class="cc-tr">
           <td>
-            {{ cc.registrationDate | date: "medium" }}
+            <!-- {{ cc.registrationDate | date: "medium" }} -->
+            {{ cc.entryDate | date: "medium" }}
           </td>
-          <td>{{ cc.catalogCountEnum }}</td>
+          <td>
+            <a *ngIf="!cc.catalogCountEnumDisplay.startsWith('0.1')" class="btn btn-link" role="button" [routerLink]="['/cc', cc.id, 'edit']">{{ cc.catalogCountEnumDisplay }}</a>
+            <p *ngIf="cc.catalogCountEnumDisplay.startsWith('0.1')">{{ cc.catalogCountEnumDisplay }}</p>
+          </td>
           <td>{{ cc.amount | currency }}</td>
           <td style="max-width: 500px">{{ cc.details }}</td>
           <td>{{ cc.total | currency }}</td>

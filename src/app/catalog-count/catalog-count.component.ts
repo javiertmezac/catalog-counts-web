@@ -8,8 +8,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../model/user';
 import { DateTimeHandler } from '../shared/datetime-handler';
 import { CatalogCountService } from './catalog-count.service';
-import { CatalogCount } from './domain/catalog-count-request';
+import { CatalogCountCumulativeSumResponse } from './domain/catalog-count-request';
 import { UserService } from '../shared/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   templateUrl: './catalog-count.component.html',
@@ -23,7 +24,10 @@ export class CatalogCountComponent implements OnInit {
   errorMessage = '';
   ccEnums: any[] = [];
   userDetails!: User;
-  cc!: CatalogCount;
+  cc!: CatalogCountCumulativeSumResponse;
+  selectedDate: string = ''; // 'yyyy-MM-dd' format
+  maxDate = environment.maxDate;
+  isOutOfDateRange = false;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -62,6 +66,7 @@ export class CatalogCountComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.populateCatalogCount(data);
+
         },
         error: (err) => {
           this.errorMessage = 'Movimiento no encontrado - redirigiendo...';
@@ -72,7 +77,7 @@ export class CatalogCountComponent implements OnInit {
       });
   }
 
-  populateCatalogCount(catalog: CatalogCount) {
+  populateCatalogCount(catalog: CatalogCountCumulativeSumResponse) {
     if (this.catalogCountForm) {
       this.catalogCountForm.reset();
     }
@@ -85,13 +90,14 @@ export class CatalogCountComponent implements OnInit {
     if (this.cc.id != 0) {
       this.pageTitle = 'Editar Movimiento #: ' + this.cc.id;
       selectedCatalogCountEnum = this.ccEnums.filter(
-        (x) => x.value == this.cc.catalogCountEnum
+        (x) => x.value == this.cc.catalogCountEnumId
       );
 
       selectedRegistration =
-        this.cc.registrationDate != null
-          ? new Date(this.cc.registrationDate)
-          : null;
+        this.cc.entryDate != null
+          ? new Date(this.cc.entryDate)
+          : new Date(); // if happends to be that value from db (edit) is null, then put new date
+
     } else {
       selectedCatalogCountEnum = this.ccEnums;
       selectedRegistration = new Date();
@@ -104,6 +110,8 @@ export class CatalogCountComponent implements OnInit {
         ?.toLocaleString('fr-CA')
         .slice(0, 10),
     });
+
+    this.isOutOfDateRange = !DateTimeHandler.isDateEditable(selectedRegistration, new Date(), this.maxDate);
   }
 
   saveCatalogCount(): void {
@@ -164,5 +172,24 @@ export class CatalogCountComponent implements OnInit {
       },
       error: (err) => (this.errorMessage = err),
     });
+  }
+
+  onDateInput(event: any) {
+
+    var realTimeSelectedDate = DateTimeHandler.getSelectedDateWithLocalTime(this.selectedDate)
+    var now = new Date();
+    this.isOutOfDateRange = !DateTimeHandler.isDateEditable(realTimeSelectedDate, now, this.maxDate);
+
+  }
+
+  deleteCatalogCount(cc: any) {
+    if (confirm(`Seguro de eliminar el Catálogo de Cuenta # ${cc.id}`)) {
+      this.ccService
+        .deleteCatalogCount(this.userDetails.defaultBranch, cc.id, this.isOutOfDateRange)
+        .subscribe({
+          next: () => this.router.navigateByUrl('/cc'),
+          error: (err) => (this.errorMessage = err),
+        });
+    }
   }
 }

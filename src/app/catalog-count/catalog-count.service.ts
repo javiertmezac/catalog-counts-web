@@ -3,12 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import {
-  CatalogCount,
+  CatalogCountCumulativeSumResponse,
   CatalogCountRequest,
 } from './domain/catalog-count-request';
 import { HandleHttpClientError } from '../shared/handle-error';
 import { environment } from 'src/environments/environment';
-import { AuthService } from '../login/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -76,26 +75,28 @@ export class CatalogCountService {
       .pipe(catchError(this.handleError.handleError));
   }
 
-  emptyCatalogCount(): CatalogCount {
+  emptyCatalogCount(): CatalogCountCumulativeSumResponse {
     return {
       id: 0,
       amount: 0,
-      catalogCountEnum: '',
       catalogCountEnumId: 0,
       details: '',
       registrationDate: 0,
       total: 0,
       editable: false,
+      catalogCountEnumDisplay: '',
+      outOfDateRange: false,
+      entryDate: ''
     };
   }
 
-  getCatalogCount(branchId: Number, ccid: Number): Observable<CatalogCount> {
+  getCatalogCount(branchId: Number, ccid: Number): Observable<CatalogCountCumulativeSumResponse> {
     if (ccid == 0) {
       return of(this.emptyCatalogCount());
     }
     const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count/${ccid}`;
     return this.httpClient
-      .get<CatalogCount>(catalogCountUri)
+      .get<CatalogCountCumulativeSumResponse>(catalogCountUri)
       .pipe(catchError(this.handleError.handleError));
   }
 
@@ -105,8 +106,8 @@ export class CatalogCountService {
       .pipe(catchError(this.handleError.handleError));
   }
 
-  deleteCatalogCount(branchId: number, ccId: number): Observable<any> {
-    const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count/${ccId}`;
+  deleteCatalogCount(branchId: number, ccId: number, outOfDateRange : boolean = false): Observable<any> {
+    const catalogCountUri = `${this.branchUri}/${branchId}/catalog-count/${ccId}?outOfDateRange=${outOfDateRange}`;
     return this.httpClient
       .delete(catalogCountUri)
       .pipe(catchError(this.handleError.handleError));

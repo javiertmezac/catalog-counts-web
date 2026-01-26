@@ -211,7 +211,6 @@ export class CatalogCountListComponent implements OnInit {
     this.fetchCatalogCountListV2(this.userDetails.defaultBranch, newPage, this.yearFilter, this.listFilter);
   }
 
-
   //todo: improve?
   cleanResources() {
     this.catalogCounts = [];

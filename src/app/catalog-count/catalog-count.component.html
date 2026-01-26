@@ -68,7 +68,7 @@
 
       <div class="form-group row mb-2">
         <label class="col-md-2 col-form-label" for="cceId"
-          >Catalogo de Cuentas:</label
+          >Catálogo de Cuentas:</label
         >
         <div class="col-md-8">
           <select
@@ -76,7 +76,7 @@
             formControlName="catalogCountEnum"
             class="form-control"
           >
-            <option [ngValue]="" disabled selected>Seleccionar Catalogo</option>
+            <option [ngValue]="" disabled selected>Seleccionar Catálogo</option>
             <option *ngFor="let e of ccEnums" [ngValue]="e">
               {{ e.label }}
             </option>
@@ -85,15 +85,28 @@
       </div>
 
       <div class="form-group row mb-2">
-        <label class="col-md-2 col-form-label" for="registrationId"
-          >Registro:</label
-        >
+        <label class="col-md-2 col-form-label" for="registrationId">Registro:</label>
         <div class="col-md-8">
           <input
             class="form-control"
             id="registrationId"
             type="date"
             formControlName="registrationDate"
+            [(ngModel)]="selectedDate" (input)="onDateInput($event)"
+          />
+        </div>
+      </div>
+
+      <div class="form-group row mb-2" *ngIf="isOutOfDateRange">
+        <label class="col-md-2 col-form-label" for="outOfDateRangeId">Status:</label>
+
+        <div class="col-md-8">
+          <input
+            class="form-control"
+            id="outOfDateRangeId"
+            type="input"
+            value="Registro fuera de plazo "
+            disabled
           />
         </div>
       </div>
@@ -109,7 +122,7 @@
                 ? 'Save your entered data'
                 : 'Disabled until the form data is valid'
             "
-            [disabled]="!catalogCountForm.valid || isSubmitting"
+            [disabled]="!catalogCountForm.valid || isSubmitting || !catalogCountForm.dirty"
           >
             Guardar
           </button>
@@ -121,6 +134,17 @@
             [routerLink]="['/cc']"
           >
             Cancelar
+          </button>
+
+          <button
+            *ngIf="cc != undefined && cc.id != 0"
+            class="btn btn-outline-danger mr-3"
+            style="width: 100px"
+            type="button"
+            title="Delete your edit"
+            (click)="deleteCatalogCount(cc)"
+          >
+            Eliminar
           </button>
         </div>
       </div>
